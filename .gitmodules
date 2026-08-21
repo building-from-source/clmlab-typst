@@ -1,0 +1,3 @@
+[submodule "typst-article-template"]
+	path = typst-article-template
+	url = https://git.cs.uni-bonn.de/teaching-backend/typst-article-template.git
