@@ -1,5 +1,5 @@
 #import "typst-article-template/lib.typ": flex-caption, ubo
-#import "@preview/wordometer:0.1.5": word-count, total-words
+#import "@preview/wordometer:0.1.5": total-words, word-count
 
 #show: ubo.with(
   title: "CLM(M)-tool",
@@ -80,7 +80,7 @@
     - automatic conversion to long format
   - support for more complex models (e.g., different kinds of random effects)
     - currently supports random intercepts `(1 | x)` + crossed random effects `(1 | x) + (1 | y)`, but not random slopes or nested random effects
-    - should support random slopes `(x | y)` and nested random 
+    - should support random slopes `(x | y)` and nested random
 
 #align(right)[
   *Draft word count:* #total-words
