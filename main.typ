@@ -54,7 +54,7 @@
   grid(
     columns: (1fr, 1fr),
     gutter: 1em,
-    image("assets/image-13.png", width: 100%), image("assets/image-19.png", width: 100%),
+    image("assets/jasp-nominal-outcome.png", width: 100%), image("assets/jasp-ordinal-regression-error.png", width: 100%),
   ),
   caption: [Variable type of the variable "apply" is set to "Nominal" by Jasp, despite the fact that it is an ordinal variable. As a consequence, Jasp shows an error message when trying to fit an ordinal regression model.],
   placement: none,
@@ -64,23 +64,23 @@
   grid(
     columns: (1fr, 1fr),
     gutter: 1em,
-    image("assets/image-14.png", width: 100%), image("assets/image-15.png", width: 100%),
+    image("assets/jasp-incompatible-bernoulli-model.png", width: 100%), image("assets/jasp-hidden-ordinal-regression.png", width: 100%),
   ),
   caption: [Jasp shows a red warning during model specification due to the currently selected model being unfit for the data. Ordinal Logistic Regression is hidden behind the "Other" model family.],
   placement: none,
 )
 
-#screenshot("assets/image-17.png")[
+#screenshot("assets/jasp-automatic-interaction-terms.png")[
   Jasp adds interaction terms to the model automatically and hides the ability to remove them in a sub-menu.
 ]
 
 == Jamovi
 
-#screenshot("assets/image-18.png")[
+#screenshot("assets/jamovi-ordinal-regression-menu.png")[
   Jamovi lets the user select the type of regression model to fit directly, including models for ordinal outcomes.
 ]
 
-#screenshot("assets/image-20.png")[
+#screenshot("assets/jamovi-default-level-order.png")[
   If the user selects "Ordinal Outcome" for the regression model, Jamovi fits a model with the default order, without requiring user confirmation or input.
 ]
 
@@ -100,27 +100,27 @@
   - no p-hacking (!) -> no constant updating
   - tool-tips for everything
 
-#screenshot("assets/image.png")[
+#screenshot("assets/clmm-tool-start-analysis.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-1.png")[
+#screenshot("assets/clmm-tool-outcome-selection.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-2.png")[
+#screenshot("assets/clmm-tool-variable-type-dialog.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-3.png")[
+#screenshot("assets/clmm-tool-regression-family-dialog.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-4.png")[
+#screenshot("assets/clmm-tool-model-summary.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-5.png")[
+#screenshot("assets/clmm-tool-fixed-effects.png")[
   // Write caption here.
 ]
 
@@ -149,33 +149,33 @@
 
 == 1
 
-#screenshot("assets/image-6.png")[
+#screenshot("assets/user-study-simple-fixed-effects.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-7.png")[
+#screenshot("assets/user-study-simple-predicted-probabilities.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-8.png")[
+#screenshot("assets/user-study-simple-average-marginal-effects.png")[
   // Write caption here.
 ]
 
 == 2
 
-#screenshot("assets/image-9.png")[
+#screenshot("assets/user-study-complex-model-summary.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-10.png")[
+#screenshot("assets/user-study-complex-simple-effects.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-11.png")[
+#screenshot("assets/user-study-complex-predicted-probabilities.png")[
   // Write caption here.
 ]
 
-#screenshot("assets/image-12.png")[
+#screenshot("assets/user-study-complex-effect-contrasts.png")[
   // Write caption here.
 ]
 
