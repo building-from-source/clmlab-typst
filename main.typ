@@ -50,16 +50,38 @@
 
 == Jasp
 
-#screenshot("assets/image-13.png")[
-  // Write caption here.
+#figure(
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 1em,
+    image("assets/image-13.png", width: 100%), image("assets/image-19.png", width: 100%),
+  ),
+  caption: [Variable type of the variable "apply" is set to "Nominal" by Jasp, despite the fact that it is an ordinal variable. As a consequence, Jasp shows an error message when trying to fit an ordinal regression model.],
+  placement: none,
+)
+
+#figure(
+  grid(
+    columns: (1fr, 1fr),
+    gutter: 1em,
+    image("assets/image-14.png", width: 100%), image("assets/image-15.png", width: 100%),
+  ),
+  caption: [Jasp shows a red warning during model specification due to the currently selected model being unfit for the data. Ordinal Logistic Regression is hidden behind the "Other" model family.],
+  placement: none,
+)
+
+#screenshot("assets/image-17.png")[
+  Jasp adds interaction terms to the model automatically and hides the ability to remove them in a sub-menu.
 ]
 
-#screenshot("assets/image-14.png")[
-  // Write caption here.
+== Jamovi
+
+#screenshot("assets/image-18.png")[
+  Jamovi lets the user select the type of regression model to fit directly, including models for ordinal outcomes.
 ]
 
-#screenshot("assets/image-15.png")[
-  // Write caption here.
+#screenshot("assets/image-20.png")[
+  If the user selects "Ordinal Outcome" for the regression model, Jamovi fits a model with the default order, without requiring user confirmation or input.
 ]
 
 #align(right)[
@@ -73,8 +95,10 @@
   - fit models with predictors treated as continous instead of as ordinal, treat as continous if AIC improves, otherwise treat as ordinal
   - was rejected, because it (un-intuitively) makes interpretation of the model more difficult
 - minimize friction, while making sure that results are accurate and interpretable
-  - profiling 
-  - force user to check important info (i.e. variable types) when they pick it as an outcome variable / predictor / random effect
+  - profiling (-> user can overwrite the LLM-chosen variable types and for ordinal variables, the user can override the order of the levels)
+  - force user to check important info (i.e. variable types) when they pick it as an outcome variable / predictor / random effect by force opening a window with the variable type and the order of the levels (for ordinal variables) when dragging them into a model slot
+  - no p-hacking (!) -> no constant updating
+  - tool-tips for everything
 
 #screenshot("assets/image.png")[
   // Write caption here.
@@ -117,9 +141,11 @@
 == User Study
 
 - for the user study we decided to create outputs / results using our tool and as what someone would get if they worked with LLM-assistance
-- the results page of our tool was created to be similar to the actual tool, but enhanced with LLM-assisted interpretations that take the study contetext into account (wizard of oz approach)
+- the results page of our tool was created to be similar to the actual tool, but enhanced with "LLM-assisted" interpretations that take the study contetext into account (wizard of oz approach)
 - between groups design
-- two scenarios each, one "simple" (no random effects, no interactions)
+- two scenarios each
+  - one "simple" (no random effects, no interactions)
+  - one "complex" (two random intercepts, interaction)
 
 == 1
 
@@ -177,6 +203,8 @@
   - generalize tool to support other types of models
   - Contextualized LLM-assisted interpretations based on description of the study and the model output (#sym.arrow higher value than just lists of coefficients and p-values, more relevant)
     - as in user study
+  - check all assumptions of the model and provide feedback to the user if any assumptions are violated
+  - assisted "fix this model" feature, i.e. if variables are co-linear, or if the model is not converging, provide suggestions to the user on how to fix the model
 
 #align(right)[
   *Draft word count:* #total-words
