@@ -45,6 +45,12 @@
   *Draft word count:* #total-words
 ] <word-count-display>
 
+= Related Work
+
+Syiem et. al make the case that ...@Victor_Syiem_2026
+
+
+
 = Related Software
 // Overview of existing software, their limitations / problems
 
@@ -170,12 +176,15 @@ Target audience:
 
 == User Study
 
-- for the user study we decided to create outputs / results using our tool and as what someone would get if they worked with LLM-assistance
+- for the user study we decided to compare outputs / results using our tool and as what someone would get if they worked with LLM-assistance
 - the results page of our tool was created to be similar to the actual tool, but enhanced with "LLM-assisted" interpretations that take the study contetext into account (wizard of oz approach)
 - between groups design
 - two scenarios each
   - one "simple" (no random effects, no interactions)
   - one "complex" (two random intercepts, interaction)
+- subjects were randomly assigned to one of the two groups (tool vs. LLM-assisted interpretations)
+- make them answer a question about the model output / write an interpretation  (TOOD: clarify)
+- subjects: bachelor's students enrolled in computer science/cyber security program, partake in "Usable Security and Privacy" course, got taught basics of regression analysis
 
 == 1
 
