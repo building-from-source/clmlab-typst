@@ -54,7 +54,8 @@
   grid(
     columns: (1fr, 1fr),
     gutter: 1em,
-    image("assets/jasp-nominal-outcome.png", width: 100%), image("assets/jasp-ordinal-regression-error.png", width: 100%),
+    image("assets/jasp-nominal-outcome.png", width: 100%),
+    image("assets/jasp-ordinal-regression-error.png", width: 100%),
   ),
   caption: [Variable type of the variable "apply" is set to "Nominal" by Jasp, despite the fact that it is an ordinal variable. As a consequence, Jasp shows an error message when trying to fit an ordinal regression model.],
   placement: none,
@@ -64,7 +65,8 @@
   grid(
     columns: (1fr, 1fr),
     gutter: 1em,
-    image("assets/jasp-incompatible-bernoulli-model.png", width: 100%), image("assets/jasp-hidden-ordinal-regression.png", width: 100%),
+    image("assets/jasp-incompatible-bernoulli-model.png", width: 100%),
+    image("assets/jasp-hidden-ordinal-regression.png", width: 100%),
   ),
   caption: [Jasp shows a red warning during model specification due to the currently selected model being unfit for the data. Ordinal Logistic Regression is hidden behind the "Other" model family.],
   placement: none,
@@ -90,7 +92,13 @@
 
 = Design and Implementation
 // Description of the design and implementation of the website
+Target audience:
+- HCI researchers
+  - with little to no statistical background, but some experience with statistical analysis
+  - want to analyze their data using CLM(M) without having to learn R or Python
+  - do not know what to report, and how (text, visualizations, ...)
 
+== General Workflow for Model Creation
 - intitial idea:
   - fit models with predictors treated as continous instead of as ordinal, treat as continous if AIC improves, otherwise treat as ordinal
   - was rejected, because it (un-intuitively) makes interpretation of the model more difficult
@@ -99,6 +107,28 @@
   - force user to check important info (i.e. variable types) when they pick it as an outcome variable / predictor / random effect by force opening a window with the variable type and the order of the levels (for ordinal variables) when dragging them into a model slot
   - no p-hacking (!) -> no constant updating
   - tool-tips for everything
+
+== Results Page
+
+- model summary including info from R output (coefficients, p-values, AIC) and additional info that is relevant for HCI researchers in a formatted table
+  - can switch between table and visual representation of the model summary
+- high level model summary (one brief paragraph, what was the model that was fitted, what are the main effects)
+- "Health" Details
+  - max gradient, proportional odds etc.
+
+== AI Chatbot
+
+- optional, bottom right, but open by default
+- context aware
+  - dataset's filename and dimensions
+  - the chosen outcome, predictors, interactions and random effects
+  - user-confirmed ordering of ordinal categories
+  - the inferred regression family
+  - after model fitting: info visible in the model summary (coefficients, p-values, AIC, ...), and the model's health details
+- explanations only, can't change the model, run new models, or change the data
+- currently stateless (can't remember previous messages)
+- no raw observations/dataset rows are sent to the LLM provider (OpenAI)
+- GPT 5.4 mini
 
 #screenshot("assets/clmm-tool-start-analysis.png")[
   // Write caption here.
