@@ -186,7 +186,7 @@ Target audience:
 - make them answer a question about the model output / write an interpretation  (TOOD: clarify)
 - subjects: bachelor's students enrolled in computer science/cyber security program, partake in "Usable Security and Privacy" course, got taught basics of regression analysis
 
-== 1
+== Simple Scenario
 
 #screenshot("assets/user-study-simple-fixed-effects.png")[
   // Write caption here.
@@ -200,7 +200,7 @@ Target audience:
   // Write caption here.
 ]
 
-== 2
+== Complex Scenario
 
 #screenshot("assets/user-study-complex-model-summary.png")[
   // Write caption here.
