@@ -177,7 +177,8 @@ Target audience:
 == User Study
 
 - for the user study we decided to compare outputs / results using our tool and as what someone would get if they worked with LLM-assistance
-- the results page of our tool was created to be similar to the actual tool, but enhanced with "LLM-assisted" interpretations that take the study contetext into account (wizard of oz approach)
+- rather than making the participants in the LLM-assistance group use an LLM to generate a script that they would then run in R, we decided to provide them with the output of the model and ask them to interpret it (i.e., write a paragraph about what the model output means in the context of the study) as we did not want to measure their ability to use an LLM or the LLM's ability to generate a script, but rather the ability of the participants to interpret the model output that a researcher would get when using an LLM to assist them in their analysis
+- the results page of our tool was created to be similar to the actual tool, but enhanced with "LLM-assisted" interpretations that take the study contetext into account (wizard of oz approach), hard-coded, not different for each participant, but the same for all participants in the LLM-assisted group
 - between groups design
 - two scenarios each
   - one "simple" (no random effects, no interactions)
