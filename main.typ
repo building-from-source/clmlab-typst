@@ -49,6 +49,10 @@
 
 Syiem et. al make the case that ...@Victor_Syiem_2026
 
+@taylor2023rating
+
+@sarma2026adapting
+
 
 
 = Related Software
@@ -74,7 +78,7 @@ Syiem et. al make the case that ...@Victor_Syiem_2026
     image("assets/jasp-incompatible-bernoulli-model.png", width: 100%),
     image("assets/jasp-hidden-ordinal-regression.png", width: 100%),
   ),
-  caption: [Jasp shows a red warning during model specification due to the currently selected model being unfit for the data. Ordinal Logistic Regression is hidden behind the "Other" model family.],
+  caption: [Jasp shows a red warning during model specification due to the currently selected model being unfit for the data. Ordinal Logistic Regression is located under the "Other" model family.],
   placement: none,
 )
 
