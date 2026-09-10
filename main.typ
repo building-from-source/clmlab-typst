@@ -41,9 +41,7 @@
 // # Add R code here.
 // ```
 
-#align(right)[
-  *Draft word count:* #total-words
-] <word-count-display>
+
 
 = Background
 
@@ -54,9 +52,7 @@
   - Assumptions
   - Inputs/Outputs
 
-#align(right)[
-  *Draft word count:* #total-words
-] <word-count-display>
+
 
 = Related Work
 
@@ -107,9 +103,7 @@ Syiem et. al make the case that ...@Victor_Syiem_2026
   If the user selects "Ordinal Outcome" for the regression model, Jamovi fits a model with the default order, without requiring user confirmation or input.
 ]
 
-#align(right)[
-  *Draft word count:* #total-words
-] <word-count-display>
+
 
 = Design and Implementation
 // Description of the design and implementation of the website
@@ -175,9 +169,7 @@ Target audience:
   // Write caption here.
 ]
 
-#align(right)[
-  *Draft word count:* #total-words
-] <word-count-display>
+
 
 = User Study
 // Description of the user study
@@ -234,16 +226,12 @@ Target audience:
   // Write caption here.
 ]
 
-#align(right)[
-  *Draft word count:* #total-words
-] <word-count-display>
+
 
 = Results
 // Results of the user study
 
-#align(right)[
-  *Draft word count:* #total-words
-] <word-count-display>
+
 
 = Limitations
 - Study scope
@@ -271,6 +259,4 @@ Target audience:
   - check all assumptions of the model and provide feedback to the user if any assumptions are violated
   - assisted "fix this model" feature, i.e. if variables are co-linear, or if the model is not converging, provide suggestions to the user on how to fix the model
 
-#align(right)[
-  *Draft word count:* #total-words
-] <word-count-display>
+
