@@ -139,7 +139,19 @@ Syiem et. al make the case that ...@Victor_Syiem_2026
 = Related Software
 // Overview of existing software, their limitations / problems
 
+We will look at two existing software packages and rough edges (better wording!) that may be improved upon in our tool.
+
 == Jasp
+
+- is an open-source statistics program
+- GUI-based, no programming required
+- can be used to analyze data with ordinal outcomes
+
+@fig:jasp-ordinal-regression-error
+- in the figure, Variable type of the variable "apply" (ordinal) is set to "Nominal" by Jasp, despite the fact that it is an ordinal variable. As a consequence, Jasp shows an error message when trying to fit an ordinal regression model.
+
+@fig:jasp-hidden-ordinal-regression
+-
 
 #figure(
   grid(
@@ -148,9 +160,9 @@ Syiem et. al make the case that ...@Victor_Syiem_2026
     image("assets/jasp-nominal-outcome.png", width: 100%),
     image("assets/jasp-ordinal-regression-error.png", width: 100%),
   ),
-  caption: [Variable type of the variable "apply" is set to "Nominal" by Jasp, despite the fact that it is an ordinal variable. As a consequence, Jasp shows an error message when trying to fit an ordinal regression model.],
+  caption: [Variable type of the variable "apply" (ordinal) is set to "Nominal" by Jasp.],
   placement: none,
-)
+) <fig:jasp-ordinal-regression-error>
 
 #figure(
   grid(
@@ -161,7 +173,7 @@ Syiem et. al make the case that ...@Victor_Syiem_2026
   ),
   caption: [Jasp shows a red warning during model specification due to the currently selected model being unfit for the data. Ordinal Logistic Regression is located under the "Other" model family.],
   placement: none,
-)
+) <fig:jasp-hidden-ordinal-regression>
 
 #screenshot("assets/jasp-automatic-interaction-terms.png")[
   Jasp adds interaction terms to the model automatically and hides the ability to remove them in a sub-menu.
@@ -186,6 +198,9 @@ Target audience:
   - with little to no statistical background, but some experience with statistical analysis
   - want to analyze their data using CLM(M) without having to learn R or Python
   - do not know what to report, and how (text, visualizations, ...)
+
+Specific things we want to improve upon compared to existing software:
+- reference back and re-iterate
 
 == General Workflow for Model Creation
 - intitial idea:
