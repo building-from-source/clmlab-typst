@@ -1,5 +1,60 @@
 #import "typst-article-template/lib.typ": flex-caption, ubo
-#import "@preview/wordometer:0.1.5": total-words, word-count
+#import "@preview/wordometer:0.1.5": total-words, word-count-of
+
+#let chapter-word-counts(body) = {
+  let children = if "children" in body.fields() { body.children } else { (body,) }
+  let groups = ()
+  let chapter = ()
+
+  for child in children {
+    if child.func() == heading and child.depth == 1 {
+      if chapter.len() > 0 {
+        groups.push(chapter)
+      }
+      chapter = (child,)
+    } else {
+      chapter.push(child)
+    }
+  }
+  if chapter.len() > 0 {
+    groups.push(chapter)
+  }
+
+  groups.fold([], (result, group) => {
+    let chapter-content = group.fold([], (content, child) => content + child)
+    if group.first().func() != heading or group.first().depth != 1 {
+      result + chapter-content
+    } else {
+      let stats = word-count-of(chapter-content, exclude: <word-count-display>)
+      let word-label = if stats.words == 1 { "word" } else { "words" }
+      let chapter-heading = group.first()
+      let fields = chapter-heading.fields()
+      let _ = fields.remove("body")
+      let annotated-heading = heading([
+        #chapter-heading.body
+        #h(0.6em)
+        #text(size: 0.55em, weight: "regular", fill: gray)[
+          (#stats.words #word-label) <word-count-display>
+        ]
+      ], ..fields)
+      let chapter-body = group.slice(1).fold([], (content, child) => content + child)
+      result + annotated-heading + chapter-body
+    }
+  })
+}
+
+#let with-word-counts(body) = {
+  let body-word-count = word-count-of(body, exclude: <word-count-display>)
+  set page(footer: context {
+    grid(
+      columns: (1fr, 1fr),
+      [#total-words words <word-count-display>],
+      align(right, counter(page).display("1")),
+    )
+  })
+  state("wordometer").update(body-word-count)
+  chapter-word-counts(body)
+}
 
 #let screenshot(path, caption) = figure(
   image(path, width: 100%),
@@ -24,7 +79,7 @@
   bibliography-file: path("bibliography.bib"),
 )
 
-#show: word-count.with(exclude: <word-count-display>)
+#show: with-word-counts
 
 = Introduction
 // Problem statement, motivation, context
@@ -258,5 +313,3 @@ Target audience:
     - as in user study
   - check all assumptions of the model and provide feedback to the user if any assumptions are violated
   - assisted "fix this model" feature, i.e. if variables are co-linear, or if the model is not converging, provide suggestions to the user on how to fix the model
-
-
