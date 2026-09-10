@@ -45,6 +45,19 @@
   *Draft word count:* #total-words
 ] <word-count-display>
 
+= Background
+
+- Ordinal outcomes
+  - Likert scales
+  - HCI
+- CL(M)Ms
+  - Assumptions
+  - Inputs/Outputs
+
+#align(right)[
+  *Draft word count:* #total-words
+] <word-count-display>
+
 = Related Work
 
 Syiem et. al make the case that ...@Victor_Syiem_2026
@@ -52,8 +65,6 @@ Syiem et. al make the case that ...@Victor_Syiem_2026
 @taylor2023rating
 
 @sarma2026adapting
-
-
 
 = Related Software
 // Overview of existing software, their limitations / problems
