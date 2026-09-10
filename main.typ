@@ -30,13 +30,16 @@
       let chapter-heading = group.first()
       let fields = chapter-heading.fields()
       let _ = fields.remove("body")
-      let annotated-heading = heading([
+      let annotated-heading = heading(
+        [
         #chapter-heading.body
         #h(0.6em)
         #text(size: 0.55em, weight: "regular", fill: gray)[
           (#stats.words #word-label) <word-count-display>
         ]
-      ], ..fields)
+        ],
+        ..fields,
+      )
       let chapter-body = group.slice(1).fold([], (content, child) => content + child)
       result + annotated-heading + chapter-body
     }
@@ -48,8 +51,7 @@
   set page(footer: context {
     grid(
       columns: (1fr, 1fr),
-      [#total-words words <word-count-display>],
-      align(right, counter(page).display("1")),
+      [#total-words words <word-count-display>], align(right, counter(page).display("1")),
     )
   })
   state("wordometer").update(body-word-count)
