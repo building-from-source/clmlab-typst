@@ -139,7 +139,9 @@ Syiem et. al make the case that ...@Victor_Syiem_2026
 = Related Software
 // Overview of existing software, their limitations / problems
 
-We will look at two existing software packages and rough edges (better wording!) that may be improved upon in our tool.
+- observations from using Jasp and Jamovi to specify ordinal regression models
+- focus on how users select a model, check variable types and level orders, and specify model terms
+- these observations informed the design goals and workflow of our tool, described in the next chapter
 
 == Jasp
 
@@ -214,8 +216,21 @@ Target audience:
   - want to analyze their data using CLM(M) without having to learn R or Python
   - do not know what to report, and how (text, visualizations, ...)
 
-Specific things we want to improve upon compared to existing software:
-- reference back and re-iterate
+Design goals for our tool:
+- make important defaults visible and editable before fitting
+  - our tool opens the variable settings when a variable is added to the model, prompting users to check its type and, for ordinal variables, reorder the levels if needed
+  - motivated by the observed problems with default variable types and level orders (@fig:jasp-ordinal-regression-error, @fig:jamovi-default-level-order)
+- guide model selection through the outcome type
+  - our tool derives the regression family from the chosen outcome type and explains this choice in a confirmation dialog before fitting
+  - aims to make model selection accessible to users who may not know which regression family is appropriate for their data
+  - motivated by the observations about finding an appropriate model and the usefulness of outcome-based labels (@fig:jasp-hidden-ordinal-regression, @fig:jamovi-ordinal-regression-menu)
+- make adding and removing interactions an intuitive part of model specification
+  - our tool includes interaction controls in the guided workflow and displays the current model formula, so users can review and adjust interactions alongside the other model terms
+  - motivated by the observation about interaction controls being separated from the main specification flow (@fig:jasp-automatic-interaction-terms)
+- separate model specification from fitting
+  - our tool guides users through the specification steps and fits the model after confirmation, so fitting is a deliberate action
+  - motivated by the observation about error messages appearing during incomplete model specification (@fig:jasp-hidden-ordinal-regression)
+  - also intended to discourage repeated model changes aimed at obtaining significant results (p-hacking)
 
 == General Workflow for Model Creation
 - intitial idea:
@@ -224,7 +239,7 @@ Specific things we want to improve upon compared to existing software:
 - minimize friction, while making sure that results are accurate and interpretable
   - profiling (-> user can overwrite the LLM-chosen variable types and for ordinal variables, the user can override the order of the levels)
   - force user to check important info (i.e. variable types) when they pick it as an outcome variable / predictor / random effect by force opening a window with the variable type and the order of the levels (for ordinal variables) when dragging them into a model slot
-  - no p-hacking (!) -> no constant updating
+  - fit only after confirmation, with no automatic refitting after each change
   - tool-tips for everything
 
 == Results Page
