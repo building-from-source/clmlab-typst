@@ -151,7 +151,13 @@ We will look at two existing software packages and rough edges (better wording!)
 - in the figure, Variable type of the variable "apply" (ordinal) is set to "Nominal" by Jasp, despite the fact that it is an ordinal variable. As a consequence, Jasp shows an error message when trying to fit an ordinal regression model.
 
 @fig:jasp-hidden-ordinal-regression
--
+- in jasp a model is continously updated when the user changes the model specificatiion, which can lead to error messages being shown to the user while the model is still in the process of being specified
+- ordinal logistic regression is located under the "Other" model family, which is not intuitive for users who are looking for a model for ordinal outcomes
+
+@fig:jasp-automatic-interaction-terms
+- Jasp adds interaction terms to the model automatically
+- the ability to remove them is located under the "Model" tab, a seperate place from where the user specifies the parameters of the model
+- (while this can make sense as a default, as not having interactions would mean that we assume that there is additivity on the model's link scale, it is not necessarily intuitive for users who are not familiar with this type of statistical analysis)
 
 #figure(
   grid(
@@ -176,18 +182,27 @@ We will look at two existing software packages and rough edges (better wording!)
 ) <fig:jasp-hidden-ordinal-regression>
 
 #screenshot("assets/jasp-automatic-interaction-terms.png")[
-  Jasp adds interaction terms to the model automatically and hides the ability to remove them in a sub-menu.
-]
+  Jasp adds interaction terms to the model automatically. The ability to remove them is located under the "Model" tab.
+] <fig:jasp-automatic-interaction-terms>
 
 == Jamovi
 
+@fig:jamovi-ordinal-regression-menu
+- ordinal logistic regression is directly accessible through the "Ordinal Outcomes" option in the "Regression" menu
+- naming the option after the outcome type helps users identify the appropriate model for their data
+
+@fig:jamovi-default-level-order
+- Jamovi fits an ordinal regression model even though the outcome variable "apply" is set to "Nominal"
+- the default level order is "somewhat likely", "unlikely", "very likely", which does not match the intended order of the responses
+- the order is reported in a note below the model fit measures, but users are not prompted to confirm it before fitting the model, so an incorrect order may go unnoticed
+
 #screenshot("assets/jamovi-ordinal-regression-menu.png")[
   Jamovi lets the user select the type of regression model to fit directly, including models for ordinal outcomes.
-]
+] <fig:jamovi-ordinal-regression-menu>
 
 #screenshot("assets/jamovi-default-level-order.png")[
   If the user selects "Ordinal Outcome" for the regression model, Jamovi fits a model with the default order, without requiring user confirmation or input.
-]
+] <fig:jamovi-default-level-order>
 
 
 
