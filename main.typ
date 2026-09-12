@@ -377,7 +377,7 @@ Design goals for our tool:
 
 
 
-= Results
+// = Results
 // Results of the user study
 
 
