@@ -265,27 +265,37 @@ Design goals for our tool:
 - GPT 5.4 mini
 
 #screenshot("assets/clmm-tool-start-analysis.png")[
-  // Write caption here.
+  // landing page, big "Choose CSV file" button
+  // Can also re-open past analyses
+  // After uploading a CSV file, a LLM profiles the variables during a short loading screen (spinner) before the user can see the first step
 ]
 
 #screenshot("assets/clmm-tool-outcome-selection.png")[
-  // Write caption here.
+  // First step of model specification, user can chose an outcome variable
+  // An information box explains what an outcome variable is
+  // A filter and sorting options help the user find the variable they want to use as an outcome
+  // A greyed out "Model Formula" with placeholder "outcome ~ predictor + random effect" hints at the fact that once the user specifies parts of the model the formula will be updated accordingly
+  //
 ]
 
 #screenshot("assets/clmm-tool-variable-type-dialog.png")[
-  // Write caption here.
+  // When the user drags a variable into the outcome slot, a dialog opens that shows the variable type and, for ordinal variables, the order of the levels. The user can confirm or change the variable type and level order before proceeding.
 ]
 
 #screenshot("assets/clmm-tool-regression-family-dialog.png")[
-  // Write caption here.
+  // After the user has specified outcome variable, fixed effects and the optional random effects and interactions, a dialog opens that shows the inferred regression family and explains why this family was chosen. The user can either confirm, which will fit the model, or go back and change the variable type of the outcome variable, which will change the inferred regression family.
 ]
 
 #screenshot("assets/clmm-tool-model-summary.png")[
-  // Write caption here.
+  // "Summary" page, view split in two:
+  // left side has info from R output (AIC, term, estimates, std. error, z value, p-value)
+  // right side has a text based-summary of the model (what got fitted, what are the estimates) and a "Health Details" section with info on i.e. gradient, proportional odds, etc.
 ]
 
 #screenshot("assets/clmm-tool-fixed-effects.png")[
-  // Write caption here.
+  // "Fixed Effects" page
+  // plots for each fixed effect
+  // shows changes for each possible response compared to baseline (i.e. first level of the factor), including error bars obtained from bootstrap analysis
 ]
 
 
