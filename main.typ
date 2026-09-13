@@ -64,6 +64,10 @@
   placement: none,
 )
 
+#let appendix = [
+  #include "appendix.typ"
+]
+
 #show: ubo.with(
   title: "CLM(M)-tool",
   author: "Julian Steffen",
@@ -78,9 +82,10 @@
   // acknowledgement: acknowledgement, // This is optional
   print-style: "single", // "single" or "double", defaults to "single". Helpful for double-sided printing.
   language: "en", // This is optional, defaults to "en"
-  bibliography-file: path("bibliography.bib"),
+  bibliography-file: none,
 )
 
+#[
 #show: with-word-counts
 
 = Introduction
@@ -407,3 +412,13 @@ Design goals for our tool:
     - as in user study
   - check all assumptions of the model and provide feedback to the user if any assumptions are violated
   - assisted "fix this model" feature, i.e. if variables are co-linear, or if the model is not converging, provide suggestions to the user on how to fix the model
+]
+
+#pagebreak()
+#bibliography(
+  path("bibliography.bib"),
+  style: path("typst-article-template/assets/din-1505-2-alphanumeric.csl"),
+)
+
+#pagebreak()
+#appendix
