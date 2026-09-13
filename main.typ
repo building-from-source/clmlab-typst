@@ -1,5 +1,6 @@
 #import "typst-article-template/lib.typ": flex-caption, ubo
 #import "@preview/wordometer:0.1.5": total-words, word-count-of
+#import "screenshot.typ": screenshot
 
 #let chapter-word-counts(body) = {
   let children = if "children" in body.fields() { body.children } else { (body,) }
@@ -57,12 +58,6 @@
   state("wordometer").update(body-word-count)
   chapter-word-counts(body)
 }
-
-#let screenshot(path, caption) = figure(
-  image(path, width: 100%),
-  caption: caption,
-  placement: none,
-)
 
 #let appendix = [
   #include "appendix.typ"
@@ -350,35 +345,9 @@ Design goals for our tool:
 
 == Simple Scenario
 
-#screenshot("assets/user-study-simple-fixed-effects.png")[
-  // Write caption here.
-]
-
-#screenshot("assets/user-study-simple-predicted-probabilities.png")[
-  // Write caption here.
-]
-
-#screenshot("assets/user-study-simple-average-marginal-effects.png")[
-  // Write caption here.
-]
 
 == Complex Scenario
 
-#screenshot("assets/user-study-complex-model-summary.png")[
-  // Write caption here.
-]
-
-#screenshot("assets/user-study-complex-simple-effects.png")[
-  // Write caption here.
-]
-
-#screenshot("assets/user-study-complex-predicted-probabilities.png")[
-  // Write caption here.
-]
-
-#screenshot("assets/user-study-complex-effect-contrasts.png")[
-  // Write caption here.
-]
 
 
 
