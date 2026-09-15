@@ -4,6 +4,7 @@
 #show heading.where(level: 1): set heading(numbering: "A")
 #show heading.where(level: 2): set heading(numbering: "A.1")
 #show heading.where(level: 3): set heading(numbering: "A.1.1")
+#set figure(numbering: (n, ..) => numbering("A.1", 1, n))
 
 = Supplementary Material <appendix-material>
 
