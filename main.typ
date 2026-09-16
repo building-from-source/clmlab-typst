@@ -1,6 +1,7 @@
 #import "typst-article-template/lib.typ": flex-caption, ubo
 #import "@preview/wordometer:0.1.5": total-words, word-count-of
 #import "screenshot.typ": screenshot
+#import "design-goals.typ": design-goals
 
 #let chapter-word-counts(body) = {
   let children = if "children" in body.fields() { body.children } else { (body,) }
@@ -216,7 +217,11 @@ Target audience:
   - want to analyze their data using CLM(M) without having to learn R or Python
   - do not know what to report, and how (text, visualizations, ...)
 
-Design goals for our tool:
+  @fig:design-goals summarizes the design goals and ideas for our tool.
+
+  #design-goals <fig:design-goals>
+
+  Rationale for the must-have design goals:
 - our tool should make important defaults visible and editable before fitting
   - users should be prompted to check a variable's type and, for ordinal variables, reorder the levels if needed when adding it to the model
   - motivated by the observed problems with default variable types and level orders (@fig:jasp-ordinal-regression-error, @fig:jamovi-default-level-order)
@@ -354,6 +359,7 @@ Design goals for our tool:
 // = Results
 // Results of the user study
 
+  = Discussion
 
 
 = Limitations
