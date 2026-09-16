@@ -103,20 +103,18 @@
 
   = Background
 
-  - Ordinal outcomes @Victor_Syiem_2026
-    - What are they?
-      - categorical data with a natural order, but no meaningful distance between categories
-    - for example, responses to Likert items
-      - e.g., "strongly disagree", "disagree", "neutral", "agree", "strongly agree"
-      - the order is important, but the distance between the categories is not necessarily equal
-    - common type of data in HCI research
-  - CL(M)Ms, Cumulative Link (Mixed) Models
-    - a type of statistical model used to analyze ordinal outcomes that accounts for the ordered nature of the data without assuming equal distances between categories @christensen2018cumulative
-    - CLMMs extend CLMs with random effects to account for dependence in grouped or repeated observations @Victor_Syiem_2026
-      - e.g., a random intercept for each participant allows their baseline tendency to give higher or lower ratings to vary
-    - the R package "ordinal" @ordinal provides functions to fit CL(M)Ms
-    - takes an ordered factor variable as the outcome @mangiafico2016clm
-    - independent variables can be factors, ordered factors, or interval/ratio variables @mangiafico2016clm
+  Likert items are survey items commonly used in HCI research @Victor_Syiem_2026.
+  They can use different sets of response categories, for example "strongly disagree", "disagree", "neutral", "agree", and "strongly agree".
+  These responses are called ordinal outcomes, as they are categorical data with a natural order.
+  The order of these categories is important, but the distance between them is not necessarily equal, meaning that treating them as equally spaced numerical values may lead to misleading conclusions @liddell2018analyzing.
+
+  Cumulative Link Models (CLMs) are statistical models that can be used to analyze these ordinal outcomes.
+  They account for the ordered nature of the data without assuming equal distances between categories @christensen2018cumulative.
+  Cumulative Link Mixed Models (CLMMs) extend CLMs with random effects to account for dependence in grouped or repeated observations.
+  For example, a random intercept for each participant allows their baseline tendency to give higher or lower ratings to vary @taylor2023rating.
+
+  The R package "ordinal" provides functions to fit both CLMs and CLMMs @ordinal.
+  The outcome variable needs to be an ordered factor, while the independent variables can be factors, ordered factors, or interval/ratio variables @mangiafico2016clm.
 
 
 
