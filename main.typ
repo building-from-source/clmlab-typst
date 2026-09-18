@@ -146,7 +146,7 @@
   = Related Software
   To inform the design of the tool, we examined how ordinal regression models can be specified in JASP and Jamovi from the perspective of a user with limited experience with these interfaces.
   We focused on how users select a model, check variable types and level orders, and specify model terms.
-  These observations informed the design goals and workflow of our tool, which are described in the next chapter.
+  These observations informed the design and feature goals and workflow of our tool, which are described in the next chapter.
 
   == JASP
 
@@ -227,129 +227,134 @@
   #pagebreak()
 
   = Design and Implementation
-  // Description of the design and implementation of the website
-  Target audience:
-  - HCI researchers
-    - with little to no statistical background, but some experience with statistical analysis
-    - want to analyze their data using CLM(M) without having to learn R or Python
-    - do not know what to report, and how (text, visualizations, ...)
 
-  @fig:design-goals summarizes the design goals and ideas for our tool.
+  This chapter first presents the design and feature goals for our tool and then describes the implemented workflow, results pages, and AI chatbot.
+  The goals draw on our observations of JASP and Jamovi and our own ideas about what would make a useful tool for the target audience.
+
+  The tool is intended for HCI researchers who have some experience with statistical analysis but little or no statistical background.
+  It aims to allow them to analyze their data using CLM(M)s without having to learn R or Python.
+  The target audience also includes researchers who are unsure which results to report and how to present them in text or visualizations.
+
+  == Design and Feature Goals
+
+  @fig:design-goals summarizes the design and feature goals for our tool, grouped by priority and marked with their implementation status.
 
   #design-goals <fig:design-goals>
 
-  Rationale for the must-have design goals:
-  - our tool should make important defaults visible and editable before fitting
-    - users should be prompted to check a variable's type and, for ordinal variables, reorder the levels if needed when adding it to the model
-    - motivated by the observed problems with default variable types and level orders (@fig:jasp-ordinal-regression-error, @fig:jamovi-default-level-order)
-  - our tool should guide model selection through the outcome type
-    - the regression family should be derived from the chosen outcome type, and this choice should be explained before fitting
-    - aims to make model selection accessible to users who may not know which regression family is appropriate for their data
-    - motivated by the observations about finding an appropriate model and the usefulness of outcome-based labels (@fig:jasp-hidden-ordinal-regression, @fig:jamovi-ordinal-regression-menu)
-  - our tool should make interaction terms explicit and require deliberate selection during model specification
-    - users should be able to review, add, and remove interactions alongside the other model terms before fitting
-    - motivated by JASP adding all interactions between factors by default and placing the controls for removing them in a separate tab (@fig:jasp-automatic-interaction-terms, @jaspqmlguide)
-    - interactions should be selected carefully because they introduce additional parameters and should represent substantive phenomena @harrell1996multivariable
-  - our tool should separate model specification from fitting
-    - users should be guided through the specification steps and explicitly confirm before fitting, so fitting is a deliberate action
-    - motivated by the observation about error messages appearing during incomplete model specification (@fig:jasp-hidden-ordinal-regression)
-    - also intended to discourage repeated model changes aimed at obtaining significant results (p-hacking)
-  - our tool should help users understand model specification and results
-    - explanations and tool-tips should be available where users select model terms or interpret the output
-    - statistical terms, reported values and plots should be explained in accessible language
-    - motivated by the target audience having limited statistical background and potentially being unfamiliar with CLM(M)
+  === Must-have
 
-  Rationale for the nice-to-have design goals:
-  - future versions should allow users to specify descriptive labels for the levels of a variable
-    - the current implementation allows variables to be renamed, but does not support labels for individual levels
-    - motivated by Jamovi's support for specifying labels for variable levels @jamovi_data_variables
-  - the tool should allow users to export the specified model as reproducible R code
-    - this would make the model specification transparent and allow analyses to be reproduced outside the interface
-    - motivated by the R syntax features in JASP and Jamovi (@jasp_r_syntax, @jamovi_r_syntax)
+  The must-have goals have been implemented through the workflow and interface features described below.
 
-  == General Workflow for Model Creation
-  - intitial idea:
-    - fit models with predictors treated as continous instead of as ordinal, treat as continous if AIC improves, otherwise treat as ordinal
-    - was rejected, because it (un-intuitively) makes interpretation of the model more difficult
-  - minimize friction, while making sure that results are accurate and interpretable
-    - information boxes and tool-tips explain statistical terms during model specification and when interpreting results
+  When adding a variable, users should be prompted to check its type and, for ordinal variables, reorder the levels if necessary.
+  This goal follows from the problems with default variable types and level orders observed in JASP and Jamovi, as shown in @fig:jasp-ordinal-regression-error and @fig:jamovi-default-level-order.
 
-  @fig:clmm-tool-start-analysis
-  - users can upload a CSV file to start an analysis or reopen a past analysis
-  - after uploading a CSV file, an LLM profiles the variables before the first step of model specification
-    - a loading screen with a spinner is shown during profiling
+  Model selection should be guided by the outcome type, with the regression family derived from the selected type and explained before fitting.
+  This should make model selection accessible to users who may not know which regression family is appropriate for their data.
+  The goal is motivated by the difficulty of finding ordinal regression in JASP, as shown in @fig:jasp-hidden-ordinal-regression.
+
+  Interaction terms should require deliberate selection during model specification.
+  Users should be able to review, add, and remove interactions alongside the other model terms before fitting.
+  This goal is motivated by JASP adding all interactions between factors by default and placing the controls for removing them in a separate tab, as shown in @fig:jasp-automatic-interaction-terms and documented in the JASP QML guide @jaspqmlguide.
+
+  Model specification should be separate from fitting, with users guided through the specification steps and asked to confirm before fitting the model.
+  This makes fitting a deliberate action and addresses the observation that JASP can display error messages during incomplete model specification, as shown in @fig:jasp-incompatible-bernoulli-model.
+  The separation is also intended to discourage repeated model changes aimed at obtaining significant results.
+
+  The tool should also help users understand model specification and results through explanations and tooltips where they select model terms or interpret the output.
+  Statistical terms, reported values, and plots should be explained in accessible language.
+  This goal reflects the target audience's limited statistical background and potential unfamiliarity with CLM(M)s.
+
+  === Nice-to-have
+
+  The nice-to-have goals include suggesting variable types and level order using a lightweight LLM, providing a chatbot that can answer questions about the model and results, and allowing users to reopen previous analyses.
+  These features have been implemented and are described in the workflow and chatbot sections below.
+
+  The tool also implements the goal of exporting the specified model as reproducible R code.
+  This makes the model specification transparent and allows analyses to be reproduced outside the interface.
+
+  Sensitivity analysis using bootstrapped data is another completed nice-to-have goal.
+  In the current implementation, it is used only for the plots, where users can display bootstrap 95% confidence intervals.
+
+  Future versions should also allow users to specify descriptive labels for the levels of a variable, as supported by Jamovi @jamovi_data_variables.
+  The current implementation allows variables to be renamed but does not support labels for individual levels.
+
+
+  === Rejected Approach
+
+  We initially considered treating ordinal predictors as continuous when this improved the model's AIC and retaining ordinal coding otherwise.
+  We rejected this approach because it made model interpretation less intuitive.
+
+  == General Workflow for Model Specification
+
+  Users can start an analysis by uploading a CSV file or reopen a previous analysis from the landing page shown in @fig:clmm-tool-start-analysis.
+  After a CSV file is uploaded, an LLM profiles the variables before the first step of model specification.
+  A loading screen with a spinner is displayed during profiling.
 
   #screenshot("assets/clmm-tool-start-analysis.png")[
     Landing page with buttons to upload a CSV file or reopen a past analysis.
   ] <fig:clmm-tool-start-analysis>
 
-  @fig:clmm-tool-outcome-selection
-  - the workflow guides users through selecting an outcome variable, fixed effects, and optional random effects and interactions
-  - the first step is to choose an outcome variable
-    - an information box explains what an outcome variable is
-    - a filter and sorting options help users find the variable they want to use
-  - the model formula initially shows placeholders and is updated as users specify the model
+  The workflow then guides users through selecting an outcome variable, fixed effects, and optional random effects and interactions.
+  In the first step, shown in @fig:clmm-tool-outcome-selection, users choose the outcome variable.
+  An information box explains what an outcome variable is, while a filter and sorting options help users find the variable they want to use.
+  The model formula initially contains placeholders and is updated as users specify the model.
 
-  #screenshot("assets/clmm-tool-outcome-selection.png")[
+  #screenshot("assets/clmm-tool-outcome-selection.png", placement: top)[
     First step of model specification, with the available variables on the left and a drop zone for the outcome and the model formula on the right.
   ] <fig:clmm-tool-outcome-selection>
 
-  @fig:clmm-tool-variable-type-dialog
-  - when a variable is dragged into the drop zone (outcome, predictor or random effect), its settings open automatically
-    - prompts users to check the variable type and, for ordinal variables, the order of the levels before proceeding
-    - users can override the LLM-chosen variable type and level order
+  When a variable is dragged into a drop zone for the outcome, a predictor, or a random effect, its settings open automatically, as shown in @fig:clmm-tool-variable-type-dialog.
+  This prompts users to check the variable type and, for ordinal variables, the order of the levels before proceeding.
+  Users can override the variable type and level order suggested by the LLM.
 
-  #screenshot("assets/clmm-tool-variable-type-dialog.png")[
+  #screenshot("assets/clmm-tool-variable-type-dialog.png", placement: top)[
     Variable settings for the outcome "apply", showing its ordinal type and editable level order.
   ] <fig:clmm-tool-variable-type-dialog>
 
-  @fig:clmm-tool-regression-family-dialog
-  - after model specification, a dialog shows the inferred regression family and explains why it was chosen
-  - users can confirm to fit the model or go back and change the outcome's variable type
-  - fitting only happens after confirmation, with no automatic refitting after each change
+  After model specification, a dialog displays the inferred regression family and explains why it was chosen, as shown in @fig:clmm-tool-regression-family-dialog.
+  Users can confirm to fit the model or return to change the outcome's variable type.
 
-  #screenshot("assets/clmm-tool-regression-family-dialog.png")[
+  #screenshot("assets/clmm-tool-regression-family-dialog.png", placement: top)[
     Confirmation dialog explaining the choice of a CLM based on the ordinal outcome variable.
   ] <fig:clmm-tool-regression-family-dialog>
 
   == Results Page
 
-  - information boxes and tool-tips explain statistical terms, reported values and how to read the plots
+  The "Summary" page is divided into two parts, as shown in @fig:clmm-tool-model-summary.
+  On the left, a formatted table presents the model output from R, including the AIC, model terms, estimates, standard errors, z values, and p-values.
+  Users can switch between the table and a visual representation of the model summary.
+  Statistical terms are explained in accessible language through tooltips.
+  On the right, a brief paragraph describes the fitted model and its main effects.
+  Below this text, "Health Details" provides information related to the model's health, such as the maximum gradient and whether the model satisfies the assumption of proportional odds.
+  Users can also export the code used to fit the model in R, which allows them to reproduce the analysis outside the interface or to provide it as supplementary material for a publication.
 
-  @fig:clmm-tool-model-summary
-  - the "Summary" page is split into two parts
-    - left: model summary including info from R output (AIC, terms, estimates, standard errors, z values and p-values) in a formatted table
-    - can switch between table and visual representation of the model summary
-    - right: high level model summary (one brief paragraph, what was the model that was fitted, what are the main effects)
-    - "Health Details" below the text summary, with info on max gradient, proportional odds etc.
-
-  #screenshot("assets/clmm-tool-model-summary.png")[
+  #screenshot("assets/clmm-tool-model-summary.png", placement: top)[
     Summary page with model output on the left and a text summary and health details on the right.
   ] <fig:clmm-tool-model-summary>
 
-  @fig:clmm-tool-fixed-effects
-  - the "Fixed Effects" page provides plots for each fixed effect
-    - for categorical predictors, the relative view shows differences in predicted probabilities for each response category compared to the reference level (i.e. the first level of the factor)
-    - users can show bootstrap 95% confidence intervals as error bars
+  The "Fixed Effects" page provides plots for each fixed effect, as shown in @fig:clmm-tool-fixed-effects.
+  For categorical predictors, the relative view shows differences in predicted probabilities for each response category compared to the reference level, which is the first level of the factor.
+  The tool performs a sensitivity analysis using bootstrapped data, which is currently used only for the fixed effects plots.
+  Users can display the resulting bootstrap 95% confidence intervals as error bars.
 
-  #screenshot("assets/clmm-tool-fixed-effects.png")[
+  #screenshot("assets/clmm-tool-fixed-effects.png", placement: top)[
     Fixed Effects page showing differences in predicted probabilities for "pared", comparing level 1 to the reference level 0.
   ] <fig:clmm-tool-fixed-effects>
 
   == AI Chatbot
 
-  @fig:clmm-tool-outcome-selection
-  - optional, bottom right, but open by default
-  - context aware
-    - dataset's filename and dimensions
-    - the chosen outcome, predictors, interactions and random effects
-    - user-confirmed ordering of ordinal categories
-    - the inferred regression family
-    - after model fitting: info visible in the model summary (coefficients, p-values, AIC, ...), and the model's health details
-  - explanations only, can't change the model, run new models, or change the data
-  - currently stateless (can't remember previous messages)
-  - no raw observations/dataset rows are sent to the LLM provider (OpenAI)
-  - GPT 5.4 mini
+  An optional AI chatbot is located in the bottom right of the interface and is open by default, as shown in @fig:clmm-tool-outcome-selection.
+  It uses GPT 5.4 mini to provide explanations about the model and results.
+
+  The chatbot receives context about the dataset's filename and dimensions, as well as the selected outcome, predictors, interactions, and random effects.
+  This context also includes the ordering of ordinal categories confirmed by the user and the inferred regression family.
+  After fitting, this context also includes the information displayed in the model summary, such as coefficients, p-values, and AIC, as well as the model's health details.
+  No raw observations or dataset rows are sent to the LLM provider, OpenAI.
+
+  The chatbot can only provide explanations and cannot change the model, fit new models, or modify the data.
+  The current implementation is stateless, meaning that it does not retain previous messages.
+
+  #place.flush()
 
   = User Study
   // Description of the user study
