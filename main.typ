@@ -144,29 +144,28 @@
   - their modified CCDF gives the probability of an item being rated at least as high as a given category (y=0.5 -> median rating)
 
   = Related Software
-  // Overview of existing software, their limitations / problems
+  To inform the design of the tool, we examined how ordinal regression models can be specified in JASP and Jamovi from the perspective of a user with limited experience with these interfaces.
+  We focused on how users select a model, check variable types and level orders, and specify model terms.
+  These observations informed the design goals and workflow of our tool, which are described in the next chapter.
 
-  - observations from using Jasp and Jamovi to specify ordinal regression models
-  - focus on how users select a model, check variable types and level orders, and specify model terms
-  - these observations informed the design goals and workflow of our tool, described in the next chapter
+  == JASP
 
-  == Jasp
+  JASP is an open-source statistics program with a graphical user interface, so users can analyze data without programming.
+  It can also be used to analyze data with ordinal outcomes.
 
-  - is an open-source statistics program
-  - GUI-based, no programming required
-  - can be used to analyze data with ordinal outcomes
+  Immediately after importing the data, JASP assigns the default variable type "Nominal" to the variable "apply", even though the variable is ordinal, as shown in @fig:jasp-ordinal-regression-error.
+  As a consequence, JASP shows an error message when the user tries to fit an ordinal regression model.
 
-  @fig:jasp-ordinal-regression-error
-  - in the figure, Variable type of the variable "apply" (ordinal) is set to "Nominal" by Jasp, despite the fact that it is an ordinal variable. As a consequence, Jasp shows an error message when trying to fit an ordinal regression model.
+  Because JASP continuously updates a model while the user changes its specification, it can display a red warning before the specification is complete, as shown in @fig:jasp-incompatible-bernoulli-model.
+  Ordinal logistic regression is also located under the "Other" model family, as shown in @fig:jasp-hidden-ordinal-regression, which may make the model difficult to find for users who search by outcome type.
 
-  @fig:jasp-hidden-ordinal-regression
-  - in jasp a model is continously updated when the user changes the model specificatiion, which can lead to error messages being shown to the user while the model is still in the process of being specified
-  - ordinal logistic regression is located under the "Other" model family, which is not intuitive for users who are looking for a model for ordinal outcomes
+  When specifying a model with multiple factors, JASP adds interaction terms between all factors automatically by default.
+  The JASP QML guide documents this behavior through the `addInteractionsByDefault` property, whose default value is set to `true` and which adds all interactions between factors automatically @jaspqmlguide.
+  The ability to remove them is located under the "Model" tab, separately from where the user specifies the parameters of the model, as shown in @fig:jasp-automatic-interaction-terms.
+  However, it is not necessarily intuitive for users who are not familiar with this type of statistical analysis.
+  Harrell et al. recommend choosing plausible interactions carefully because they introduce additional parameters and should represent substantive phenomena @harrell1996multivariable.
 
-  @fig:jasp-automatic-interaction-terms
-  - Jasp adds interaction terms to the model automatically
-  - the ability to remove them is located under the "Model" tab, a seperate place from where the user specifies the parameters of the model
-  - (while this can make sense as a default, as not having interactions would mean that we assume that there is additivity on the model's link scale, it is not necessarily intuitive for users who are not familiar with this type of statistical analysis)
+  JASP can display the R function call corresponding to an analysis, which users can copy, share and reuse within JASP to reproduce its specification @jasp_r_syntax.
 
   #figure(
     grid(
@@ -175,45 +174,57 @@
       image("assets/jasp-nominal-outcome.png", width: 100%),
       image("assets/jasp-ordinal-regression-error.png", width: 100%),
     ),
-    caption: [Variable type of the variable "apply" (ordinal) is set to "Nominal" by Jasp.],
+    caption: [Immediately after importing the data, the variable type of the variable "apply" (ordinal) is set to "Nominal" by JASP.],
     placement: none,
   ) <fig:jasp-ordinal-regression-error>
 
-  #figure(
-    grid(
-      columns: (1fr, 1fr),
-      gutter: 1em,
-      image("assets/jasp-incompatible-bernoulli-model.png", width: 100%),
-      image("assets/jasp-hidden-ordinal-regression.png", width: 100%),
-    ),
-    caption: [Jasp shows a red warning during model specification due to the currently selected model being unfit for the data. Ordinal Logistic Regression is located under the "Other" model family.],
-    placement: none,
-  ) <fig:jasp-hidden-ordinal-regression>
+  #grid(
+    columns: (1fr, 1fr),
+    gutter: 1em,
+    [
+      #screenshot("assets/jasp-incompatible-bernoulli-model.png")[
+        JASP shows a red warning during model specification because the currently selected model is unfit for the data.
+      ] <fig:jasp-incompatible-bernoulli-model>
+    ],
+    [
+      #screenshot("assets/jasp-hidden-ordinal-regression.png")[
+        Ordinal Logistic Regression is located under the "Other" model family in JASP.
+      ] <fig:jasp-hidden-ordinal-regression>
+    ],
+  )
 
   #screenshot("assets/jasp-automatic-interaction-terms.png")[
-    Jasp adds interaction terms to the model automatically. The ability to remove them is located under the "Model" tab.
+    JASP adds interaction terms for all factors to the model automatically.
+    The ability to remove them is located under the "Model" tab.
   ] <fig:jasp-automatic-interaction-terms>
 
   == Jamovi
 
-  @fig:jamovi-ordinal-regression-menu
-  - ordinal logistic regression is directly accessible through the "Ordinal Outcomes" option in the "Regression" menu
-  - naming the option after the outcome type helps users identify the appropriate model for their data
+  Jamovi is a free and open-source statistical program with a graphical user interface that is powered by R and does not require users to write code.
+  In Jamovi, ordinal logistic regression is directly accessible through the "Ordinal Outcomes" option in the "Regression" menu, as shown in @fig:jamovi-ordinal-regression-menu.
+  Naming the option after the outcome type helps users identify the appropriate model for their data even if they are not familiar with the name of the model itself.
 
-  @fig:jamovi-default-level-order
-  - Jamovi fits an ordinal regression model even though the outcome variable "apply" is set to "Nominal"
-  - the default level order is "somewhat likely", "unlikely", "very likely", which does not match the intended order of the responses
-  - the order is reported in a note below the model fit measures, but users are not prompted to confirm it before fitting the model, so an incorrect order may go unnoticed
+  Unlike JASP, Jamovi does not prevent users from fitting an ordinal regression model when the outcome variable "apply" is set to "Nominal", as shown in @fig:jamovi-default-level-order.
+  In the example, the default level order shown in the figure is "somewhat likely", "unlikely", "very likely", which does not match the intended order of the responses.
+  Jamovi also allows users to specify labels for the levels of a variable @jamovi_data_variables.
+  Jamovi also provides an R Syntax Mode that generates equivalent R code for each analysis and allows users to copy it into an R session @jamovi_r_syntax.
 
-  #screenshot("assets/jamovi-ordinal-regression-menu.png")[
-    Jamovi lets the user select the type of regression model to fit directly, including models for ordinal outcomes.
-  ] <fig:jamovi-ordinal-regression-menu>
+  #grid(
+    columns: (1fr, 1fr),
+    gutter: 1em,
+    [
+      #screenshot("assets/jamovi-ordinal-regression-menu.png")[
+        The regression menu identifies the required outcome type for each model family and includes ordinal logistic regression under "Ordinal Outcomes".
+      ] <fig:jamovi-ordinal-regression-menu>
+    ],
+    [
+      #screenshot("assets/jamovi-default-level-order.png")[
+        After the user selects "Ordinal Outcomes", Jamovi fits the model using the default level order without requiring confirmation or input.
+      ] <fig:jamovi-default-level-order>
+    ],
+  )
 
-  #screenshot("assets/jamovi-default-level-order.png")[
-    If the user selects "Ordinal Outcome" for the regression model, Jamovi fits a model with the default order, without requiring user confirmation or input.
-  ] <fig:jamovi-default-level-order>
-
-
+  #pagebreak()
 
   = Design and Implementation
   // Description of the design and implementation of the website
@@ -235,9 +246,10 @@
     - the regression family should be derived from the chosen outcome type, and this choice should be explained before fitting
     - aims to make model selection accessible to users who may not know which regression family is appropriate for their data
     - motivated by the observations about finding an appropriate model and the usefulness of outcome-based labels (@fig:jasp-hidden-ordinal-regression, @fig:jamovi-ordinal-regression-menu)
-  - our tool should make adding and removing interactions an intuitive part of model specification
-    - users should be able to review and adjust interactions alongside the other model terms
-    - motivated by the observation about interaction controls being separated from the main specification flow (@fig:jasp-automatic-interaction-terms)
+  - our tool should make interaction terms explicit and require deliberate selection during model specification
+    - users should be able to review, add, and remove interactions alongside the other model terms before fitting
+    - motivated by JASP adding all interactions between factors by default and placing the controls for removing them in a separate tab (@fig:jasp-automatic-interaction-terms, @jaspqmlguide)
+    - interactions should be selected carefully because they introduce additional parameters and should represent substantive phenomena @harrell1996multivariable
   - our tool should separate model specification from fitting
     - users should be guided through the specification steps and explicitly confirm before fitting, so fitting is a deliberate action
     - motivated by the observation about error messages appearing during incomplete model specification (@fig:jasp-hidden-ordinal-regression)
@@ -246,6 +258,14 @@
     - explanations and tool-tips should be available where users select model terms or interpret the output
     - statistical terms, reported values and plots should be explained in accessible language
     - motivated by the target audience having limited statistical background and potentially being unfamiliar with CLM(M)
+
+  Rationale for the nice-to-have design goals:
+  - future versions should allow users to specify descriptive labels for the levels of a variable
+    - the current implementation allows variables to be renamed, but does not support labels for individual levels
+    - motivated by Jamovi's support for specifying labels for variable levels @jamovi_data_variables
+  - the tool should allow users to export the specified model as reproducible R code
+    - this would make the model specification transparent and allow analyses to be reproduced outside the interface
+    - motivated by the R syntax features in JASP and Jamovi (@jasp_r_syntax, @jamovi_r_syntax)
 
   == General Workflow for Model Creation
   - intitial idea:

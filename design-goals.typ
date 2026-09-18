@@ -24,12 +24,14 @@
         - Provide a guided workflow for specifying CLM(M)s and interpreting results without programming
         - Require users to review variable types, level order (if applicable) and inferred model family before fitting the model
         - Explain all important terms and results with tooltips and information boxes
-        - Edit interactions during the model specification process
+        - Make interactions explicit and editable during model specification
       ],
       [
         - Suggest variable types and level order using a lightweight LLM
         - Context-aware AI chatbot that can answer questions about the model and results
         - Reopen prior analyses
+        - Specify descriptive labels for variable levels
+        - Export model specifications as reproducible R code
       ],
       [
         - Choose continuous or ordinal coding per predictor using AIC
