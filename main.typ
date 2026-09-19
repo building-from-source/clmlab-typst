@@ -120,28 +120,33 @@
 
   = Related Work
 
-  @liddell2018analyzing
-  - Liddell and Kruschke
-  - looked at articels in the Journal of personality and Social Psychology, Psychological Science, and the Journal of Experimantal Psychology: General (psychological research) that mentioned "Likert"
-    - found that every (100%) article that analyzed ordinal data used metric models
-    - doing so can lead to Type I and Type II errors, inversion of effects
-  - they advocate the use of ordinal models, such as ordered-probit models, which explicitly account for the ordered categorical nature of the response
+  Working with ordinal outcomes requires attention both to how the data are analyzed and to how the results are communicated.
 
-  Syiem et. al make the case that ...@Victor_Syiem_2026
-  - ordinal measures are often used in HCI research, but there is no consensus on how to analyze them
-  - they looked at recent HCI papers and how they analyzed their ordinal outcomes
-  - they propose/defend/... the use of CL(M)Ms for analyzing ordinal outcomes in HCI research
-  - they perform two case studies on published open-source datasets
+  Liddell and Kruschke examined articles in the 2016 volumes of the Journal of Personality and Social Psychology, Psychological Science, and the Journal of Experimental Psychology: General that mentioned "Likert" @liddell2018analyzing.
+  All 68 eligible articles in their review used metric models to analyze ordinal outcomes.
+  The authors also demonstrate that analyzing ordinal data with metric models can lead to Type I and Type II errors and inversions of effects.
+  They advocate the use of ordinal models, such as ordered-probit models, which explicitly account for the ordered categorical nature of the response.
+
+  Focusing on HCI research, Syiem and Velloso describe the frequent use of ordinal measures and the lack of consensus on how to analyze them @Victor_Syiem_2026.
+  Their review covered a sample of 94 CHI 2024 full papers that reported user studies with statistical analyses of ordinal data, selected from a search for "questionnaire" or "Likert".
+  The authors found frequent use of tests that imposed metric assumptions on ordinal data, while recording only two CLM analyses and eight CLMM analyses.
+  They advocate the use of CL(M)Ms for analyzing ordinal outcomes in HCI research.
+  To illustrate their application, they provide worked examples based on published open-source HCI datasets.
+  These examples demonstrate how to fit and interpret a CLM for between-subject data and a CLMM for within-subject data.
+  They also recommend complementing numerical and textual results with visualizations of both the observed data and the model estimates, including their uncertainty.
 
   // @taylor2023rating
   // - Taylor
 
-  @sarma2026adapting
-  - Sarma
-  - posits that one reason for low adoption of ordinal regression models in HCI research may be the difficulty of visualizing the outputs of these models + in communicating the results in an intuitive manner
-  - they propose modified Complementary Cumulative Distribution Function (CCDF) plots to visualize the outputs of ordinal regression models
-  - CCDF gives the probability of an item being rated strictly greater than a given category
-  - their modified CCDF gives the probability of an item being rated at least as high as a given category (y=0.5 -> median rating)
+  Sarma takes up the question of how to communicate ordinal regression results visually @sarma2026adapting.
+  The paper suggests that difficulties in visualizing and communicating these results may contribute to the limited adoption of ordinal models.
+  To address this, Sarma proposes modified Complementary Cumulative Distribution Function (CCDF) plots.
+  Whereas a CCDF shows the probability of a response being strictly greater than a given category, the modified version shows the probability of a response being at least as high as that category.
+  In the modified plot, the median rating can be read where the curve intersects $y = 0.5$.
+  The paper appeared late in the development of our tool, so we did not incorporate or test these plots in the current implementation.
+
+  Together, these works provide context for our focus on specifying ordinal models and interpreting their results.
+  The next chapter examines how existing software supports model specification.
 
   = Related Software
   To inform the design of the tool, we examined how ordinal regression models can be specified in JASP and Jamovi from the perspective of a user with limited experience with these interfaces.
