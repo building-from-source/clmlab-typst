@@ -150,7 +150,7 @@
 
   = Related Software
   To inform the design of the tool, we examined how ordinal regression models can be specified in JASP and Jamovi from the perspective of a user with limited experience with these interfaces.
-  We focused on how users select a model, check variable types and level orders, and specify model terms.
+  We focused on how users select a model, check variable types and level orders, specify model terms, and inspect the resulting output.
   These observations informed the design and feature goals and workflow of our tool, which are described in the next chapter.
 
   == JASP
@@ -170,6 +170,7 @@
   However, it is not necessarily intuitive for users who are not familiar with this type of statistical analysis.
   Harrell et al. recommend choosing plausible interactions carefully because they introduce additional parameters and should represent substantive phenomena @harrell1996multivariable.
 
+  For the ordinal regression analysis examined here, JASP presents the default results as tables, without accompanying visualizations of the fitted model.
   JASP can display the R function call corresponding to an analysis, which users can copy, share and reuse within JASP to reproduce its specification @jasp_r_syntax.
 
   #figure(
@@ -212,6 +213,8 @@
   Unlike JASP, Jamovi does not prevent users from fitting an ordinal regression model when the outcome variable "apply" is set to "Nominal", as shown in @fig:jamovi-default-level-order.
   In the example, the default level order shown in the figure is "somewhat likely", "unlikely", "very likely", which does not match the intended order of the responses.
   Jamovi also allows users to specify labels for the levels of a variable @jamovi_data_variables.
+
+  As in JASP, the default ordinal regression output consists of tables, without accompanying model visualizations.
   Jamovi also provides an R Syntax Mode that generates equivalent R code for each analysis and allows users to copy it into an R session @jamovi_r_syntax.
 
   #grid(
