@@ -2,6 +2,9 @@
 #import "@preview/wordometer:0.1.5": total-words, word-count-of
 #import "screenshot.typ": screenshot
 #import "design-goals.typ": design-goals
+#import "plots/plot_performance.typ": performance-chart
+#import "plots/plot_understanding.typ": understanding-chart
+#import "plots/plot_preference.typ": preference-chart
 
 #let chapter-word-counts(body) = {
   let children = if "children" in body.fields() { body.children } else { (body,) }
@@ -395,8 +398,44 @@
 
 
 
-  // = Results
-  // Results of the user study
+  == Results
+
+  @fig:study-performance, @fig:study-understanding, and @fig:study-preference
+  summarize the descriptive results of the user study. The figures do not
+  test differences between the output conditions.
+
+  #figure(
+    performance-chart,
+    kind: image,
+    caption: [
+      Mean objective task accuracy by scenario and output condition. Each
+      participant answered three questions in the simple scenario and five in
+      the complex scenario. Sample sizes are shown in the bars.
+    ],
+    placement: none,
+  ) <fig:study-performance>
+
+  #figure(
+    understanding-chart,
+    kind: image,
+    caption: [
+      Mean self-rated understanding after each scenario, by output condition.
+      Higher ratings indicate greater perceived understanding. Sample sizes
+      are shown below the points.
+    ],
+    placement: none,
+  ) <fig:study-understanding>
+
+  #figure(
+    preference-chart,
+    kind: image,
+    caption: [
+      Mean forced-choice ratings ($n = 95$). The slider was normalized so that
+      0 represents the RStudio output and 10 represents the CLM tool. The
+      dashed line marks 5. Points show descriptive means.
+    ],
+    placement: none,
+  ) <fig:study-preference>
 
   = Discussion
 

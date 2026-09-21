@@ -1,0 +1,71 @@
+{
+  "performance": [
+    {
+      "scenario": "complex",
+      "tool": "CLM tool",
+      "n": 44,
+      "mean": 58.64
+    },
+    {
+      "scenario": "complex",
+      "tool": "RStudio output",
+      "n": 51,
+      "mean": 45.49
+    },
+    {
+      "scenario": "simple",
+      "tool": "CLM tool",
+      "n": 51,
+      "mean": 81.05
+    },
+    {
+      "scenario": "simple",
+      "tool": "RStudio output",
+      "n": 44,
+      "mean": 84.09
+    }
+  ],
+  "understanding": [
+    {
+      "scenario": "complex",
+      "tool": "CLM tool",
+      "n": 44,
+      "mean": 6.68
+    },
+    {
+      "scenario": "complex",
+      "tool": "RStudio output",
+      "n": 51,
+      "mean": 5.0
+    },
+    {
+      "scenario": "simple",
+      "tool": "CLM tool",
+      "n": 51,
+      "mean": 7.94
+    },
+    {
+      "scenario": "simple",
+      "tool": "RStudio output",
+      "n": 44,
+      "mean": 7.16
+    }
+  ],
+  "preference": [
+    {
+      "item": "Benutzerfreundlichkeit",
+      "n": 95,
+      "mean": 8.62
+    },
+    {
+      "item": "Präferenz",
+      "n": 95,
+      "mean": 7.86
+    },
+    {
+      "item": "Unterstützung",
+      "n": 95,
+      "mean": 7.87
+    }
+  ]
+}
