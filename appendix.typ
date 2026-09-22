@@ -8,6 +8,30 @@
 
 = Supplementary Material <appendix-material>
 
+== Screening Questions <appendix-screening-questions>
+
+#block(breakable: false)[
+  #set text(lang: "de")
+  Wozu dient eine Regressionsanalyse hauptsächlich?
+
+  - Mittelwerte zu vergleichen
+  - *Zusammenhänge zwischen Variablen zu analysieren*
+  - Zufallsstichproben zu ziehen
+  - Daten in Gruppen einzuteilen
+]
+
+#linebreak()
+
+#block(breakable: false)[
+  #set text(lang: "de")
+  Was bedeutet ein R²-Wert von 0,70 in einer Regressionsanalyse?
+
+  - Der Regressionskoeffizient beträgt 0,70.
+  - Jede unabhängige Variable erklärt 70 % der abhängigen Variable.
+  - Das Modell trifft in 70 % der Fälle richtige Vorhersagen.
+  - *Das Modell erklärt 70 % der Variation der abhängigen Variable.*
+]
+
 == CLMM-Tool Group
 
 === Simple Scenario
