@@ -4,3 +4,5 @@
 
 - wie ist die Architektur Diagramm
 - was für dependencies
+
+- plot unterschriften checken
