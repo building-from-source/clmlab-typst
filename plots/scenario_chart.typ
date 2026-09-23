@@ -2,7 +2,7 @@
 #import "theme.typ": *
 
 // Shared axis, grouping, data labels, and legend for the two scenario figures.
-#let scenario-chart(data, max-value: 10, tick-step: 2, axis-label: [], kind: "point") = cetz.canvas(length: 1cm, {
+#let scenario-chart(data, max-value: 10, tick-step: 2, axis-label: [], kind: "point", value-suffix: []) = cetz.canvas(length: 1cm, {
   import cetz.draw: *
 
   let left = 1.5
@@ -90,9 +90,10 @@
             stroke: 0.7pt + white,
           )
         }
+        let value-label = [#one-decimal(mean)#value-suffix]
         content(
           (x, y(mean) + 0.34),
-          plot-text([#one-decimal(mean)], size: 8.5pt, weight: "bold"),
+          plot-text(value-label, size: 8.5pt, weight: "bold"),
           anchor: "south",
         )
         content(

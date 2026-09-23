@@ -6,6 +6,7 @@
   data,
   max-value: 100,
   tick-step: 20,
-  axis-label: [Mean correct answers (%)],
-  kind: "bar",
+  axis-label: [Mean task accuracy (%)],
+  kind: "point",
+  value-suffix: [%],
 )
