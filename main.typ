@@ -524,18 +524,18 @@
 
 
   = Limitations
-  - Study scope
-    - The main study focused on interpreting pre-fitted models and did not evaluate the full workflow of specifying, fitting, and interpreting models with the tool or with LLM assistance.
-  - Participants
-    - Students with basic regression training may differ from the intended audience of researchers conducting analyses of their own data.
-  - Scenarios
-    - Two scenarios cover a limited range of analysis tasks.
-    - Differences in subject matter and questions also limit conclusions about the role of model complexity.
-  - Wizard of Oz setup
-    - Participants evaluated a study results page augmented with prepared, context-informed interpretations; the live chatbot was unavailable.
-    - The findings may not transfer directly to the implemented tool and do not establish the quality or consistency of its live LLM responses.
-  - Measurement
-    - Reported accuracy was based on selecting from predefined answer options. These options may provide cues, and the resulting scores do not directly measure participants' ability to formulate accurate interpretations in their own words.
+
+  The main study focused on interpreting pre-fitted models and did not evaluate the full workflow of specifying, fitting, and interpreting models with the tool or with LLM assistance.
+  The participants were students with basic regression training and may differ from the intended audience of researchers conducting analyses of their own data.
+  The two scenarios cover a limited range of analysis tasks.
+  Differences in subject matter and questions also limit conclusions about the role of model complexity.
+
+  In the Wizard of Oz setup, participants evaluated a study results page augmented with prepared, context-informed interpretations.
+  The live chatbot was unavailable.
+  The findings may not transfer directly to the implemented tool and do not establish the quality or consistency of its live LLM responses.
+
+  Reported accuracy was based on selecting from predefined answer options.
+  These options may provide cues, and the resulting scores do not directly measure participants' ability to formulate accurate interpretations in their own words.
 
   = Future Work
   // Where do we go next
