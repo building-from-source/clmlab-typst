@@ -24,4 +24,32 @@
 
 = Motivation
 
-=== Add your first slide
+=== Ordinal Measures & HCI
+
+=== CLMs & CLMMs
+
+=== Related Software
+
+=== Target Audience
+
+=== CLM(M)-tool
+
+=== User Study
+
+- Students from the bachelor course "Usable Security and Privacy"
+
+=== Results
+// figure from report
+=== Results
+// figure from report
+=== Results
+// figure from report
+=== Discussion
+
+=== Limitations
+
+=== Future Work
+
+=== Conclusion
+
+= Live Demo
