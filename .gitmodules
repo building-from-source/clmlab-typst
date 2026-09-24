@@ -1,3 +1,6 @@
 [submodule "typst-article-template"]
 	path = typst-article-template
 	url = https://git.cs.uni-bonn.de/teaching-backend/typst-article-template.git
+[submodule "ubo_typst_slides"]
+	path = ubo_typst_slides
+	url = https://gitlab.uni-bonn.de/grp_typst/ubo_typst_slides.git
