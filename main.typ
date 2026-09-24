@@ -536,6 +536,10 @@
   = Future Work
   // Where do we go next
 
+  - Future evaluations
+    - Compare Sarma's modified CCDF plots with our current visualizations to determine which plot types better support particular interpretation tasks.
+    - Evaluate live interpretations and the complete workflow of specifying, fitting, and interpreting models with the tool.
+
   - possible features to add to a final version of the tool:
     - wide to long format conversion
       - upload data (qualtrix format?)
