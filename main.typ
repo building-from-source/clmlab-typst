@@ -509,6 +509,19 @@
 
   = Discussion
 
+  The descriptive results show that participants reported greater understanding in both scenarios and favored the tool over LLM-assisted interpretation of RStudio output for user-friendliness, interpretation support, and future use.
+  Mean task accuracy, however, was slightly lower with the tool in the simple scenario and higher in the complex scenario.
+
+  Syiem and Velloso recommend complementing numerical and textual results with visualizations of model estimates and their uncertainty @Victor_Syiem_2026.
+  In the complex scenario, the simple-effects plot makes the service-course effect within each study stage directly available as a point estimate on the log-odds scale with a 95% confidence interval.
+  The predicted-probability plots express the results in terms of the actual rating categories, showing how the probabilities of individual ratings differ between course types and study stages.
+  Sarma's modified CCDF plots offer a related approach by showing the probability of a response being at least as high as a given category @sarma2026adapting.
+
+  The scenarios differed in subject matter and questions, so the observed accuracy pattern cannot be attributed to model complexity alone.
+  The study also evaluated the tool as a whole and cannot separate the contributions of text, plots, and interface design.
+  Nevertheless, participants using the tool reported greater understanding and achieved higher accuracy in the complex scenario.
+  These descriptive findings suggest that the tool has potential to make complex model output easier to understand and interpret accurately.
+
 
   = Limitations
   - Study scope
