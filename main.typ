@@ -382,10 +382,10 @@
   Participants managed to fit the correct model even when they struggled to understand its output.
   This observation motivated the main study's focus on interpreting model output and making it more understandable.
 
-  #missing-info[
-    Pilot participant count provisionally recalled as 3, still to be confirmed.
-    Exact count probably does not matter, so we should just write it in a way that does not require a specific number.
-  ]
+  // #missing-info[
+  //   Pilot participant count provisionally recalled as 3, still to be confirmed.
+  //   Exact count probably does not matter, so we should just write it in a way that does not require a specific number.
+  // ]
 
   == Study Design
 
