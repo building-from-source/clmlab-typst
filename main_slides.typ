@@ -1,5 +1,4 @@
-#import "@local/ubo_typst_slides:1.0.0": *
-#import "@preview/cetz:0.4.2"
+#import "ubo_typst_slides/lib.typ": *
 
 #show: ubo-theme.with(
   aspect-ratio: "16-9",
