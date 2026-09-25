@@ -90,18 +90,18 @@
 
   = Introduction
   // Problem statement, motivation, context
-  - HCI researchers often have ordinal outcomes in their studies (e.g., Likert scales) and need to analyze them statistically
-  - treating those outcomes as different types of data simplifies the analysis, but can lead to incorrect conclusions
-  - Cumulative Link (Mixed) Models (CLM(M)) is a statistical model that can be used to analyze ordinal outcomes, but it is not (yet) widely used in HCI research
-  - software either not usable (Jacobi, ...) or not accessible (R, Python, ...), which makes it hard for HCI researchers to use CLM(M) in their studies
-  - The goal of this Lab is to design and implement a web-based tool that allows HCI researchers to easily use CLM(M) in their studies, and to evaluate the tool through a user study
+  - HCI researchers often collect ordinal outcomes, such as responses to Likert items, and need to analyze them statistically.
+  - Treating ordinal outcomes as metric data can lead to misleading conclusions.
+  - Cumulative Link Models (CLMs) and Cumulative Link Mixed Models (CLMMs) can be used to analyze ordinal outcomes, but are not yet widely used in HCI research.
+  - Code-based workflows in R or Python require programming knowledge, which can make these models less accessible to researchers without that background.
+  - Graphical tools such as JASP and Jamovi can also present difficulties during model specification.
+  - For the ordinal regression analyses examined here, their default output consists of tables without accompanying plots to aid interpretation.
+  - Interpreting model output can be difficult, particularly when interactions are involved.
 
-  - Also:
-  - using the typical package used for CLM(M) in R (ordinal) can lead to incorrect conclusions as the output can be misleading if the model includes interactions, leading to further complicaions
-
-  // ```r
-  // # Add R code here.
-  // ```
+  - In this lab, we designed and implemented a web-based tool for HCI researchers that combines guided model specification with explanations and visualizations to make these models more accessible and their results easier to interpret.
+  - A pilot study explored the tool's usability and motivated the main study's focus on interpreting model output.
+  - The main study focused on interpreting pre-fitted model output, comparing a tool-based results page with prepared interpretations against LLM-assisted interpretation of RStudio output.
+  - The findings suggest that the approach is promising and motivate further development and evaluation of the tool.
 
 
 
