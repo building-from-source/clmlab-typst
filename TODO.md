@@ -6,3 +6,5 @@
 - was für dependencies
 
 - plot unterschriften checken
+
+- checken dass CLM(M) konsistent so geschrieben is 
