@@ -89,21 +89,21 @@
   #show: with-word-counts
 
   = Introduction
-  // Problem statement, motivation, context
-  - HCI researchers often collect ordinal outcomes, such as responses to Likert items, and need to analyze them statistically.
-  - Treating ordinal outcomes as metric data can lead to misleading conclusions.
-  - Cumulative Link Models (CLMs) and Cumulative Link Mixed Models (CLMMs) can be used to analyze ordinal outcomes, but are not yet widely used in HCI research.
-  - Code-based workflows in R or Python require programming knowledge, which can make these models less accessible to researchers without that background.
-  - Graphical tools such as JASP and Jamovi can also present difficulties during model specification.
-  - For the ordinal regression analyses examined here, their default output consists of tables without accompanying plots to aid interpretation.
-  - Interpreting model output can be difficult, particularly when interactions are involved.
 
-  - In this lab, we designed and implemented a web-based tool for HCI researchers that combines guided model specification with explanations and visualizations to make these models more accessible and their results easier to interpret.
-  - A pilot study explored the tool's usability and motivated the main study's focus on interpreting model output.
-  - The main study focused on interpreting pre-fitted model output, comparing a tool-based results page with prepared interpretations against RStudio output, with internet research and external LLM use permitted in both conditions.
-  - The findings suggest that the approach is promising and motivate further development and evaluation of the tool.
+  HCI researchers often need to analyze ordinal outcomes, such as responses to Likert items.
+  Treating these outcomes as metric data can lead to misleading conclusions.
+  Cumulative Link Models (CLMs) and Cumulative Link Mixed Models (CLMMs) offer an alternative suited to ordinal outcomes, but are not yet widely used in HCI research.
 
+  Using these models through code-based workflows in R or Python requires programming knowledge, while graphical tools such as JASP and Jamovi can also present difficulties during model specification.
+  Once a model has been fitted, interpreting its output can pose further difficulties, particularly when interactions are involved.
+  For the ordinal regression analyses examined here, the default output in JASP and Jamovi consists of tables without accompanying plots to support this interpretation.
 
+  In this lab, we addressed both model specification and interpretation by designing and implementing a web-based tool for HCI researchers.
+  The tool combines a guided workflow with explanations and visualizations to make these models more accessible and their results easier to interpret.
+
+  A pilot study explored the tool's usability and motivated a main study focused on interpreting pre-fitted model output.
+  This main study compared a tool-based results page with prepared, LLM-generated interpretations against RStudio output.
+  The findings suggest that the approach is promising and motivate further development and evaluation of the tool.
 
   = Background
 
