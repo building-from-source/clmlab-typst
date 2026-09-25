@@ -542,24 +542,18 @@
   These options may provide cues, and the resulting scores do not directly measure participants' ability to formulate accurate interpretations in their own words.
 
   = Future Work
-  // Where do we go next
 
-  - Future evaluations
-    - Compare Sarma's modified CCDF plots with our current visualizations to determine which plot types better support particular interpretation tasks.
-    - Evaluate live interpretations and the complete workflow of specifying, fitting, and interpreting models with the tool.
+  Future evaluations could compare Sarma's modified CCDF plots with our current visualizations to determine which plot types better support particular interpretation tasks.
+  Future evaluations should also examine LLM-generated interpretations and the complete workflow of specifying, fitting, and interpreting models with the tool.
+  Interviews with statistical experts could help assess gaps in the available tooling.
 
-  - possible features to add to a final version of the tool:
-    - wide to long format conversion
-      - upload data (qualtrix format?)
-      - automatic conversion to long format
-    - support for more complex models (e.g., different kinds of random effects)
-      - currently supports random intercepts `(1 | x)` + crossed random effects `(1 | x) + (1 | y)`, but not random slopes or nested random effects
-      - should support random slopes `(x | y)` and nested random
-    - generalize tool to support other types of models
-    - Contextualized LLM-assisted interpretations based on description of the study and the model output (#sym.arrow higher value than just lists of coefficients and p-values, more relevant)
-      - as in user study
-    - check all assumptions of the model and provide feedback to the user if any assumptions are violated
-    - assisted "fix this model" feature, i.e. if variables are co-linear, or if the model is not converging, provide suggestions to the user on how to fix the model
+  Possible extensions include more direct support for exports from Qualtrics and conversion from wide to long format.
+  Supporting a broader range of random-effect structures would make model specification more general.
+  The tool could also allow users to specify descriptive labels for variable levels.
+
+  LLM-assisted interpretations could incorporate a description of the study alongside the existing model context, aiming to make explanations more relevant to the study.
+  This would build on the prepared, context-informed interpretations used in the user study.
+  Diagnostic support could also be extended to explain potential assumption violations and automatically investigate collinearity or convergence problems through additional checks.
 ]
 
 #pagebreak()
