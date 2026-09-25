@@ -450,6 +450,8 @@
   The predictors were parental education (`pared`), public versus private institution (`public`), and grade point average (`gpa`).
   The model was a CLM with a logit link and the formula `apply ~ pared + public + gpa`, without interactions or random effects.
 
+  A recreation of the fitting script and its regenerated output are provided in @appendix-simple-analysis.
+
   The closed questions covered the direction and significance of the `pared` and `public` effects, the number of observations, and the GPA effect.
 
   == Complex Scenario
@@ -462,6 +464,8 @@
   The predictors were mandatory service course versus non-service course (`service`) and early versus late study stage (`studage_group`).
   The model was a CLMM with a logit link and the formula `rating ~ service * studage_group + (1 | student_id) + (1 | instructor_id)`.
   It included an interaction between course type and study stage, with crossed random intercepts for students and instructors.
+
+  The original fitting script and saved model summary are provided in @appendix-complex-analysis, and the subsampling script is reproduced in @appendix-subsample.
 
   The closed questions covered service-course effects within each study stage, the number of students, and the early-stage service effect.
   They also addressed the interaction and which random-effect variance was larger.

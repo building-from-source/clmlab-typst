@@ -1,5 +1,21 @@
 #import "screenshot.typ": screenshot
 
+#let study-listing(source, caption, lang: none) = figure(
+  {
+    show raw: set text(size: 8pt)
+    set par(justify: false, first-line-indent: 0pt, leading: 0.4em)
+    show raw.where(block: true): code => grid(
+      columns: (1fr,),
+      row-gutter: 0.4em,
+      ..code.lines.map(line => if line.text == "" { v(0.7em) } else { line.body }),
+    )
+    raw(read(source), block: true, lang: lang)
+  },
+  kind: raw,
+  caption: caption,
+  placement: none,
+)
+
 #counter(heading).update(0)
 #show heading.where(level: 1): set heading(numbering: "A")
 #show heading.where(level: 2): set heading(numbering: "A.1")
@@ -54,11 +70,44 @@
   Predicted rating probabilities and simple-effects plot for the complex scenario.
 ]
 
-== LLM-Assisted Analysis Group
+#pagebreak(weak: true)
 
-=== Simple Scenario
-// TODO: Actually add
+== LLM-Assisted Analysis Group <appendix-llm-analysis>
 
-=== Complex Scenario
+=== Simple Scenario <appendix-simple-analysis>
 
-// TODO: Actually add
+The original simple-scenario fitting script and output were not available. #footnote([Danke sciebo, `[object][Object]` ist sehr hilfreich])
+The script below was recreated from the documented model specification and is expected to accurately reproduce the original analysis.
+The displayed output was regenerated using this recreation.
+
+#study-listing("Studie/fit_simple_model_recreation.R", lang: "r")[
+  Recreated R script for the simple scenario.
+]
+
+#study-listing("Studie/simple_fit_model_output.txt")[
+  Model summary regenerated using the recreated simple-scenario script.
+]
+
+#pagebreak(weak: true)
+
+=== Complex Scenario <appendix-complex-analysis>
+
+The original complex-scenario fitting script and its output.
+
+#study-listing("Studie/fit_model.R", lang: "r")[
+  Original R script for the complex scenario.
+]
+
+#study-listing("Studie/complex_fit_model_output.txt")[
+  Saved model summary for the complex scenario.
+]
+
+#pagebreak(weak: true)
+
+== Complex-Scenario Data Preparation <appendix-subsample>
+
+The following original script documents how the 400-row subsample was drawn from the `InstEval` dataset in the `lme4` package.
+
+#study-listing("Studie/derive_subsample.R", lang: "r")[
+  Original R script for deriving the complex-scenario dataset.
+]

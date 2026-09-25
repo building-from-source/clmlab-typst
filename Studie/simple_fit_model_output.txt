@@ -1,0 +1,18 @@
+formula: apply ~ pared + public + gpa
+data:    df
+
+ link  threshold nobs logLik  AIC    niter max.grad cond.H 
+ logit flexible  400  -358.51 727.02 5(0)  1.63e-10 1.3e+03
+
+Coefficients:
+       Estimate Std. Error z value Pr(>|z|)    
+pared   1.04766    0.26579   3.942 8.09e-05 ***
+public -0.05868    0.29786  -0.197   0.8438    
+gpa     0.61575    0.26063   2.363   0.0182 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Threshold coefficients:
+                            Estimate Std. Error z value
+unlikely|somewhat likely      2.2033     0.7795   2.826
+somewhat likely|very likely   4.2988     0.8043   5.345

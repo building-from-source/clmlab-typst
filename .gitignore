@@ -1,3 +1,5 @@
 *.csv
+!Studie/data/ologit_data.csv
+!Studie/data/insteval_subsample.csv
 .typst-packages/
 main_slides.pdf

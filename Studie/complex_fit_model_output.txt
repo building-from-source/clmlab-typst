@@ -1,0 +1,29 @@
+Cumulative Link Mixed Model fitted with the Laplace approximation
+
+formula: 
+rating ~ service * studage_group + (1 | student_id) + (1 | instructor_id)
+data:    df
+
+ link  threshold nobs logLik  AIC     niter     max.grad cond.H 
+ logit flexible  400  -624.24 1266.48 639(1920) 9.67e-05 1.8e+02
+
+Random effects:
+ Groups        Name        Variance Std.Dev.
+ student_id    (Intercept) 0.3225   0.5679  
+ instructor_id (Intercept) 0.4020   0.6340  
+Number of groups:  student_id 299,  instructor_id 29 
+
+Coefficients:
+                           Estimate Std. Error z value Pr(>|z|)   
+service1                    -1.2542     0.4221  -2.972  0.00296 **
+studage_grouplate           -0.8419     0.3367  -2.501  0.01240 * 
+service1:studage_grouplate   0.9174     0.4702   1.951  0.05103 . 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Threshold coefficients:
+    Estimate Std. Error z value
+1|2  -2.8345     0.3835  -7.392
+2|3  -1.7290     0.3488  -4.957
+3|4  -0.5605     0.3295  -1.701
+4|5   0.4606     0.3306   1.393
