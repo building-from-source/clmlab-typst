@@ -48,7 +48,7 @@
   - *Das Modell erklärt 70 % der Variation der abhängigen Variable.*
 ]
 
-== CLMM-Tool Group
+== CLM Tool Condition
 
 === Simple Scenario
 
@@ -72,7 +72,7 @@
 
 #pagebreak(weak: true)
 
-== LLM-Assisted Analysis Group <appendix-llm-analysis>
+== RStudio Condition <appendix-llm-analysis>
 
 === Simple Scenario <appendix-simple-analysis>
 

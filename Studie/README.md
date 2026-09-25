@@ -1,5 +1,9 @@
 # Study analysis materials
 
+- `task-instructions.md` transcribes the supplied questionnaire screenshots
+  documenting the simple scenario, the 30-minute familiarization instructions,
+  and the permitted aids in each condition. It also records the author's
+  clarification that external LLM use was permitted in both conditions.
 - `fit_simple_model_recreation.R` is a basic recreation of the unavailable
   simple-scenario fitting script. It uses the archived dataset and documented
   model specification and is expected to accurately reproduce the original
