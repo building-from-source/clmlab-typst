@@ -38,7 +38,7 @@
         - #goal("Completed")[Reopen prior analyses]
         - #goal("Not completed")[Specify descriptive labels for variable levels]
         - #goal("Completed")[Export model specifications as reproducible R code]
-        - #goal("Completed")[Perform sensitivity analysis using bootstrapped data]
+        - #goal("Completed")[Display bootstrap 95% confidence intervals for fixed effects plots]
       ],
       [
         - #goal("Not pursued")[Choose continuous or ordinal coding per predictor using AIC]

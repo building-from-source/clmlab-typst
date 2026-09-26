@@ -48,7 +48,7 @@
   - *Das Modell erklärt 70 % der Variation der abhängigen Variable.*
 ]
 
-== CLM Tool Condition
+== CLM(M) Tool Condition
 
 === Simple Scenario
 
@@ -72,7 +72,7 @@
 
 #pagebreak(weak: true)
 
-== RStudio Condition <appendix-llm-analysis>
+== RStudio Output Condition <appendix-llm-analysis>
 
 === Simple Scenario <appendix-simple-analysis>
 

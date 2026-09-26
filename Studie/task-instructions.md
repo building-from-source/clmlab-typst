@@ -70,3 +70,11 @@ was not explicitly stated in the tool instructions. The report therefore
 distinguishes permission in both conditions from the explicit mention of LLMs
 in the RStudio instructions. This clarification does not establish which
 participants actually used LLMs or how extensively they used them.
+
+On 2026-09-26, the author reconfirmed the simple-scenario wording transcribed
+above. In particular, the instructions described parental education as at least
+one parent holding a university degree and institution type as where the student
+had completed their bachelor's degree. The author noted that these descriptions
+may have been adapted from the original dataset for the study. The report should
+therefore identify them as the framing presented to participants; this
+clarification does not establish the original dataset's provenance or definitions.

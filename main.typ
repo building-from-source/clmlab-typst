@@ -69,7 +69,7 @@
 ]
 
 #show: ubo.with(
-  title: "CLM(M)-tool",
+  title: "CLM(M) tool",
   author: "Julian Steffen",
   matrikelno: "3421717",
   first-examiner: "Dr. Christian Tiefenau",
@@ -98,12 +98,13 @@
   Once a model has been fitted, interpreting its output can pose further difficulties, particularly when interactions are involved.
   For the ordinal regression analyses examined here, the default output in JASP and Jamovi consists of tables without accompanying plots to support this interpretation.
 
-  In this lab, we addressed both model specification and interpretation by designing and implementing a web-based tool for HCI researchers.
+  In this lab, we addressed both model specification and interpretation by designing and implementing the CLM(M) tool, a web-based tool for HCI researchers.
   The tool combines a guided workflow with explanations and visualizations to make these models more accessible and their results easier to interpret.
 
   A pilot study explored the tool's usability and motivated a main study focused on interpreting pre-fitted model output.
-  This main study compared a tool-based results page with prepared, LLM-generated interpretations against RStudio output.
-  The findings suggest that the approach is promising and motivate further development and evaluation of the tool.
+  This main study compared a CLM(M) tool results page with prepared, LLM-generated interpretations against RStudio output.
+  Mean self-rated understanding was higher with the tool, while task accuracy differed by scenario.
+  These descriptive findings motivate further evaluation across different interpretation tasks.
 
   = Background
 
@@ -116,6 +117,7 @@
   They account for the ordered nature of the data without assuming equal distances between categories @christensen2018cumulative.
   Cumulative Link Mixed Models (CLMMs) extend CLMs with random effects to account for dependence in grouped or repeated observations.
   For example, a random intercept for each participant allows their baseline tendency to give higher or lower ratings to vary @taylor2023rating.
+  We refer to CLMs and CLMMs collectively as CLM(M)s.
 
   The R package "ordinal" provides functions to fit both CLMs and CLMMs @ordinal.
   The outcome variable needs to be an ordered factor, while the independent variables can be factors, ordered factors, or interval/ratio variables @mangiafico2016clm.
@@ -134,7 +136,7 @@
   Focusing on HCI research, Syiem and Velloso describe the frequent use of ordinal measures and the lack of consensus on how to analyze them @Victor_Syiem_2026.
   Their review covered a sample of 94 CHI 2024 full papers that reported user studies with statistical analyses of ordinal data, selected from a search for "questionnaire" or "Likert".
   The authors found frequent use of tests that imposed metric assumptions on ordinal data, while recording only two CLM analyses and eight CLMM analyses.
-  They advocate the use of CL(M)Ms for analyzing ordinal outcomes in HCI research.
+  They advocate the use of CLM(M)s for analyzing ordinal outcomes in HCI research.
   To illustrate their application, they provide worked examples based on published open-source HCI datasets.
   These examples demonstrate how to fit and interpret a CLM for between-subject data and a CLMM for within-subject data.
   They also recommend complementing numerical and textual results with visualizations of both the observed data and the model estimates, including their uncertainty.
@@ -284,8 +286,8 @@
   The tool also implements the goal of exporting the specified model as reproducible R code.
   This makes the model specification transparent and allows analyses to be reproduced outside the interface.
 
-  Sensitivity analysis using bootstrapped data is another completed nice-to-have goal.
-  In the current implementation, it is used only for the plots, where users can display bootstrap 95% confidence intervals.
+  Bootstrap 95% confidence intervals are another completed nice-to-have goal.
+  They are currently available only for the fixed effects plots.
 
   Future versions should also allow users to specify descriptive labels for the levels of a variable, as supported by Jamovi @jamovi_data_variables.
   The current implementation allows variables to be renamed but does not support labels for individual levels.
@@ -346,8 +348,7 @@
 
   The "Fixed Effects" page provides plots for each fixed effect, as shown in @fig:clmm-tool-fixed-effects.
   For categorical predictors, the relative view shows differences in predicted probabilities for each response category compared to the reference level, which is the first level of the factor.
-  The tool performs a sensitivity analysis using bootstrapped data, which is currently used only for the fixed effects plots.
-  Users can display the resulting bootstrap 95% confidence intervals as error bars.
+  Users can display bootstrap 95% confidence intervals as error bars.
 
   #screenshot("assets/clmm-tool-fixed-effects.png", placement: top)[
     Fixed Effects page showing differences in predicted probabilities for "pared", comparing level 1 to the reference level 0.
@@ -389,20 +390,21 @@
 
   == Study Design
 
-  The main study compared interpretation of pre-fitted model output using the CLM tool results page and RStudio.
+  The main study compared a prepared results page based on the CLM(M) tool with pre-fitted model output in RStudio.
+  We refer to these as the CLM(M) tool and RStudio output conditions.
   Providing fitted models focused the task on interpretation without requiring participants to generate or run model-fitting code.
 
-  In the CLM tool condition, participants used a study results page based on the actual tool and enhanced with prepared interpretations in a Wizard of Oz approach.
+  In the CLM(M) tool condition, participants used a study results page based on the actual tool and enhanced with prepared interpretations in a Wizard of Oz approach.
   These interpretations were generated by an LLM supplied with information about the study context.
   They were hard-coded and identical for all participants viewing the same scenario and output condition.
   The tool's live chatbot was not evaluated as part of this study.
   Internet research and external LLM use were permitted in both conditions during familiarization with the results.
-  The RStudio instructions explicitly allowed participants to use LLMs such as ChatGPT and to write new code to support interpretation.
+  The instructions for the RStudio output condition explicitly allowed participants to use LLMs such as ChatGPT and to write new code to support interpretation.
 
   // Source: Auswertung/prepare_data.ipynb, "Resolved tool per scenario", and its participant export.
   The study followed a counterbalanced within-subjects design with two scenarios.
   The simple scenario had no random effects or interactions, while the complex scenario included two random intercepts and an interaction.
-  Each participant completed both scenarios, one with the CLM tool and the other with the RStudio output.
+  Each participant completed both scenarios, one in the CLM(M) tool condition and the other in the RStudio output condition.
   Both scenario order and the assignment of output conditions to scenarios were counterbalanced across participants.
 
 
@@ -421,20 +423,20 @@
   Among the included participants, 70 (73.7%) answered the second screening question correctly and 25 (26.3%) answered it incorrectly.
   An incorrect answer to this question was not an exclusion criterion.
 
-  For the simple scenario, the analysis included 51 participants in the CLM tool condition and 44 in the RStudio condition.
-  For the complex scenario, it included 44 participants in the CLM tool condition and 51 in the RStudio condition.
+  For the simple scenario, the analysis included 51 participants in the CLM(M) tool condition and 44 in the RStudio output condition.
+  For the complex scenario, it included 44 participants in the CLM(M) tool condition and 51 in the RStudio output condition.
 
   The task instructions in both conditions allocated 30 minutes to becoming familiar with the results.
   For each scenario, participants described the results in their own words and answered closed questions about the model output.
-  In the RStudio condition, the instructions explicitly permitted Google and ChatGPT while writing the free-form interpretation, but prohibited new searches or prompts after completing that response.
+  In the RStudio output condition, the instructions explicitly permitted Google and ChatGPT while writing the free-form interpretation, but prohibited new searches or prompts after completing that response.
   Previously obtained search results and existing ChatGPT conversations could still be consulted.
 
   After each scenario, participants rated how well they understood the regression results.
-  After both scenarios, they provided comparative ratings of support during interpretation, usability, and preference for future regression interpretation.
+  After both scenarios, they provided comparative ratings of perceived support during interpretation, perceived user-friendliness, and preference for future regression interpretation.
 
   Self-rated understanding was measured on a scale from 0 to 10.
 
-  Objective performance was based on three closed questions in the simple scenario and five in the complex scenario.
+  Task accuracy was based on three closed questions in the simple scenario and five in the complex scenario.
   A checkbox group was counted as one question and scored as correct only if all correct options and no incorrect options were selected.
   Each participant's accuracy was calculated as the proportion of correctly answered questions within each scenario.
 
@@ -442,10 +444,10 @@
 
   // Sources: Studie/task-instructions.md, Auswertung/simple.R, ologit_data.csv, and the questionnaire items used by prepare_data.ipynb.
   The simple scenario asked participants to help a colleague interpret associations between students' self-reported likelihood of applying for a master's degree and parental education, institution type, and grade point average.
-  The dataset, `ologit_data.csv`, contained responses from 400 students, each surveyed once.
+  The study instructions presented the dataset, `ologit_data.csv`, as responses from 400 students, each surveyed once.
   The ordinal outcome `apply` had the ordered categories "unlikely", "somewhat likely", and "very likely".
 
-  The predictors were whether at least one parent held a university degree (`pared`), whether the student had completed their bachelor's degree at a public or private institution (`public`), and grade point average (`gpa`).
+  In these instructions, the predictors were described as whether at least one parent held a university degree (`pared`), whether the student had completed their bachelor's degree at a public or private institution (`public`), and grade point average (`gpa`).
   The model was a CLM with a logit link and the formula `apply ~ pared + public + gpa`, without interactions or random effects.
 
   A recreation of the fitting script and its regenerated output are provided in @appendix-simple-analysis.
@@ -472,9 +474,9 @@
   == Results
 
   @fig:study-performance, @fig:study-understanding, and @fig:study-preference summarize the descriptive results of the user study.
-  Mean task accuracy was 81.1% in the CLM tool condition and 84.1% in the RStudio condition for the simple scenario, compared with 58.6% and 45.5%, respectively, for the complex scenario.
-  Mean self-rated understanding was higher in the CLM tool condition in both the simple scenario (7.9 versus 7.2) and the complex scenario (6.7 versus 5.0).
-  Mean comparative ratings favored the CLM tool for user-friendliness (8.62), support during interpretation (7.87), and overall preference (7.86).
+  Mean task accuracy was 81.1% in the CLM(M) tool condition and 84.1% in the RStudio output condition for the simple scenario, compared with 58.6% and 45.5%, respectively, for the complex scenario.
+  Mean self-rated understanding was higher in the CLM(M) tool condition in both the simple scenario (7.9 versus 7.2) and the complex scenario (6.7 versus 5.0).
+  Mean comparative ratings favored the CLM(M) tool for perceived user-friendliness (8.62), perceived support during interpretation (7.87), and preference for future regression interpretation (7.86).
 
   #figure(
     performance-chart,
@@ -492,7 +494,7 @@
     kind: image,
     caption: [
       Mean self-rated understanding after each scenario, by output condition.
-      Higher ratings indicate greater perceived understanding.
+      Higher ratings indicate greater self-rated understanding.
       Sample sizes are shown below the points.
     ],
     placement: none,
@@ -502,8 +504,8 @@
     preference-chart,
     kind: image,
     caption: [
-      Mean comparative ratings.
-      0 represents a preference for RStudio and 10 represents a preference for the CLM tool.
+      Mean comparative ratings of perceived user-friendliness, support during interpretation, and preference for future use.
+      For each item, 0 favors RStudio output and 10 favors the CLM(M) tool.
       The dashed line marks the neutral midpoint at 5.
     ],
     placement: none,
@@ -511,8 +513,9 @@
 
   = Discussion
 
-  The descriptive results show that participants reported greater understanding in both scenarios and favored the tool over RStudio output with optional LLM assistance for user-friendliness, interpretation support, and future use.
-  Mean task accuracy, however, was slightly lower with the tool in the simple scenario and higher in the complex scenario.
+  Mean self-rated understanding was higher in the CLM(M) tool condition in both scenarios.
+  Comparative ratings also favored the tool for perceived user-friendliness, perceived support during interpretation, and preference for future use.
+  Mean task accuracy was slightly lower in the CLM(M) tool condition than in the RStudio output condition for the simple scenario and higher for the complex scenario.
 
   Syiem and Velloso recommend complementing numerical and textual results with visualizations of model estimates and their uncertainty @Victor_Syiem_2026.
   In the complex scenario, the simple-effects plot makes the service-course effect within each study stage directly available as a point estimate on the log-odds scale with a 95% confidence interval.
@@ -536,7 +539,7 @@
   The tool's live chatbot was not evaluated as part of this study.
   The findings may not transfer directly to the implemented tool and do not establish the quality or consistency of its live LLM responses.
 
-  Reported accuracy was based on selecting from predefined answer options.
+  Reported task accuracy was based on selecting from predefined answer options.
   These options may provide cues, and the resulting scores do not directly measure participants' ability to formulate accurate interpretations in their own words.
 
   = Future Work

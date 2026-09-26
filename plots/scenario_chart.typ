@@ -111,7 +111,7 @@
       fill: clm-color, stroke: none)
     rect((8.15, legend-y - 0.12), (8.47, legend-y + 0.12),
       fill: rstudio-color, stroke: none)
-    content((4.61, legend-y), plot-text([CLM tool], size: 8.5pt),
+    content((4.61, legend-y), plot-text([CLM(M) tool], size: 8.5pt),
       anchor: "west")
     content((8.61, legend-y), plot-text([RStudio output], size: 8.5pt),
       anchor: "west")
@@ -119,7 +119,7 @@
     circle((4.24, legend-y), radius: 0.13, fill: clm-color, stroke: none)
     rect((8.04, legend-y - 0.12), (8.28, legend-y + 0.12),
       fill: rstudio-color, stroke: none)
-    content((4.52, legend-y), plot-text([CLM tool], size: 8.5pt),
+    content((4.52, legend-y), plot-text([CLM(M) tool], size: 8.5pt),
       anchor: "west")
     content((8.48, legend-y), plot-text([RStudio output], size: 8.5pt),
       anchor: "west")

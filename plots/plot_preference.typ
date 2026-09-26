@@ -62,7 +62,7 @@
   )
   content(
     (left + width, 0.48),
-    plot-text([CLM tool], size: 8.5pt, fill: clm-color),
+    plot-text([CLM(M) tool], size: 8.5pt, fill: clm-color),
     anchor: "north-east",
   )
 })
