@@ -9,6 +9,10 @@ product/condition labels, bootstrap terminology, and outcome descriptions have
 been revised. The findings below document the review before those revisions;
 their line references may have shifted.
 
+A subsequent revision expanded the pilot description using the author's recollection, added an explicit contribution statement and a conclusion, and added existing citations to the Introduction.
+The Christensen reference now identifies an online manuscript with its CRAN URL and access date; no unverified publication year is supplied.
+Implementation details were deferred, and the author requested that A/B record handling and the omission of free-form response analysis remain outside the report.
+
 ## Overall assessment
 
 The report has a sensible overall structure, and the reported study averages are consistent with the saved analysis. It distinguishes the implemented tool from the prepared study interface and acknowledges several important limitations.

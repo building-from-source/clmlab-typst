@@ -78,3 +78,15 @@ had completed their bachelor's degree. The author noted that these descriptions
 may have been adapted from the original dataset for the study. The report should
 therefore identify them as the framing presented to participants; this
 clarification does not establish the original dataset's provenance or definitions.
+
+## Pilot task and observations
+
+Source: the author's recollection supplied on 2026-09-26.
+This is a summary of that recollection, not a transcription of the original task instructions.
+
+Participants took the role of a researcher responding to a reviewer who had criticized a colleague's analysis for combining two categories of a three-level ordinal outcome.
+They were provided with the original analysis results and asked to refit the data using a CLM and draft a response to the reviewer.
+The author recalled that students managed to fit the intended model using the tool, although doing so sometimes took time.
+They appeared to struggle more with interpreting the revised analysis and overlooked some changes compared with the original results, including predictors becoming statistically significant.
+These observations motivated the main study's focus on interpretation.
+This recollection does not establish the pilot's participant count or duration.

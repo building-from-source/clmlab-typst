@@ -91,15 +91,16 @@
   = Introduction
 
   HCI researchers often need to analyze ordinal outcomes, such as responses to Likert items.
-  Treating these outcomes as metric data can lead to misleading conclusions.
-  Cumulative Link Models (CLMs) and Cumulative Link Mixed Models (CLMMs) offer an alternative suited to ordinal outcomes, but are not yet widely used in HCI research.
+  Treating these outcomes as metric data can lead to misleading conclusions @liddell2018analyzing.
+  Cumulative Link Models (CLMs) and Cumulative Link Mixed Models (CLMMs) offer an alternative suited to ordinal outcomes, but are not yet widely used in HCI research @Victor_Syiem_2026.
 
   Using these models through code-based workflows in R or Python requires programming knowledge, while graphical tools such as JASP and Jamovi can also present difficulties during model specification.
   Once a model has been fitted, interpreting its output can pose further difficulties, particularly when interactions are involved.
   For the ordinal regression analyses examined here, the default output in JASP and Jamovi consists of tables without accompanying plots to support this interpretation.
 
-  In this lab, we addressed both model specification and interpretation by designing and implementing the CLM(M) tool, a web-based tool for HCI researchers.
-  The tool combines a guided workflow with explanations and visualizations to make these models more accessible and their results easier to interpret.
+  This lab contributes the design and implementation of the CLM(M) tool.
+  The web-based tool guides HCI researchers through model specification and provides explanations and visualizations to support interpretation.
+  This report also presents findings from an exploratory user study of interpretation support using a prepared results page based on the tool.
 
   A pilot study explored the tool's usability and motivated a main study focused on interpreting pre-fitted model output.
   This main study compared a CLM(M) tool results page with prepared, LLM-generated interpretations against RStudio output.
@@ -371,7 +372,7 @@
 
   = User Study
 
-  We conducted a user study to evaluate how users interpret ordinal regression results.
+  A user study evaluated how users interpret ordinal regression results.
   A pilot study first explored the usability of the tool, followed by a main study focused on interpreting pre-fitted model output.
 
   == Pilot Study
@@ -379,9 +380,15 @@
   The pilot study aimed to identify obvious usability issues and gather feedback on the tool.
   Pilot participants were bachelor's students in computer science or cyber security enrolled in the course "Usable Security and Privacy".
   They had received basic training in regression analysis.
+
+  // Source: the author's recollection of the pilot task and observations, recorded in Studie/task-instructions.md.
+  Participants worked through a scenario in which a reviewer had criticized an analysis for combining two categories of a three-level ordinal outcome.
+  They received the original analysis results and were asked to refit the data using a CLM and draft a response to the reviewer.
   They used the tool while thinking aloud and took part in an interview at the end.
-  Participants managed to fit the correct model even when they struggled to understand its output.
-  This observation motivated the main study's focus on interpreting model output and making it more understandable.
+
+  Participants managed to fit the intended model using the tool, but appeared to struggle more with interpreting the revised analysis.
+  They overlooked some changes compared with the original results, including predictors becoming statistically significant.
+  These observations motivated the main study's focus on interpreting model output.
 
   // #missing-info[
   //   Pilot participant count provisionally recalled as 3, still to be confirmed.
@@ -555,6 +562,14 @@
   LLM-assisted interpretations could incorporate a description of the study alongside the existing model context, aiming to make explanations more relevant to the study.
   This would build on the prepared, context-informed interpretations used in the user study.
   Diagnostic support could also be extended to explain potential assumption violations and automatically investigate collinearity or convergence problems through additional checks.
+
+  = Conclusion
+
+  We developed the CLM(M) tool to guide researchers through specifying ordinal regression models and interpreting their results.
+  Observations from a pilot study motivated a main study focused on interpretation.
+  Compared with RStudio output, participants reported higher self-rated understanding and favored the prepared study results page for perceived user-friendliness, interpretation support, and future use.
+  Mean task accuracy in the CLM(M) tool condition was lower than in the RStudio output condition for the simple scenario and higher for the complex scenario.
+  These findings motivate further evaluation of the complete workflow and the live chatbot.
 ]
 
 #pagebreak()
