@@ -65,7 +65,7 @@
 - Ordinal responses are common in HCI
   - e.g. Likert items
 - Some commonly used analyses treat ordinal responses as equally spaced
-  - this can suggest a difference where none exists, miss a real difference, or reverse its direction @liddell2018analyzing.
+  - this can suggest an effect where none exists, miss a real effect, or reverse its direction @liddell2018analyzing.
 
 #pause
 
@@ -153,54 +153,89 @@
 
 === User Study
 
-- Pilot study:
-  - feedback shifted the main study's focus toward interpreting model output
-- Main study:
-- 96 participants from the bachelor's course "Usable Security and Privacy"
+#set par(justify: false)
+
+- Evaluated support for interpreting pre-fitted ordinal regression results
+- *Participants*
+  - Bachelor's students in computer science or cyber security
   - received basic regression training
-  - one failed the screening question and was excluded
+  - 95 included in the analysis after one screening exclusion
+- *Measures*
+  - Task accuracy: proportion of correctly answered questions
+  - Self-rated understanding
+  - Comparative ratings of perceived support during interpretation, perceived user-friendliness, and preference for future regression interpretation
 
 === Study Conditions & Scenarios
 
-- Each participant interpreted two pre-fitted models, one per condition; scenario order and condition assignment were counterbalanced.
-- Conditions: tool results with prepared interpretations and no live chatbot; RStudio output with Google and ChatGPT access during free-form interpretation.
-- Scenarios: a simple CLM and a CLMM with an interaction and two random intercepts.
+#set par(justify: false)
+
+- *Conditions*
+  - CLM(M)-tool: prepared plots and LLM-generated interpretations; no live chatbot
+  - RStudio: pre-fitted model output
+  - Internet research and external LLMs allowed during familiarization in both conditions
+- *Scenarios*
+  - Simple CLM: `apply ~ pared + public + gpa`
+  - Complex CLMM: interaction and two random intercepts
+    #linebreak()
+    #text(size: 18pt)[
+      `rating ~ service * studage_group + (1 | student_id) + (1 | instructor_id)`
+    ]
+- Each participant completed both scenarios, one per condition
+  - Scenario order and condition assignment were counterbalanced
 
 === Results: Task Accuracy
 
 #report-plot(performance-chart)[
-  Mean accuracy across 3 questions in the simple scenario and 5 in the complex scenario
+  Mean task accuracy: 3 questions in the simple scenario and 5 in the complex scenario
 ]
 
-=== Results: Perceived Understanding
+=== Results: Self-Rated Understanding
 
 #report-plot(understanding-chart)[
-  Self-rated understanding after each scenario, from 0 to 10
+  Mean self-rated understanding after each scenario, on a scale from 0 to 10
 ]
 
-=== Results: Usability & Preference
+=== Results: Comparative Ratings
 
 #report-plot(preference-chart, zoom: 139%)[
-  Mean comparative ratings: 0 favors RStudio output, 10 favors the tool; 5 is neutral
+  Mean comparative ratings: 0 favors RStudio output, 10 favors the CLM(M) tool; 5 is neutral
 ]
 
 === Discussion
 
-- Perceived understanding was higher with the tool in both scenarios; accuracy was higher only in the complex scenario.
-- The findings suggest potential for supporting interpretation of complex model output.
-- Prepared text, plots, and interface design were evaluated together, so their individual contributions remain unclear.
+#set par(justify: false)
+
+- *Perceived support and task accuracy*
+  - Higher self-rated understanding and favorable comparative ratings
+  - Accuracy advantage observed only in the complex scenario
+- *Possible explanation*
+  - Plots and prepared interpretations may help make relevant information accessible
+  - Their individual contributions were not isolated
+- *Implication*
+  - Promising descriptive findings; further evaluation across tasks and the complete workflow is needed
 
 === Limitations & Future Work
 
-- Student participants and two different scenarios limit generalization and conclusions about model complexity.
-- The study used prepared interpretations and closed-question accuracy; the full workflow and live AI support still need evaluation.
-- Next steps: evaluate the complete workflow and compare alternative visualizations for interpretation tasks.
+#set par(justify: false)
+
+- *Study scope*
+  - Prepared results page; full workflow and live LLM responses were not evaluated
+- *Generalization*
+  - Student participants and only two scenarios
+  - Scenarios differed in subject matter and questions, not just model complexity
+- *Task accuracy*
+  - Predefined answers may provide cues; scores do not directly assess interpretation in participants' own words
+- *Next steps*
+  - Evaluate the complete workflow and LLM-generated interpretations
+  - Compare alternative visualizations for interpretation tasks
 
 === Conclusion
 
-- CLM(M)-tool combines guided model specification with support for interpreting ordinal regression results.
-- Participants favored the study interface; task accuracy varied by scenario.
-- The next evaluation should test researchers using the complete tool on their own analyses.
+#set par(justify: false)
+
+- CLM(M)-tool guides model specification and supports interpretation through explanations and plots
+- The prepared study interface received higher self-rated understanding and favorable comparative ratings; task accuracy varied by scenario
+- Further evaluation should examine the complete workflow and live chatbot
 
 = Live Demo
 
