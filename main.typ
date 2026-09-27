@@ -85,531 +85,531 @@
   bibliography-file: none,
 )
 
-#[
-  #show: with-word-counts
+// #[
+// #show: with-word-counts
 
-  = Introduction
+= Introduction
 
-  HCI researchers often need to analyze ordinal outcomes, such as responses to Likert items.
-  Treating these outcomes as metric data can lead to misleading conclusions @liddell2018analyzing.
-  Cumulative Link Models (CLMs) and Cumulative Link Mixed Models (CLMMs) offer an alternative suited to ordinal outcomes, but are not yet widely used in HCI research @Victor_Syiem_2026.
+HCI researchers often need to analyze ordinal outcomes, such as responses to Likert items.
+Treating these outcomes as metric data can lead to misleading conclusions @liddell2018analyzing.
+Cumulative Link Models (CLMs) and Cumulative Link Mixed Models (CLMMs) offer an alternative suited to ordinal outcomes, but are not yet widely used in HCI research @Victor_Syiem_2026.
 
-  Using these models through code-based workflows in R or Python requires programming knowledge, while graphical tools such as JASP and Jamovi can also present difficulties during model specification.
-  Once a model has been fitted, interpreting its output can pose further difficulties, particularly when interactions are involved.
-  For the ordinal regression analyses examined here, the default output in JASP and Jamovi consists of tables without accompanying plots to support this interpretation.
+Using these models through code-based workflows in R or Python requires programming knowledge, while graphical tools such as JASP and Jamovi can also present difficulties during model specification.
+Once a model has been fitted, interpreting its output can pose further difficulties, particularly when interactions are involved.
+For the ordinal regression analyses examined here, the default output in JASP and Jamovi consists of tables without accompanying plots to support this interpretation.
 
-  This lab contributes the design and implementation of the CLM(M) tool.
-  The web-based tool guides HCI researchers through model specification and provides explanations and visualizations to support interpretation.
-  This report also presents findings from an exploratory user study of interpretation support using a prepared results page based on the tool.
+This lab contributes the design and implementation of the CLM(M) tool.
+The web-based tool guides HCI researchers through model specification and provides explanations and visualizations to support interpretation.
+This report also presents findings from an exploratory user study of interpretation support using a prepared results page based on the tool.
 
-  A pilot study explored the tool's usability and motivated a main study focused on interpreting pre-fitted model output.
-  This main study compared a CLM(M) tool results page with prepared, LLM-generated interpretations against RStudio output.
-  Mean self-rated understanding was higher with the tool, while task accuracy differed by scenario.
-  These descriptive findings motivate further evaluation across different interpretation tasks.
+A pilot study explored the tool's usability and motivated a main study focused on interpreting pre-fitted model output.
+This main study compared a CLM(M) tool results page with prepared, LLM-generated interpretations against RStudio output.
+Mean self-rated understanding was higher with the tool, while task accuracy differed by scenario.
+These descriptive findings motivate further evaluation across different interpretation tasks.
 
-  = Background
+= Background
 
-  Likert items are survey items commonly used in HCI research @Victor_Syiem_2026.
-  They can use different sets of response categories, for example "strongly disagree", "disagree", "neutral", "agree", and "strongly agree".
-  These responses are called ordinal outcomes, as they are categorical data with a natural order.
-  The order of these categories is important, but the distance between them is not necessarily equal, meaning that treating them as equally spaced numerical values may lead to misleading conclusions @liddell2018analyzing.
+Likert items are survey items commonly used in HCI research @Victor_Syiem_2026.
+They can use different sets of response categories, for example "strongly disagree", "disagree", "neutral", "agree", and "strongly agree".
+These responses are called ordinal outcomes, as they are categorical data with a natural order.
+The order of these categories is important, but the distance between them is not necessarily equal, meaning that treating them as equally spaced numerical values may lead to misleading conclusions @liddell2018analyzing.
 
-  Cumulative Link Models (CLMs) are statistical models that can be used to analyze these ordinal outcomes.
-  They account for the ordered nature of the data without assuming equal distances between categories @christensen2018cumulative.
-  Cumulative Link Mixed Models (CLMMs) extend CLMs with random effects to account for dependence in grouped or repeated observations.
-  For example, a random intercept for each participant allows their baseline tendency to give higher or lower ratings to vary @taylor2023rating.
-  We refer to CLMs and CLMMs collectively as CLM(M)s.
+Cumulative Link Models (CLMs) are statistical models that can be used to analyze these ordinal outcomes.
+They account for the ordered nature of the data without assuming equal distances between categories @christensen2018cumulative.
+Cumulative Link Mixed Models (CLMMs) extend CLMs with random effects to account for dependence in grouped or repeated observations.
+For example, a random intercept for each participant allows their baseline tendency to give higher or lower ratings to vary @taylor2023rating.
+We refer to CLMs and CLMMs collectively as CLM(M)s.
 
-  The R package "ordinal" provides functions to fit both CLMs and CLMMs @ordinal.
-  The outcome variable needs to be an ordered factor, while the independent variables can be factors, ordered factors, or interval/ratio variables @mangiafico2016clm.
+The R package "ordinal" provides functions to fit both CLMs and CLMMs @ordinal.
+The outcome variable needs to be an ordered factor, while the independent variables can be factors, ordered factors, or interval/ratio variables @mangiafico2016clm.
 
 
 
-  = Related Work
+= Related Work
 
-  Working with ordinal outcomes requires attention both to how the data are analyzed and to how the results are communicated.
+Working with ordinal outcomes requires attention both to how the data are analyzed and to how the results are communicated.
 
-  Liddell and Kruschke examined articles in the 2016 volumes of the Journal of Personality and Social Psychology, Psychological Science, and the Journal of Experimental Psychology: General that mentioned "Likert" @liddell2018analyzing.
-  All 68 eligible articles in their review used metric models to analyze ordinal outcomes.
-  The authors also demonstrate that analyzing ordinal data with metric models can lead to Type I and Type II errors and inversions of effects.
-  They advocate the use of ordinal models, such as ordered-probit models, which explicitly account for the ordered categorical nature of the response.
+Liddell and Kruschke examined articles in the 2016 volumes of the Journal of Personality and Social Psychology, Psychological Science, and the Journal of Experimental Psychology: General that mentioned "Likert" @liddell2018analyzing.
+All 68 eligible articles in their review used metric models to analyze ordinal outcomes.
+The authors also demonstrate that analyzing ordinal data with metric models can lead to Type I and Type II errors and inversions of effects.
+They advocate the use of ordinal models, such as ordered-probit models, which explicitly account for the ordered categorical nature of the response.
 
-  Focusing on HCI research, Syiem and Velloso describe the frequent use of ordinal measures and the lack of consensus on how to analyze them @Victor_Syiem_2026.
-  Their review covered a sample of 94 CHI 2024 full papers that reported user studies with statistical analyses of ordinal data, selected from a search for "questionnaire" or "Likert".
-  The authors found frequent use of tests that imposed metric assumptions on ordinal data, while recording only two CLM analyses and eight CLMM analyses.
-  They advocate the use of CLM(M)s for analyzing ordinal outcomes in HCI research.
-  To illustrate their application, they provide worked examples based on published open-source HCI datasets.
-  These examples demonstrate how to fit and interpret a CLM for between-subject data and a CLMM for within-subject data.
-  They also recommend complementing numerical and textual results with visualizations of both the observed data and the model estimates, including their uncertainty.
+Focusing on HCI research, Syiem and Velloso describe the frequent use of ordinal measures and the lack of consensus on how to analyze them @Victor_Syiem_2026.
+Their review covered a sample of 94 CHI 2024 full papers that reported user studies with statistical analyses of ordinal data, selected from a search for "questionnaire" or "Likert".
+The authors found frequent use of tests that imposed metric assumptions on ordinal data, while recording only two CLM analyses and eight CLMM analyses.
+They advocate the use of CLM(M)s for analyzing ordinal outcomes in HCI research.
+To illustrate their application, they provide worked examples based on published open-source HCI datasets.
+These examples demonstrate how to fit and interpret a CLM for between-subject data and a CLMM for within-subject data.
+They also recommend complementing numerical and textual results with visualizations of both the observed data and the model estimates, including their uncertainty.
 
-  // @taylor2023rating
-  // - Taylor
+// @taylor2023rating
+// - Taylor
 
-  Sarma takes up the question of how to communicate ordinal regression results visually @sarma2026adapting.
-  The paper suggests that difficulties in visualizing and communicating these results may contribute to the limited adoption of ordinal models.
-  To address this, Sarma proposes modified Complementary Cumulative Distribution Function (CCDF) plots.
-  Whereas a CCDF shows the probability of a response being strictly greater than a given category, the modified version shows the probability of a response being at least as high as that category.
-  In the modified plot, the median rating can be read where the curve intersects $y = 0.5$.
-  The paper appeared late in the development of our tool, so we did not incorporate or test these plots in the current implementation.
+Sarma takes up the question of how to communicate ordinal regression results visually @sarma2026adapting.
+The paper suggests that difficulties in visualizing and communicating these results may contribute to the limited adoption of ordinal models.
+To address this, Sarma proposes modified Complementary Cumulative Distribution Function (CCDF) plots.
+Whereas a CCDF shows the probability of a response being strictly greater than a given category, the modified version shows the probability of a response being at least as high as that category.
+In the modified plot, the median rating can be read where the curve intersects $y = 0.5$.
+The paper appeared late in the development of our tool, so we did not incorporate or test these plots in the current implementation.
 
-  Together, these works provide context for our focus on specifying ordinal models and interpreting their results.
-  The next chapter examines how existing software supports model specification.
+Together, these works provide context for our focus on specifying ordinal models and interpreting their results.
+The next chapter examines how existing software supports model specification.
 
-  = Related Software
-  To inform the design of the tool, we examined how ordinal regression models can be specified in JASP and Jamovi from the perspective of a user with limited experience with these interfaces.
-  We focused on how users select a model, check variable types and level orders, specify model terms, and inspect the resulting output.
-  These observations informed the design and feature goals and workflow of our tool, which are described in the next chapter.
+= Related Software
+To inform the design of the tool, we examined how ordinal regression models can be specified in JASP and Jamovi from the perspective of a user with limited experience with these interfaces.
+We focused on how users select a model, check variable types and level orders, specify model terms, and inspect the resulting output.
+These observations informed the design and feature goals and workflow of our tool, which are described in the next chapter.
 
-  == JASP
+== JASP
 
-  JASP is an open-source statistics program with a graphical user interface, so users can analyze data without programming.
-  It can also be used to analyze data with ordinal outcomes.
+JASP is an open-source statistics program with a graphical user interface, so users can analyze data without programming.
+It can also be used to analyze data with ordinal outcomes.
 
-  Immediately after importing the data, JASP assigns the default variable type "Nominal" to the variable "apply", even though the variable is ordinal, as shown in @fig:jasp-ordinal-regression-error.
-  As a consequence, JASP shows an error message when the user tries to fit an ordinal regression model.
+Immediately after importing the data, JASP assigns the default variable type "Nominal" to the variable "apply", even though the variable is ordinal, as shown in @fig:jasp-ordinal-regression-error.
+As a consequence, JASP shows an error message when the user tries to fit an ordinal regression model.
 
-  Because JASP continuously updates a model while the user changes its specification, it can display a red warning before the specification is complete, as shown in @fig:jasp-incompatible-bernoulli-model.
-  Ordinal logistic regression is also located under the "Other" model family, as shown in @fig:jasp-hidden-ordinal-regression, which may make the model difficult to find for users who search by outcome type.
+Because JASP continuously updates a model while the user changes its specification, it can display a red warning before the specification is complete, as shown in @fig:jasp-incompatible-bernoulli-model.
+Ordinal logistic regression is also located under the "Other" model family, as shown in @fig:jasp-hidden-ordinal-regression, which may make the model difficult to find for users who search by outcome type.
 
-  When specifying a model with multiple factors, JASP adds interaction terms between all factors automatically by default.
-  The JASP QML guide documents this behavior through the `addInteractionsByDefault` property, whose default value is set to `true` and which adds all interactions between factors automatically @jaspqmlguide.
-  The ability to remove them is located under the "Model" tab, separately from where the user specifies the parameters of the model, as shown in @fig:jasp-automatic-interaction-terms.
-  However, it is not necessarily intuitive for users who are not familiar with this type of statistical analysis.
-  Harrell et al. recommend choosing plausible interactions carefully because they introduce additional parameters and should represent substantive phenomena @harrell1996multivariable.
+When specifying a model with multiple factors, JASP adds interaction terms between all factors automatically by default.
+The JASP QML guide documents this behavior through the `addInteractionsByDefault` property, whose default value is set to `true` and which adds all interactions between factors automatically @jaspqmlguide.
+The ability to remove them is located under the "Model" tab, separately from where the user specifies the parameters of the model, as shown in @fig:jasp-automatic-interaction-terms.
+However, it is not necessarily intuitive for users who are not familiar with this type of statistical analysis.
+Harrell et al. recommend choosing plausible interactions carefully because they introduce additional parameters and should represent substantive phenomena @harrell1996multivariable.
 
-  For the ordinal regression analysis examined here, JASP presents the default results as tables, without accompanying visualizations of the fitted model.
-  JASP can display the R function call corresponding to an analysis, which users can copy, share and reuse within JASP to reproduce its specification @jasp_r_syntax.
+For the ordinal regression analysis examined here, JASP presents the default results as tables, without accompanying visualizations of the fitted model.
+JASP can display the R function call corresponding to an analysis, which users can copy, share and reuse within JASP to reproduce its specification @jasp_r_syntax.
 
-  #figure(
-    grid(
-      columns: (1fr, 1fr),
-      gutter: 1em,
-      image("assets/jasp-nominal-outcome.png", width: 100%),
-      image("assets/jasp-ordinal-regression-error.png", width: 100%),
-    ),
-    caption: [Immediately after importing the data, the variable type of the variable "apply" (ordinal) is set to "Nominal" by JASP.],
-    placement: none,
-  ) <fig:jasp-ordinal-regression-error>
-
-  #grid(
+#figure(
+  grid(
     columns: (1fr, 1fr),
     gutter: 1em,
-    [
-      #screenshot("assets/jasp-incompatible-bernoulli-model.png")[
-        JASP shows a red warning during model specification because the currently selected model is unfit for the data.
-      ] <fig:jasp-incompatible-bernoulli-model>
-    ],
-    [
-      #screenshot("assets/jasp-hidden-ordinal-regression.png")[
-        Ordinal Logistic Regression is located under the "Other" model family in JASP.
-      ] <fig:jasp-hidden-ordinal-regression>
-    ],
-  )
+    image("assets/jasp-nominal-outcome.png", width: 100%),
+    image("assets/jasp-ordinal-regression-error.png", width: 100%),
+  ),
+  caption: [Immediately after importing the data, the variable type of the variable "apply" (ordinal) is set to "Nominal" by JASP.],
+  placement: none,
+) <fig:jasp-ordinal-regression-error>
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1em,
+  [
+    #screenshot("assets/jasp-incompatible-bernoulli-model.png")[
+      JASP shows a red warning during model specification because the currently selected model is unfit for the data.
+    ] <fig:jasp-incompatible-bernoulli-model>
+  ],
+  [
+    #screenshot("assets/jasp-hidden-ordinal-regression.png")[
+      Ordinal Logistic Regression is located under the "Other" model family in JASP.
+    ] <fig:jasp-hidden-ordinal-regression>
+  ],
+)
 
-  #screenshot("assets/jasp-automatic-interaction-terms.png")[
-    JASP adds interaction terms for all factors to the model automatically.
-    The ability to remove them is located under the "Model" tab.
-  ] <fig:jasp-automatic-interaction-terms>
+#screenshot("assets/jasp-automatic-interaction-terms.png")[
+  JASP adds interaction terms for all factors to the model automatically.
+  The ability to remove them is located under the "Model" tab.
+] <fig:jasp-automatic-interaction-terms>
 
-  == Jamovi
+== Jamovi
 
-  Jamovi is a free and open-source statistical program with a graphical user interface that is powered by R and does not require users to write code.
-  In Jamovi, ordinal logistic regression is directly accessible through the "Ordinal Outcomes" option in the "Regression" menu, as shown in @fig:jamovi-ordinal-regression-menu.
-  Naming the option after the outcome type helps users identify the appropriate model for their data even if they are not familiar with the name of the model itself.
+Jamovi is a free and open-source statistical program with a graphical user interface that is powered by R and does not require users to write code.
+In Jamovi, ordinal logistic regression is directly accessible through the "Ordinal Outcomes" option in the "Regression" menu, as shown in @fig:jamovi-ordinal-regression-menu.
+Naming the option after the outcome type helps users identify the appropriate model for their data even if they are not familiar with the name of the model itself.
 
-  Unlike JASP, Jamovi does not prevent users from fitting an ordinal regression model when the outcome variable "apply" is set to "Nominal", as shown in @fig:jamovi-default-level-order.
-  In the example, the default level order shown in the figure is "somewhat likely", "unlikely", "very likely", which does not match the intended order of the responses.
-  Jamovi also allows users to specify labels for the levels of a variable @jamovi_data_variables.
+Unlike JASP, Jamovi does not prevent users from fitting an ordinal regression model when the outcome variable "apply" is set to "Nominal", as shown in @fig:jamovi-default-level-order.
+In the example, the default level order shown in the figure is "somewhat likely", "unlikely", "very likely", which does not match the intended order of the responses.
+Jamovi also allows users to specify labels for the levels of a variable @jamovi_data_variables.
 
-  As in JASP, the default ordinal regression output consists of tables, without accompanying model visualizations.
-  Jamovi also provides an R Syntax Mode that generates equivalent R code for each analysis and allows users to copy it into an R session @jamovi_r_syntax.
+As in JASP, the default ordinal regression output consists of tables, without accompanying model visualizations.
+Jamovi also provides an R Syntax Mode that generates equivalent R code for each analysis and allows users to copy it into an R session @jamovi_r_syntax.
 
-  #grid(
-    columns: (1fr, 1fr),
-    gutter: 1em,
-    [
-      #screenshot("assets/jamovi-ordinal-regression-menu.png")[
-        The regression menu identifies the required outcome type for each model family and includes ordinal logistic regression under "Ordinal Outcomes".
-      ] <fig:jamovi-ordinal-regression-menu>
-    ],
-    [
-      #screenshot("assets/jamovi-default-level-order.png")[
-        After the user selects "Ordinal Outcomes", Jamovi fits the model using the default level order without requiring confirmation or input.
-      ] <fig:jamovi-default-level-order>
-    ],
-  )
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1em,
+  [
+    #screenshot("assets/jamovi-ordinal-regression-menu.png")[
+      The regression menu identifies the required outcome type for each model family and includes ordinal logistic regression under "Ordinal Outcomes".
+    ] <fig:jamovi-ordinal-regression-menu>
+  ],
+  [
+    #screenshot("assets/jamovi-default-level-order.png")[
+      After the user selects "Ordinal Outcomes", Jamovi fits the model using the default level order without requiring confirmation or input.
+    ] <fig:jamovi-default-level-order>
+  ],
+)
 
-  #pagebreak()
+#pagebreak()
 
-  = Design and Implementation
+= Design and Implementation
 
-  This chapter presents the design and feature goals, implementation, user workflow, and LLM features of the tool.
-  The goals draw on our observations of JASP and Jamovi and our own ideas about what would make a useful tool for the target audience.
+This chapter presents the design and feature goals, implementation, user workflow, and LLM features of the tool.
+The goals draw on our observations of JASP and Jamovi and our own ideas about what would make a useful tool for the target audience.
 
-  The tool is intended for HCI researchers who have some experience with statistical analysis but little or no statistical background.
-  It aims to allow them to analyze their data using CLM(M)s without having to learn R or Python.
-  The target audience also includes researchers who are unsure which results to report and how to present them in text or visualizations.
+The tool is intended for HCI researchers who have some experience with statistical analysis but little or no statistical background.
+It aims to allow them to analyze their data using CLM(M)s without having to learn R or Python.
+The target audience also includes researchers who are unsure which results to report and how to present them in text or visualizations.
 
-  == Design and Feature Goals
+== Design and Feature Goals
 
-  @fig:design-goals summarizes the design and feature goals for our tool, grouped by priority and marked with their implementation status.
+@fig:design-goals summarizes the design and feature goals for our tool, grouped by priority and marked with their implementation status.
 
-  #design-goals <fig:design-goals>
+#design-goals <fig:design-goals>
 
-  === Must-have
+=== Must-have
 
-  The must-have goals have been implemented through the workflow and interface features described below.
+The must-have goals have been implemented through the workflow and interface features described below.
 
-  When adding a variable, users should be prompted to check its type and, for ordinal variables, reorder the levels if necessary.
-  This goal follows from the problems with default variable types and level orders observed in JASP and Jamovi, as shown in @fig:jasp-ordinal-regression-error and @fig:jamovi-default-level-order.
+When adding a variable, users should be prompted to check its type and, for ordinal variables, reorder the levels if necessary.
+This goal follows from the problems with default variable types and level orders observed in JASP and Jamovi, as shown in @fig:jasp-ordinal-regression-error and @fig:jamovi-default-level-order.
 
-  Model selection should be guided by the outcome type, with the regression family derived from the selected type and explained before fitting.
-  This should make model selection accessible to users who may not know which regression family is appropriate for their data.
-  The goal is motivated by the difficulty of finding ordinal regression in JASP, as shown in @fig:jasp-hidden-ordinal-regression.
+Model selection should be guided by the outcome type, with the regression family derived from the selected type and explained before fitting.
+This should make model selection accessible to users who may not know which regression family is appropriate for their data.
+The goal is motivated by the difficulty of finding ordinal regression in JASP, as shown in @fig:jasp-hidden-ordinal-regression.
 
-  Interaction terms should require deliberate selection during model specification.
-  Users should be able to review, add, and remove interactions alongside the other model terms before fitting.
-  This goal is motivated by JASP adding all interactions between factors by default and placing the controls for removing them in a separate tab, as shown in @fig:jasp-automatic-interaction-terms and documented in the JASP QML guide @jaspqmlguide.
+Interaction terms should require deliberate selection during model specification.
+Users should be able to review, add, and remove interactions alongside the other model terms before fitting.
+This goal is motivated by JASP adding all interactions between factors by default and placing the controls for removing them in a separate tab, as shown in @fig:jasp-automatic-interaction-terms and documented in the JASP QML guide @jaspqmlguide.
 
-  Model specification should be separate from fitting, with users guided through the specification steps and asked to confirm before fitting the model.
-  This makes fitting a deliberate action and addresses the observation that JASP can display error messages during incomplete model specification, as shown in @fig:jasp-incompatible-bernoulli-model.
-  The separation is also intended to discourage repeated model changes aimed at obtaining significant results.
+Model specification should be separate from fitting, with users guided through the specification steps and asked to confirm before fitting the model.
+This makes fitting a deliberate action and addresses the observation that JASP can display error messages during incomplete model specification, as shown in @fig:jasp-incompatible-bernoulli-model.
+The separation is also intended to discourage repeated model changes aimed at obtaining significant results.
 
-  The tool should also help users understand model specification and results through explanations and tooltips where they select model terms or interpret the output.
-  Statistical terms, reported values, and plots should be explained in accessible language.
-  This goal reflects the target audience's limited statistical background and potential unfamiliarity with CLM(M)s.
+The tool should also help users understand model specification and results through explanations and tooltips where they select model terms or interpret the output.
+Statistical terms, reported values, and plots should be explained in accessible language.
+This goal reflects the target audience's limited statistical background and potential unfamiliarity with CLM(M)s.
 
-  === Nice-to-have
+=== Nice-to-have
 
-  The nice-to-have goals include suggesting variable types and level order using a lightweight LLM, providing a chatbot that can answer questions about the model and results, and allowing users to reopen previous analyses.
-  These features have been implemented and are described in the workflow and chatbot sections below.
+The nice-to-have goals include suggesting variable types and level order using a lightweight LLM, providing a chatbot that can answer questions about the model and results, and allowing users to reopen previous analyses.
+These features have been implemented and are described in the workflow and chatbot sections below.
 
-  The tool also implements the goal of exporting the specified model as reproducible R code.
-  This makes the model specification transparent and allows analyses to be reproduced outside the interface.
+The tool also implements the goal of exporting the specified model as reproducible R code.
+This makes the model specification transparent and allows analyses to be reproduced outside the interface.
 
-  Bootstrap 95% confidence intervals are another completed nice-to-have goal.
-  They are currently available only for the fixed effects plots.
+Bootstrap 95% confidence intervals are another completed nice-to-have goal.
+They are currently available only for the fixed effects plots.
 
-  Future versions should also allow users to specify descriptive labels for the levels of a variable, as supported by Jamovi @jamovi_data_variables.
-  The current implementation allows variables to be renamed but does not support labels for individual levels.
+Future versions should also allow users to specify descriptive labels for the levels of a variable, as supported by Jamovi @jamovi_data_variables.
+The current implementation allows variables to be renamed but does not support labels for individual levels.
 
 
-  === Rejected Approach
+=== Rejected Approach
 
-  We initially considered treating ordinal predictors as continuous when this improved the model's AIC and retaining ordinal coding otherwise.
-  We rejected this approach because it made model interpretation less intuitive.
+We initially considered treating ordinal predictors as continuous when this improved the model's AIC and retaining ordinal coding otherwise.
+We rejected this approach because it made model interpretation less intuitive.
 
-  == Implementation
+== Implementation
 
-  We implemented these design goals in a web application for specifying and interpreting ordinal regression models.
+We implemented these design goals in a web application for specifying and interpreting ordinal regression models.
 
-  // Source: implementation details supplied by the author on 2026-09-26.
-  === Architecture
+// Source: implementation details supplied by the author on 2026-09-26.
+=== Architecture
 
-  The tool uses Next.js, React, and TypeScript for the browser interface and Python with FastAPI for the backend.
-  The backend validates datasets and model specifications, then generates R scripts and queues them as background jobs.
-  A worker executes these scripts in R, using the `ordinal` package to fit CLMs and CLMMs @ordinal.
-  The browser displays job progress and results.
-  The backend also handles LLM requests for variable suggestions, result summaries, and chatbot responses.
+The tool uses Next.js, React, and TypeScript for the browser interface and Python with FastAPI for the backend.
+The backend validates datasets and model specifications, then generates R scripts and queues them as background jobs.
+A worker executes these scripts in R, using the `ordinal` package to fit CLMs and CLMMs @ordinal.
+The browser displays job progress and results.
+The backend also handles LLM requests for variable suggestions, result summaries, and chatbot responses.
 
-  === Bootstrap Confidence Intervals
+=== Bootstrap Confidence Intervals
 
-  The app calculates 95% percentile bootstrap intervals by repeatedly resampling the observed data and refitting the selected model, keeping its specification and link function fixed.
-  Rows missing required model variables are removed before resampling.
-  Models without random effects use 1,000 bootstrap samples by default, each formed by resampling individual rows with replacement.
-  Mixed-effects models use 100 bootstrap samples by default, resampling whole groups with replacement and keeping their observations together.
-  The interval bounds are the 2.5th and 97.5th percentiles of the finite estimates from completed refits.
+The app calculates 95% percentile bootstrap intervals by repeatedly resampling the observed data and refitting the selected model, keeping its specification and link function fixed.
+Rows missing required model variables are removed before resampling.
+Models without random effects use 1,000 bootstrap samples by default, each formed by resampling individual rows with replacement.
+Mixed-effects models use 100 bootstrap samples by default, resampling whole groups with replacement and keeping their observations together.
+The interval bounds are the 2.5th and 97.5th percentiles of the finite estimates from completed refits.
 
-  == General Workflow for Model Specification
+== General Workflow for Model Specification
 
-  Users can start an analysis by uploading a CSV file or reopen a previous analysis from the landing page shown in @fig:clmm-tool-start-analysis.
-  After a CSV file is uploaded, a local profiler examines the variables before the first step of model specification, with optional LLM suggestions for variable types and ordinal category order.
-  A loading screen with a spinner is displayed during profiling.
+Users can start an analysis by uploading a CSV file or reopen a previous analysis from the landing page shown in @fig:clmm-tool-start-analysis.
+After a CSV file is uploaded, a local profiler examines the variables before the first step of model specification, with optional LLM suggestions for variable types and ordinal category order.
+A loading screen with a spinner is displayed during profiling.
 
-  #screenshot("assets/clmm-tool-start-analysis.png")[
-    Landing page with buttons to upload a CSV file or reopen a past analysis.
-  ] <fig:clmm-tool-start-analysis>
+#screenshot("assets/clmm-tool-start-analysis.png")[
+  Landing page with buttons to upload a CSV file or reopen a past analysis.
+] <fig:clmm-tool-start-analysis>
 
-  The workflow then guides users through selecting an outcome variable, fixed effects, and optional random effects and interactions.
-  In the first step, shown in @fig:clmm-tool-outcome-selection, users choose the outcome variable.
-  An information box explains what an outcome variable is, while a filter and sorting options help users find the variable they want to use.
-  The model formula initially contains placeholders and is updated as users specify the model.
+The workflow then guides users through selecting an outcome variable, fixed effects, and optional random effects and interactions.
+In the first step, shown in @fig:clmm-tool-outcome-selection, users choose the outcome variable.
+An information box explains what an outcome variable is, while a filter and sorting options help users find the variable they want to use.
+The model formula initially contains placeholders and is updated as users specify the model.
 
-  #screenshot("assets/clmm-tool-outcome-selection.png", placement: top)[
-    First step of model specification, with the available variables on the left and a drop zone for the outcome and the model formula on the right.
-  ] <fig:clmm-tool-outcome-selection>
+#screenshot("assets/clmm-tool-outcome-selection.png", placement: top)[
+  First step of model specification, with the available variables on the left and a drop zone for the outcome and the model formula on the right.
+] <fig:clmm-tool-outcome-selection>
 
-  When a variable is dragged into a drop zone for the outcome, a predictor, or a random effect, its settings open automatically, as shown in @fig:clmm-tool-variable-type-dialog.
-  This prompts users to check the variable type and, for ordinal variables, the order of the levels before proceeding.
-  Users can override the suggested variable type and level order.
+When a variable is dragged into a drop zone for the outcome, a predictor, or a random effect, its settings open automatically, as shown in @fig:clmm-tool-variable-type-dialog.
+This prompts users to check the variable type and, for ordinal variables, the order of the levels before proceeding.
+Users can override the suggested variable type and level order.
 
-  #screenshot("assets/clmm-tool-variable-type-dialog.png", placement: top)[
-    Variable settings for the outcome "apply", showing its ordinal type and editable level order.
-  ] <fig:clmm-tool-variable-type-dialog>
+#screenshot("assets/clmm-tool-variable-type-dialog.png", placement: top)[
+  Variable settings for the outcome "apply", showing its ordinal type and editable level order.
+] <fig:clmm-tool-variable-type-dialog>
 
-  After model specification, a dialog displays the inferred regression family and explains why it was chosen, as shown in @fig:clmm-tool-regression-family-dialog.
-  Users can confirm to fit the model or return to change the outcome's variable type.
+After model specification, a dialog displays the inferred regression family and explains why it was chosen, as shown in @fig:clmm-tool-regression-family-dialog.
+Users can confirm to fit the model or return to change the outcome's variable type.
 
-  #screenshot("assets/clmm-tool-regression-family-dialog.png", placement: top)[
-    Confirmation dialog explaining the choice of a CLM based on the ordinal outcome variable.
-  ] <fig:clmm-tool-regression-family-dialog>
+#screenshot("assets/clmm-tool-regression-family-dialog.png", placement: top)[
+  Confirmation dialog explaining the choice of a CLM based on the ordinal outcome variable.
+] <fig:clmm-tool-regression-family-dialog>
 
-  == Results Page
+== Results Page
 
-  The "Summary" page is divided into two parts, as shown in @fig:clmm-tool-model-summary.
-  On the left, a formatted table presents the model output from R, including the AIC, model terms, estimates, standard errors, z values, and p-values.
-  Users can switch between the table and a visual representation of the model summary.
-  Statistical terms are explained in accessible language through tooltips.
-  On the right, an LLM-generated summary describes the fitted model and its main effects.
-  Below this text, "Health Details" provides model diagnostics, such as the maximum gradient and diagnostic results for the proportional-odds assumption.
-  Users can also export the code used to fit the model in R, which allows them to reproduce the analysis outside the interface or to provide it as supplementary material for a publication.
+The "Summary" page is divided into two parts, as shown in @fig:clmm-tool-model-summary.
+On the left, a formatted table presents the model output from R, including the AIC, model terms, estimates, standard errors, z values, and p-values.
+Users can switch between the table and a visual representation of the model summary.
+Statistical terms are explained in accessible language through tooltips.
+On the right, an LLM-generated summary describes the fitted model and its main effects.
+Below this text, "Health Details" provides model diagnostics, such as the maximum gradient and diagnostic results for the proportional-odds assumption.
+Users can also export the code used to fit the model in R, which allows them to reproduce the analysis outside the interface or to provide it as supplementary material for a publication.
 
-  #screenshot("assets/clmm-tool-model-summary.png", placement: top)[
-    Summary page with model output on the left and a text summary and health details on the right.
-  ] <fig:clmm-tool-model-summary>
+#screenshot("assets/clmm-tool-model-summary.png", placement: top)[
+  Summary page with model output on the left and a text summary and health details on the right.
+] <fig:clmm-tool-model-summary>
 
-  The "Fixed Effects" page provides plots for each fixed effect, as shown in @fig:clmm-tool-fixed-effects.
-  For categorical predictors, the relative view shows differences in predicted probabilities for each response category compared to the reference level, which is the first level of the factor.
-  Users can display bootstrap 95% confidence intervals as error bars.
+The "Fixed Effects" page provides plots for each fixed effect, as shown in @fig:clmm-tool-fixed-effects.
+For categorical predictors, the relative view shows differences in predicted probabilities for each response category compared to the reference level, which is the first level of the factor.
+Users can display bootstrap 95% confidence intervals as error bars.
 
-  #screenshot("assets/clmm-tool-fixed-effects.png", placement: top)[
-    Fixed Effects page showing differences in predicted probabilities for "pared", comparing level 1 to the reference level 0.
-  ] <fig:clmm-tool-fixed-effects>
+#screenshot("assets/clmm-tool-fixed-effects.png", placement: top)[
+  Fixed Effects page showing differences in predicted probabilities for "pared", comparing level 1 to the reference level 0.
+] <fig:clmm-tool-fixed-effects>
 
-  == LLM Features
+== LLM Features
 
-  === Variable Profiler
+=== Variable Profiler
 
-  The local profiler reads the CSV file, computes column summaries and missingness, and suggests variable types and ordinal category order.
-  Optional LLM profiling receives column names, data types, missingness, unique-value counts, numeric summaries, and up to 20 category labels per column.
-  We do not send raw dataset rows to the LLM.
-  The suggested variable types and category orders are applied as defaults and can be overridden during model specification.
+The local profiler reads the CSV file, computes column summaries and missingness, and suggests variable types and ordinal category order.
+Optional LLM profiling receives column names, data types, missingness, unique-value counts, numeric summaries, and up to 20 category labels per column.
+We do not send raw dataset rows to the LLM.
+The suggested variable types and category orders are applied as defaults and can be overridden during model specification.
 
-  === Summary Generator
+=== Summary Generator
 
-  The summary generator receives structured model results, including the model family and link, variables, coefficients, confidence intervals, p-values, and relevant fit diagnostics, together with a draft summary.
-  Inputs for effect summaries also include the reference category.
+The summary generator receives structured model results, including the model family and link, variables, coefficients, confidence intervals, p-values, and relevant fit diagnostics, together with a draft summary.
+Inputs for effect summaries also include the reference category.
 
-  === Chatbot
+=== Chatbot
 
-  An optional AI chatbot is located in the bottom right of the interface and is open by default, as shown in @fig:clmm-tool-outcome-selection.
-  It uses GPT 5.4 mini to provide explanations about the model and results.
+An optional AI chatbot is located in the bottom right of the interface and is open by default, as shown in @fig:clmm-tool-outcome-selection.
+It uses GPT 5.4 mini to provide explanations about the model and results.
 
-  The chatbot receives the current question, explanations of the application and current workflow step, and summaries of the dataset and its columns.
-  Its context includes the dataset's filename and dimensions, as well as the selected outcome, predictors, interactions, and random effects.
-  This context also includes the ordering of ordinal categories confirmed by the user and the inferred regression family.
-  Run diagnostics and available final results are also supplied, including coefficients, p-values, and AIC.
-  The supplied application context excludes raw dataset rows.
+The chatbot receives the current question, explanations of the application and current workflow step, and summaries of the dataset and its columns.
+Its context includes the dataset's filename and dimensions, as well as the selected outcome, predictors, interactions, and random effects.
+This context also includes the ordering of ordinal categories confirmed by the user and the inferred regression family.
+Run diagnostics and available final results are also supplied, including coefficients, p-values, and AIC.
+The supplied application context excludes raw dataset rows.
 
-  The chatbot can only provide explanations and cannot change the specification, fit models, select the final model, or modify the data.
-  Previous messages are currently excluded from the LLM prompt, so each response uses the current question and supplied application context.
+The chatbot can only provide explanations and cannot change the specification, fit models, select the final model, or modify the data.
+Previous messages are currently excluded from the LLM prompt, so each response uses the current question and supplied application context.
 
-  #place.flush()
+#place.flush()
 
-  = User Study
+= User Study
 
-  A user study evaluated how users interpret ordinal regression results.
-  A pilot study first explored the usability of the tool, followed by a main study focused on interpreting pre-fitted model output.
+A user study evaluated how users interpret ordinal regression results.
+A pilot study first explored the usability of the tool, followed by a main study focused on interpreting pre-fitted model output.
 
-  == Pilot Study
+== Pilot Study
 
-  The pilot study aimed to identify obvious usability issues and gather feedback on the tool.
-  Pilot participants were bachelor's students in computer science or cyber security enrolled in the course "Usable Security and Privacy".
-  They had received basic training in regression analysis.
+The pilot study aimed to identify obvious usability issues and gather feedback on the tool.
+Pilot participants were bachelor's students in computer science or cyber security enrolled in the course "Usable Security and Privacy".
+They had received basic training in regression analysis.
 
-  // Source: the author's recollection of the pilot task and observations, recorded in Studie/task-instructions.md.
-  Participants worked through a scenario in which a reviewer had criticized an analysis for combining two categories of a three-level ordinal outcome.
-  They received the original analysis results and were asked to refit the data using a CLM and draft a response to the reviewer.
-  They used the tool while thinking aloud and took part in an interview at the end.
+// Source: the author's recollection of the pilot task and observations, recorded in Studie/task-instructions.md.
+Participants worked through a scenario in which a reviewer had criticized an analysis for combining two categories of a three-level ordinal outcome.
+They received the original analysis results and were asked to refit the data using a CLM and draft a response to the reviewer.
+They used the tool while thinking aloud and took part in an interview at the end.
 
-  Participants managed to fit the intended model using the tool, but appeared to struggle more with interpreting the revised analysis.
-  They overlooked some changes compared with the original results, including predictors becoming statistically significant.
-  These observations motivated the main study's focus on interpreting model output.
+Participants managed to fit the intended model using the tool, but appeared to struggle more with interpreting the revised analysis.
+They overlooked some changes compared with the original results, including predictors becoming statistically significant.
+These observations motivated the main study's focus on interpreting model output.
 
-  // #missing-info[
-  //   Pilot participant count provisionally recalled as 3, still to be confirmed.
-  //   Exact count probably does not matter, so we should just write it in a way that does not require a specific number.
-  // ]
+// #missing-info[
+//   Pilot participant count provisionally recalled as 3, still to be confirmed.
+//   Exact count probably does not matter, so we should just write it in a way that does not require a specific number.
+// ]
 
-  == Study Design
+== Study Design
 
-  The main study compared a prepared results page based on the CLM(M) tool with pre-fitted model output in RStudio.
-  We refer to these as the CLM(M) tool and RStudio output conditions.
-  Providing fitted models focused the task on interpretation without requiring participants to generate or run model-fitting code.
+The main study compared a prepared results page based on the CLM(M) tool with pre-fitted model output in RStudio.
+We refer to these as the CLM(M) tool and RStudio output conditions.
+Providing fitted models focused the task on interpretation without requiring participants to generate or run model-fitting code.
 
-  In the CLM(M) tool condition, participants used a hard-coded prototype of the tool's results page.
-  The prototype simulated the intended plotting and interpretation features using prepared results.
-  Its interpretations were generated in advance by an LLM supplied with information about the study context.
-  The plots and interpretations were fixed and identical for all participants viewing the same scenario in this condition.
-  The tool's live chatbot was not evaluated as part of this study.
-  Internet research and external LLM use were permitted in both conditions during familiarization with the results.
-  The instructions for the RStudio output condition explicitly allowed participants to use LLMs such as ChatGPT and to write new code to support interpretation.
+In the CLM(M) tool condition, participants used a hard-coded prototype of the tool's results page.
+The prototype simulated the intended plotting and interpretation features using prepared results.
+Its interpretations were generated in advance by an LLM supplied with information about the study context.
+The plots and interpretations were fixed and identical for all participants viewing the same scenario in this condition.
+The tool's live chatbot was not evaluated as part of this study.
+Internet research and external LLM use were permitted in both conditions during familiarization with the results.
+The instructions for the RStudio output condition explicitly allowed participants to use LLMs such as ChatGPT and to write new code to support interpretation.
 
-  // Source: Auswertung/prepare_data.ipynb, "Resolved tool per scenario", and its participant export.
-  The study followed a counterbalanced within-subjects design with two scenarios.
-  The simple scenario had no random effects or interactions, while the complex scenario included two random intercepts and an interaction.
-  Each participant completed both scenarios, one in the CLM(M) tool condition and the other in the RStudio output condition.
-  Both scenario order and the assignment of output conditions to scenarios were counterbalanced across participants.
+// Source: Auswertung/prepare_data.ipynb, "Resolved tool per scenario", and its participant export.
+The study followed a counterbalanced within-subjects design with two scenarios.
+The simple scenario had no random effects or interactions, while the complex scenario included two random intercepts and an interaction.
+Each participant completed both scenarios, one in the CLM(M) tool condition and the other in the RStudio output condition.
+Both scenario order and the assignment of output conditions to scenarios were counterbalanced across participants.
 
 
-  == Participants and Procedure
+== Participants and Procedure
 
-  Participants were bachelor's students in computer science or cyber security enrolled in the course "Usable Security and Privacy".
-  They had received basic training in regression analysis.
-  Participation was compensated with bonus points for the course.
+Participants were bachelor's students in computer science or cyber security enrolled in the course "Usable Security and Privacy".
+They had received basic training in regression analysis.
+Participation was compensated with bonus points for the course.
 
-  // Sources: Auswertung/prepare_data.ipynb and its prepared participant, performance, understanding, and preference exports.
-  The main-study sample comprised 96 consenting participants with completed survey records.
-  Two initial screening questions concerned the main purpose of regression analysis and the meaning of an $R^2$ value of 0.70.
-  Their original wording and response options are provided in @appendix-screening-questions.
-  One participant was excluded for answering the first screening question incorrectly.
-  The remaining 95 participants were included in the analysis.
-  Among the included participants, 70 (73.7%) answered the second screening question correctly and 25 (26.3%) answered it incorrectly.
-  An incorrect answer to this question was not an exclusion criterion.
+// Sources: Auswertung/prepare_data.ipynb and its prepared participant, performance, understanding, and preference exports.
+The main-study sample comprised 96 consenting participants with completed survey records.
+Two initial screening questions concerned the main purpose of regression analysis and the meaning of an $R^2$ value of 0.70.
+Their original wording and response options are provided in @appendix-screening-questions.
+One participant was excluded for answering the first screening question incorrectly.
+The remaining 95 participants were included in the analysis.
+Among the included participants, 70 (73.7%) answered the second screening question correctly and 25 (26.3%) answered it incorrectly.
+An incorrect answer to this question was not an exclusion criterion.
 
-  For the simple scenario, the analysis included 51 participants in the CLM(M) tool condition and 44 in the RStudio output condition.
-  For the complex scenario, it included 44 participants in the CLM(M) tool condition and 51 in the RStudio output condition.
+For the simple scenario, the analysis included 51 participants in the CLM(M) tool condition and 44 in the RStudio output condition.
+For the complex scenario, it included 44 participants in the CLM(M) tool condition and 51 in the RStudio output condition.
 
-  The task instructions in both conditions allocated 30 minutes to becoming familiar with the results.
-  For each scenario, participants described the results in their own words and answered closed questions about the model output.
-  In the RStudio output condition, the instructions explicitly permitted Google and ChatGPT while writing the free-form interpretation, but prohibited new searches or prompts after completing that response.
-  Previously obtained search results and existing ChatGPT conversations could still be consulted.
+The task instructions in both conditions allocated 30 minutes to becoming familiar with the results.
+For each scenario, participants described the results in their own words and answered closed questions about the model output.
+In the RStudio output condition, the instructions explicitly permitted Google and ChatGPT while writing the free-form interpretation, but prohibited new searches or prompts after completing that response.
+Previously obtained search results and existing ChatGPT conversations could still be consulted.
 
-  After each scenario, participants rated how well they understood the regression results.
-  After both scenarios, they provided comparative ratings of perceived support during interpretation, perceived user-friendliness, and preference for future regression interpretation.
+After each scenario, participants rated how well they understood the regression results.
+After both scenarios, they provided comparative ratings of perceived support during interpretation, perceived user-friendliness, and preference for future regression interpretation.
 
-  Self-rated understanding was measured on a scale from 0 to 10.
+Self-rated understanding was measured on a scale from 0 to 10.
 
-  Task accuracy was based on three closed questions in the simple scenario and five in the complex scenario.
-  A checkbox group was counted as one question and scored as correct only if all correct options and no incorrect options were selected.
-  Each participant's accuracy was calculated as the proportion of correctly answered questions within each scenario.
+Task accuracy was based on three closed questions in the simple scenario and five in the complex scenario.
+A checkbox group was counted as one question and scored as correct only if all correct options and no incorrect options were selected.
+Each participant's accuracy was calculated as the proportion of correctly answered questions within each scenario.
 
-  == Simple Scenario
+== Simple Scenario
 
-  // Sources: Studie/task-instructions.md, Auswertung/simple.R, ologit_data.csv, and the questionnaire items used by prepare_data.ipynb.
-  The simple scenario asked participants to help a colleague interpret associations between students' self-reported likelihood of applying for a master's degree and parental education, institution type, and grade point average.
-  The dataset, `ologit_data.csv`, contains the simulated observations from UCLA's ordinal logistic regression example @ucla_ordinal.
-  The study instructions presented these 400 observations as responses from students, each surveyed once.
-  The ordinal outcome `apply` had the ordered categories "unlikely", "somewhat likely", and "very likely".
+// Sources: Studie/task-instructions.md, Auswertung/simple.R, ologit_data.csv, and the questionnaire items used by prepare_data.ipynb.
+The simple scenario asked participants to help a colleague interpret associations between students' self-reported likelihood of applying for a master's degree and parental education, institution type, and grade point average.
+The dataset, `ologit_data.csv`, contains the simulated observations from UCLA's ordinal logistic regression example @ucla_ordinal.
+The study instructions presented these 400 observations as responses from students, each surveyed once.
+The ordinal outcome `apply` had the ordered categories "unlikely", "somewhat likely", and "very likely".
 
-  In these instructions, the predictors were described as whether at least one parent held a university degree (`pared`), whether the student had completed their bachelor's degree at a public or private institution (`public`), and grade point average (`gpa`).
-  The model was a CLM with a logit link and the formula `apply ~ pared + public + gpa`, without interactions or random effects.
+In these instructions, the predictors were described as whether at least one parent held a university degree (`pared`), whether the student had completed their bachelor's degree at a public or private institution (`public`), and grade point average (`gpa`).
+The model was a CLM with a logit link and the formula `apply ~ pared + public + gpa`, without interactions or random effects.
 
-  A recreation of the fitting script and its regenerated output are provided in @appendix-simple-analysis.
+A recreation of the fitting script and its regenerated output are provided in @appendix-simple-analysis.
 
-  The closed questions covered the direction and significance of the `pared` and `public` effects, the number of observations, and the GPA effect.
+The closed questions covered the direction and significance of the `pared` and `public` effects, the number of observations, and the GPA effect.
 
-  == Complex Scenario
+== Complex Scenario
 
-  // Sources: Auswertung/complex.R, insteval_subsample.csv, and the questionnaire items used by prepare_data.ipynb.
-  The complex scenario concerned associations of course type and students' study stage with ratings of instructors.
-  The dataset, `insteval_subsample.csv`, was derived from the `InstEval` lecture-evaluation data from ETH Zurich distributed with the R package `lme4` @lme4_insteval.
-  The subsample contained 400 ratings from 299 students involving 29 instructors.
-  The ordinal outcome `rating` ranged from 1 (lowest) to 5 (highest).
+// Sources: Auswertung/complex.R, insteval_subsample.csv, and the questionnaire items used by prepare_data.ipynb.
+The complex scenario concerned associations of course type and students' study stage with ratings of instructors.
+The dataset, `insteval_subsample.csv`, was derived from the `InstEval` lecture-evaluation data from ETH Zurich distributed with the R package `lme4` @lme4_insteval.
+The subsample contained 400 ratings from 299 students involving 29 instructors.
+The ordinal outcome `rating` ranged from 1 (lowest) to 5 (highest).
 
-  In the study scenario, the predictors were described as mandatory service course versus non-service course (`service`) and early versus late study stage (`studage_group`).
-  The model was a CLMM with a logit link and the formula `rating ~ service * studage_group + (1 | student_id) + (1 | instructor_id)`.
-  It included an interaction between course type and study stage, with crossed random intercepts for students and instructors.
+In the study scenario, the predictors were described as mandatory service course versus non-service course (`service`) and early versus late study stage (`studage_group`).
+The model was a CLMM with a logit link and the formula `rating ~ service * studage_group + (1 | student_id) + (1 | instructor_id)`.
+It included an interaction between course type and study stage, with crossed random intercepts for students and instructors.
 
-  The original fitting script and saved model summary are provided in @appendix-complex-analysis, and the subsampling script is reproduced in @appendix-subsample.
+The original fitting script and saved model summary are provided in @appendix-complex-analysis, and the subsampling script is reproduced in @appendix-subsample.
 
-  The closed questions covered service-course effects within each study stage, the number of students, and the early-stage service effect.
-  They also addressed the interaction and which random-effect variance was larger.
+The closed questions covered service-course effects within each study stage, the number of students, and the early-stage service effect.
+They also addressed the interaction and which random-effect variance was larger.
 
 
-  == Results
+== Results
 
-  @fig:study-performance, @fig:study-understanding, and @fig:study-preference summarize the descriptive results of the user study.
-  Mean task accuracy was 81.1% in the CLM(M) tool condition and 84.1% in the RStudio output condition for the simple scenario, compared with 58.6% and 45.5%, respectively, for the complex scenario.
-  Mean self-rated understanding was higher in the CLM(M) tool condition in both the simple scenario (7.9 versus 7.2) and the complex scenario (6.7 versus 5.0).
-  Mean comparative ratings favored the CLM(M) tool for perceived user-friendliness (8.62), perceived support during interpretation (7.87), and preference for future regression interpretation (7.86).
+@fig:study-performance, @fig:study-understanding, and @fig:study-preference summarize the descriptive results of the user study.
+Mean task accuracy was 81.1% in the CLM(M) tool condition and 84.1% in the RStudio output condition for the simple scenario, compared with 58.6% and 45.5%, respectively, for the complex scenario.
+Mean self-rated understanding was higher in the CLM(M) tool condition in both the simple scenario (7.9 versus 7.2) and the complex scenario (6.7 versus 5.0).
+Mean comparative ratings favored the CLM(M) tool for perceived user-friendliness (8.62), perceived support during interpretation (7.87), and preference for future regression interpretation (7.86).
 
-  #figure(
-    performance-chart,
-    kind: image,
-    caption: [
-      Mean task accuracy by scenario and output condition.
-      Each participant answered three questions in the simple scenario and five in the complex scenario.
-      Sample sizes are shown below the points.
-    ],
-    placement: none,
-  ) <fig:study-performance>
+#figure(
+  performance-chart,
+  kind: image,
+  caption: [
+    Mean task accuracy by scenario and output condition.
+    Each participant answered three questions in the simple scenario and five in the complex scenario.
+    Sample sizes are shown below the points.
+  ],
+  placement: none,
+) <fig:study-performance>
 
-  #figure(
-    understanding-chart,
-    kind: image,
-    caption: [
-      Mean self-rated understanding after each scenario, by output condition.
-      Higher ratings indicate greater self-rated understanding.
-      Sample sizes are shown below the points.
-    ],
-    placement: none,
-  ) <fig:study-understanding>
+#figure(
+  understanding-chart,
+  kind: image,
+  caption: [
+    Mean self-rated understanding after each scenario, by output condition.
+    Higher ratings indicate greater self-rated understanding.
+    Sample sizes are shown below the points.
+  ],
+  placement: none,
+) <fig:study-understanding>
 
-  #figure(
-    preference-chart,
-    kind: image,
-    caption: [
-      Mean comparative ratings of perceived user-friendliness, support during interpretation, and preference for future use.
-      For each item, 0 favors RStudio output and 10 favors the CLM(M) tool.
-      The dashed line marks the neutral midpoint at 5.
-    ],
-    placement: none,
-  ) <fig:study-preference>
+#figure(
+  preference-chart,
+  kind: image,
+  caption: [
+    Mean comparative ratings of perceived user-friendliness, support during interpretation, and preference for future use.
+    For each item, 0 favors RStudio output and 10 favors the CLM(M) tool.
+    The dashed line marks the neutral midpoint at 5.
+  ],
+  placement: none,
+) <fig:study-preference>
 
-  = Discussion
+= Discussion
 
-  Mean self-rated understanding was higher in the CLM(M) tool condition in both scenarios.
-  Comparative ratings also favored the tool for perceived user-friendliness, perceived support during interpretation, and preference for future use.
-  Mean task accuracy was slightly lower in the CLM(M) tool condition than in the RStudio output condition for the simple scenario and higher for the complex scenario.
+Mean self-rated understanding was higher in the CLM(M) tool condition in both scenarios.
+Comparative ratings also favored the tool for perceived user-friendliness, perceived support during interpretation, and preference for future use.
+Mean task accuracy was slightly lower in the CLM(M) tool condition than in the RStudio output condition for the simple scenario and higher for the complex scenario.
 
-  Syiem and Velloso recommend complementing numerical and textual results with visualizations of model estimates and their uncertainty @Victor_Syiem_2026.
-  In the complex scenario, the simple-effects plot makes the service-course effect within each study stage directly available as a point estimate on the log-odds scale with a 95% confidence interval.
-  The predicted-probability plots express the results in terms of the actual rating categories, showing how the probabilities of individual ratings differ between course types and study stages.
-  Sarma's modified CCDF plots offer a related approach by showing the probability of a response being at least as high as a given category @sarma2026adapting.
+Syiem and Velloso recommend complementing numerical and textual results with visualizations of model estimates and their uncertainty @Victor_Syiem_2026.
+In the complex scenario, the simple-effects plot makes the service-course effect within each study stage directly available as a point estimate on the log-odds scale with a 95% confidence interval.
+The predicted-probability plots express the results in terms of the actual rating categories, showing how the probabilities of individual ratings differ between course types and study stages.
+Sarma's modified CCDF plots offer a related approach by showing the probability of a response being at least as high as a given category @sarma2026adapting.
 
-  The scenarios differed in subject matter and questions, so the observed accuracy pattern cannot be attributed to model complexity alone.
-  The study evaluated prepared text, plots, and interface design together and cannot separate their individual contributions.
-  Nevertheless, participants using the tool reported greater understanding and achieved higher accuracy in the complex scenario.
-  These descriptive findings suggest that the tool has potential to make complex model output easier to understand and interpret accurately.
+The scenarios differed in subject matter and questions, so the observed accuracy pattern cannot be attributed to model complexity alone.
+The study evaluated prepared text, plots, and interface design together and cannot separate their individual contributions.
+Nevertheless, participants using the tool reported greater understanding and achieved higher accuracy in the complex scenario.
+These descriptive findings suggest that the tool has potential to make complex model output easier to understand and interpret accurately.
 
 
-  = Limitations
+= Limitations
 
-  The main study focused on interpreting pre-fitted models and did not evaluate the full workflow of specifying, fitting, and interpreting models with the tool or with LLM assistance.
-  The participants were students with basic regression training and may differ from the tool's intended audience of HCI researchers.
-  The two scenarios cover a limited range of analysis tasks.
-  Differences in subject matter and questions also limit conclusions about the role of model complexity.
+The main study focused on interpreting pre-fitted models and did not evaluate the full workflow of specifying, fitting, and interpreting models with the tool or with LLM assistance.
+The participants were students with basic regression training and may differ from the tool's intended audience of HCI researchers.
+The two scenarios cover a limited range of analysis tasks.
+Differences in subject matter and questions also limit conclusions about the role of model complexity.
 
-  Participants evaluated a hard-coded prototype with prepared plots and context-informed interpretations.
-  The tool's live chatbot was not evaluated as part of this study.
-  The findings may not transfer directly to the implemented tool and do not establish the quality or consistency of its live LLM responses.
+Participants evaluated a hard-coded prototype with prepared plots and context-informed interpretations.
+The tool's live chatbot was not evaluated as part of this study.
+The findings may not transfer directly to the implemented tool and do not establish the quality or consistency of its live LLM responses.
 
-  Reported task accuracy was based on selecting from predefined answer options.
-  These options may provide cues, and the resulting scores do not directly measure participants' ability to formulate accurate interpretations in their own words.
+Reported task accuracy was based on selecting from predefined answer options.
+These options may provide cues, and the resulting scores do not directly measure participants' ability to formulate accurate interpretations in their own words.
 
-  = Future Work
+= Future Work
 
-  Future evaluations could compare Sarma's modified CCDF plots with our current visualizations to determine which plot types better support particular interpretation tasks.
-  Future evaluations should also examine LLM-generated interpretations and the complete workflow of specifying, fitting, and interpreting models with the tool.
-  Interviews with statistical experts could help assess gaps in the available tooling.
+Future evaluations could compare Sarma's modified CCDF plots with our current visualizations to determine which plot types better support particular interpretation tasks.
+Future evaluations should also examine LLM-generated interpretations and the complete workflow of specifying, fitting, and interpreting models with the tool.
+Interviews with statistical experts could help assess gaps in the available tooling.
 
-  Possible extensions include more direct support for exports from Qualtrics and conversion from wide to long format.
-  Supporting a broader range of random-effect structures would make model specification more general.
-  The tool could also allow users to specify descriptive labels for variable levels.
+Possible extensions include more direct support for exports from Qualtrics and conversion from wide to long format.
+Supporting a broader range of random-effect structures would make model specification more general.
+The tool could also allow users to specify descriptive labels for variable levels.
 
-  LLM-assisted interpretations could incorporate a description of the study alongside the existing model context, aiming to make explanations more relevant to the study.
-  This would build on the prepared, context-informed interpretations used in the user study.
-  Diagnostic support could also be extended to explain potential assumption violations and automatically investigate collinearity or convergence problems through additional checks.
+LLM-assisted interpretations could incorporate a description of the study alongside the existing model context, aiming to make explanations more relevant to the study.
+This would build on the prepared, context-informed interpretations used in the user study.
+Diagnostic support could also be extended to explain potential assumption violations and automatically investigate collinearity or convergence problems through additional checks.
 
-  = Conclusion
+= Conclusion
 
-  We developed the CLM(M) tool to guide researchers through specifying ordinal regression models and interpreting their results.
-  Observations from a pilot study motivated a main study focused on interpretation.
-  Compared with RStudio output, participants reported higher self-rated understanding and favored the prepared study results page for perceived user-friendliness, interpretation support, and future use.
-  Mean task accuracy in the CLM(M) tool condition was lower than in the RStudio output condition for the simple scenario and higher for the complex scenario.
-  These findings motivate further evaluation of the complete workflow and the live chatbot.
-]
+We developed the CLM(M) tool to guide researchers through specifying ordinal regression models and interpreting their results.
+Observations from a pilot study motivated a main study focused on interpretation.
+Compared with RStudio output, participants reported higher self-rated understanding and favored the prepared study results page for perceived user-friendliness, interpretation support, and future use.
+Mean task accuracy in the CLM(M) tool condition was lower than in the RStudio output condition for the simple scenario and higher for the complex scenario.
+These findings motivate further evaluation of the complete workflow and the live chatbot.
+// ]
 
 #pagebreak()
 #bibliography(
