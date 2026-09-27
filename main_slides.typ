@@ -97,10 +97,12 @@
 
   // Left side
   [
-    - Free and open-source statistics software with a graphical user interface
-    - Support analysis using CLMs and CLMMs without programming
-      - Provide tables of results, but no plots to support interpretation
-      - // sth about how it can be difficult to use
+    #set par(justify: false)
+    - Free and open-source statistics software for analyzing data without programming
+    - In the ordinal regression workflows we examined:
+      - *Specification:* limited guidance for checking data settings and specifying the model
+      - *Terminology:* statistical knowledge assumed; unfamiliar terms require separate lookup
+      - *Interpretation:* default results are tables without accompanying plots
   ],
   // Right side
   box(
@@ -127,15 +129,17 @@
 === CLM(M)-tool
 
 #grid(
-  columns: (1fr, 0.9fr),
+  columns: (1fr, 0.85fr),
   gutter: 1em,
 
   // Left half
   [
-    Core Design Principles:
-    - Guide user through model specification
-    - Explain statistical terms in plain language
-    - Provide support for interpreting model output
+    #set par(justify: false)
+    - Web-based tool for HCI researchers to analyze ordinal data without programming
+    - Core Design Principles:
+      - *Specification:* guide users through model specification
+      - *Terminology:* explain statistical terms in plain language
+      - *Interpretation:* support understanding with explanations and plots
   ],
 
   // Right half
