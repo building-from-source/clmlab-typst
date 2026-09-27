@@ -305,7 +305,7 @@ We implemented these design goals in a web application for specifying and interp
 // Source: implementation details supplied by the author on 2026-09-26.
 === Architecture
 
-The tool uses Next.js, React, and TypeScript for the browser interface and Python with FastAPI for the backend.
+The browser interface is written in TypeScript using Next.js, a React framework, while the backend is written in Python using FastAPI.
 The backend validates datasets and model specifications, then generates R scripts and queues them as background jobs.
 A worker executes these scripts in R, using the `ordinal` package to fit CLMs and CLMMs @ordinal.
 The browser displays job progress and results.
