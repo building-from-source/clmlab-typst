@@ -186,7 +186,13 @@
 
 - CLM(M)-tool guides model specification and supports interpretation through explanations and plots
 - The prepared study interface received higher self-rated understanding and favorable comparative ratings; task accuracy varied by scenario
-- Further evaluation should examine alternative visualizations and the complete workflow, including live LLM responses
+- Further evaluation should examine:
+  - Alternative visualizations, such as Sarma's modified CCDF plots @sarma2026adapting
+  - The complete workflow, including live LLM responses
+
+#source-note[
+  #source-ref(<sarma2026adapting>)
+]
 
 = Live Demo
 
@@ -210,8 +216,7 @@
 
 #backup-slide[Alternative Visualization: Modified CCDF][
   #speaker-note[
-    - Sarma's example: moral-permissibility ratings, 1 to 7
-    - higher means more permissible
+    - Trolley-problem scenarios: how morally permissible is harming one person to save others? Rated 1 to 7; higher = more permissible.
     - orange is the baseline
     - act. = action, int. = intention, con. = contact; no = absent.
     - X: rating threshold
@@ -230,8 +235,9 @@
     gutter: 1em,
     align: horizon,
     [
-      - Rating at least $k$: $P(Y >= k)$
-      - Median at $Y = 0.5$
+      - Standard CCDF: Rating above $k$: $P(Y > k)$
+      - mCCDF: Rating at least $k$: $P(Y >= k)$
+      - Median at probability $0.5$
     ],
     [
       #screenshot-detail(
