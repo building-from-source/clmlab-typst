@@ -11,9 +11,9 @@
   let width = 9.8
   let x(value) = left + value / 10 * width
   let items = (
-    (source: "Benutzerfreundlichkeit", label: "More user-friendly", y: 6.3),
-    (source: "Unterstützung", label: "Better support", y: 4.35),
-    (source: "Präferenz", label: "Preferred tool", y: 2.4),
+    (source: "Benutzerfreundlichkeit", label: [Perceived#linebreak()user-friendliness], y: 6.3),
+    (source: "Unterstützung", label: [Support during#linebreak()interpretation], y: 4.35),
+    (source: "Präferenz", label: [Preference for#linebreak()future use], y: 2.4),
   )
 
   rect((0, 0), (14.2, 7.55), stroke: none, fill: none)
@@ -44,7 +44,8 @@
 
     content(
       (left - 0.3, item.y),
-      plot-text([#item.label], size: 8.5pt),
+      [#set align(center)
+        #plot-text([#item.label], size: 8.5pt)],
       anchor: "east",
     )
     circle((x(mean), item.y), radius: 0.15, fill: clm-color, stroke: 0.7pt + white)

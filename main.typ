@@ -70,7 +70,7 @@
 
 #show: ubo.with(
   title: "CLM(M) tool",
-  author: "Julian Steffen",
+  author: "Julian Lennon Steffen",
   matrikelno: "3421717",
   first-examiner: "Dr. Christian Tiefenau",
   // first-examiner-affiliation: [University of Bonn], // This is optional, defaults to localized "University of Bonn" for both examiners
