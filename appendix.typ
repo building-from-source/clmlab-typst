@@ -76,7 +76,7 @@
 
 === Simple Scenario <appendix-simple-analysis>
 
-The original simple-scenario fitting script and output were not available. #footnote([Danke sciebo, `[object][Object]` ist sehr hilfreich])
+The original simple-scenario fitting script and output were not available.
 The script below was recreated from the documented model specification and is expected to accurately reproduce the original analysis.
 The displayed output was regenerated using this recreation.
 
@@ -106,7 +106,7 @@ The original complex-scenario fitting script and its output.
 
 == Complex-Scenario Data Preparation <appendix-subsample>
 
-The following original script documents how the 400-row subsample was drawn from the `InstEval` dataset in the `lme4` package.
+The following original script documents how the 400-row subsample was drawn from the `InstEval` dataset in the `lme4` package @lme4_insteval.
 
 #study-listing("Studie/derive_subsample.R", lang: "r")[
   Original R script for deriving the complex-scenario dataset.

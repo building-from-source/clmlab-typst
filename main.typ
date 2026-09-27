@@ -488,7 +488,8 @@
 
   // Sources: Studie/task-instructions.md, Auswertung/simple.R, ologit_data.csv, and the questionnaire items used by prepare_data.ipynb.
   The simple scenario asked participants to help a colleague interpret associations between students' self-reported likelihood of applying for a master's degree and parental education, institution type, and grade point average.
-  The study instructions presented the dataset, `ologit_data.csv`, as responses from 400 students, each surveyed once.
+  The dataset, `ologit_data.csv`, contains the simulated observations from UCLA's ordinal logistic regression example @ucla_ordinal.
+  The study instructions presented these 400 observations as responses from students, each surveyed once.
   The ordinal outcome `apply` had the ordered categories "unlikely", "somewhat likely", and "very likely".
 
   In these instructions, the predictors were described as whether at least one parent held a university degree (`pared`), whether the student had completed their bachelor's degree at a public or private institution (`public`), and grade point average (`gpa`).
@@ -502,10 +503,11 @@
 
   // Sources: Auswertung/complex.R, insteval_subsample.csv, and the questionnaire items used by prepare_data.ipynb.
   The complex scenario concerned associations of course type and students' study stage with ratings of instructors.
-  The dataset, `insteval_subsample.csv`, contained 400 ratings from 299 students involving 29 instructors.
+  The dataset, `insteval_subsample.csv`, was derived from the `InstEval` lecture-evaluation data from ETH Zurich distributed with the R package `lme4` @lme4_insteval.
+  The subsample contained 400 ratings from 299 students involving 29 instructors.
   The ordinal outcome `rating` ranged from 1 (lowest) to 5 (highest).
 
-  The predictors were mandatory service course versus non-service course (`service`) and early versus late study stage (`studage_group`).
+  In the study scenario, the predictors were described as mandatory service course versus non-service course (`service`) and early versus late study stage (`studage_group`).
   The model was a CLMM with a logit link and the formula `rating ~ service * studage_group + (1 | student_id) + (1 | instructor_id)`.
   It included an interaction between course type and study stage, with crossed random intercepts for students and instructors.
 

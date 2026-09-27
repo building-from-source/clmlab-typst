@@ -16,6 +16,8 @@ The implementation section now describes the architecture, bootstrap procedure, 
 The architecture account was condensed to the main components and modeling workflow, with storage details omitted at the author's request.
 The report also explains the chatbot's prompt context and describes the study interface as a hard-coded prototype in place of the earlier "Wizard of Oz" terminology.
 The application source has not been independently checked as part of these revisions.
+The dataset sources are now cited, with all 400 simple-scenario observations verified against UCLA's simulated example data and the complex-scenario provenance documented by the `InstEval` preparation script.
+The `ordinal` bibliography entry now includes a retrieval date and uses an entry type that renders its URL and version, and the informal sciebo footnote has been removed.
 
 ## Overall assessment
 

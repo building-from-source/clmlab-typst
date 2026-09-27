@@ -18,6 +18,18 @@
 - `data/insteval_subsample.csv` is the supplied complex-scenario dataset,
   relocated into the directory expected by the original script.
 
+## Dataset sources
+
+The simple-scenario data match the simulated dataset distributed with [UCLA's ordinal logistic regression example](https://stats.oarc.ucla.edu/r/dae/ordinal-logistic-regression/).
+On 2026-09-27, all 400 observations were checked in their original row order against the linked `ologit.dta` file for `apply`, `pared`, `public`, and `gpa`.
+Category labels matched exactly, and numerical values matched within a tolerance of 1e-12.
+The scenario descriptions given to participants are documented separately in `task-instructions.md`.
+
+The complex-scenario preparation script loads [`InstEval` from the `lme4` package](https://lme4.github.io/lme4/reference/InstEval.html), which contains lecture evaluations from ETH Zurich.
+The script records the subsampling and variable transformations used to produce the study data.
+
+## Running the scripts
+
 Run the fitting scripts from this directory with R and the `ordinal` package
 installed:
 
