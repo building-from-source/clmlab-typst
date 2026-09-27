@@ -51,7 +51,7 @@
   ),
   config-lecture(
     handout: handout-mode,
-    // show-notes-on-second-screen: right,
+    show-notes-on-second-screen: right,
     justify: true,
     font: "Calibri",
   ),
@@ -207,6 +207,46 @@
   ),
   body,
 )
+
+#backup-slide[Alternative Visualization: Modified CCDF][
+  #speaker-note[
+    - Sarma's example: moral-permissibility ratings, 1 to 7
+    - higher means more permissible
+    - orange is the baseline
+    - act. = action, int. = intention, con. = contact; no = absent.
+    - X: rating threshold
+    - Y: probability of that rating or higher
+    - The 0.5 line helps locate the median category
+    - Shading: uncertainty in estimated probabilities
+  ]
+
+  #set par(justify: false)
+
+  Modified Complementary Cumulative Distribution Function (mCCDF) plots @sarma2026adapting
+
+  #v(0.5em)
+  #grid(
+    columns: (1fr, 1.3fr),
+    gutter: 1em,
+    align: horizon,
+    [
+      - Rating at least $k$: $P(Y >= k)$
+      - Median at $Y = 0.5$
+    ],
+    [
+      #screenshot-detail(
+        "assets/sarma-2026-ccdf-conditions.png",
+        (2167, 2600),
+        (x: 0, y: 795, width: 2167, height: 960),
+        width: 420pt,
+      )
+    ],
+  )
+
+  #source-note[
+    #source-ref(<sarma2026adapting>) #h(0.4em) Figure 4B
+  ]
+]
 
 #backup-slide[User Study][
 
