@@ -109,10 +109,10 @@
     grid(
       rows: (1fr, 1fr),
       align(top + center)[
-        #image("assets/image.png", width: 100%)
+        #image("assets/jasp-welcome-screen.png", width: 100%)
       ],
       align(bottom + center)[
-        #image("assets/image-1.png", width: 100%)
+        #image("assets/jamovi-empty-workspace.png", width: 100%)
       ],
     ),
   ),
