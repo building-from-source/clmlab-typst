@@ -378,6 +378,8 @@ Users can display bootstrap 95% confidence intervals as error bars.
 
 == LLM Features
 
+LLM support is integrated into three parts of the tool: variable profiling, result summaries, and the chatbot.
+
 === Variable Profiler
 
 The local profiler reads the CSV file, computes column summaries and missingness, and suggests variable types and ordinal category order.
