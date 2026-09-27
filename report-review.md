@@ -11,7 +11,11 @@ their line references may have shifted.
 
 A subsequent revision expanded the pilot description using the author's recollection, added an explicit contribution statement and a conclusion, and added existing citations to the Introduction.
 The Christensen reference now identifies an online manuscript with its CRAN URL and access date; no unverified publication year is supplied.
-Implementation details were deferred, and the author requested that A/B record handling and the omission of free-form response analysis remain outside the report.
+Implementation details were initially deferred, and the author requested that A/B record handling and the omission of free-form response analysis remain outside the report.
+The implementation section now describes the architecture, bootstrap procedure, and separate LLM features using details supplied by the author.
+The architecture account was condensed to the main components and modeling workflow, with storage details omitted at the author's request.
+The report also explains the chatbot's prompt context and describes the study interface as a hard-coded prototype in place of the earlier "Wizard of Oz" terminology.
+The application source has not been independently checked as part of these revisions.
 
 ## Overall assessment
 

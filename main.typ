@@ -243,7 +243,7 @@
 
   = Design and Implementation
 
-  This chapter first presents the design and feature goals for our tool and then describes the implemented workflow, results pages, and AI chatbot.
+  This chapter presents the design and feature goals, implementation, user workflow, and LLM features of the tool.
   The goals draw on our observations of JASP and Jamovi and our own ideas about what would make a useful tool for the target audience.
 
   The tool is intended for HCI researchers who have some experience with statistical analysis but little or no statistical background.
@@ -299,10 +299,31 @@
   We initially considered treating ordinal predictors as continuous when this improved the model's AIC and retaining ordinal coding otherwise.
   We rejected this approach because it made model interpretation less intuitive.
 
+  == Implementation
+
+  We implemented these design goals in a web application for specifying and interpreting ordinal regression models.
+
+  // Source: implementation details supplied by the author on 2026-09-26.
+  === Architecture
+
+  The tool uses Next.js, React, and TypeScript for the browser interface and Python with FastAPI for the backend.
+  The backend validates datasets and model specifications, then generates R scripts and queues them as background jobs.
+  A worker executes these scripts in R, using the `ordinal` package to fit CLMs and CLMMs @ordinal.
+  The browser displays job progress and results.
+  The backend also handles LLM requests for variable suggestions, result summaries, and chatbot responses.
+
+  === Bootstrap Confidence Intervals
+
+  The app calculates 95% percentile bootstrap intervals by repeatedly resampling the observed data and refitting the selected model, keeping its specification and link function fixed.
+  Rows missing required model variables are removed before resampling.
+  Models without random effects use 1,000 bootstrap samples by default, each formed by resampling individual rows with replacement.
+  Mixed-effects models use 100 bootstrap samples by default, resampling whole groups with replacement and keeping their observations together.
+  The interval bounds are the 2.5th and 97.5th percentiles of the finite estimates from completed refits.
+
   == General Workflow for Model Specification
 
   Users can start an analysis by uploading a CSV file or reopen a previous analysis from the landing page shown in @fig:clmm-tool-start-analysis.
-  After a CSV file is uploaded, an LLM profiles the variables before the first step of model specification.
+  After a CSV file is uploaded, a local profiler examines the variables before the first step of model specification, with optional LLM suggestions for variable types and ordinal category order.
   A loading screen with a spinner is displayed during profiling.
 
   #screenshot("assets/clmm-tool-start-analysis.png")[
@@ -320,7 +341,7 @@
 
   When a variable is dragged into a drop zone for the outcome, a predictor, or a random effect, its settings open automatically, as shown in @fig:clmm-tool-variable-type-dialog.
   This prompts users to check the variable type and, for ordinal variables, the order of the levels before proceeding.
-  Users can override the variable type and level order suggested by the LLM.
+  Users can override the suggested variable type and level order.
 
   #screenshot("assets/clmm-tool-variable-type-dialog.png", placement: top)[
     Variable settings for the outcome "apply", showing its ordinal type and editable level order.
@@ -339,8 +360,8 @@
   On the left, a formatted table presents the model output from R, including the AIC, model terms, estimates, standard errors, z values, and p-values.
   Users can switch between the table and a visual representation of the model summary.
   Statistical terms are explained in accessible language through tooltips.
-  On the right, a brief paragraph describes the fitted model and its main effects.
-  Below this text, "Health Details" provides information related to the model's health, such as the maximum gradient and whether the model satisfies the assumption of proportional odds.
+  On the right, an LLM-generated summary describes the fitted model and its main effects.
+  Below this text, "Health Details" provides model diagnostics, such as the maximum gradient and diagnostic results for the proportional-odds assumption.
   Users can also export the code used to fit the model in R, which allows them to reproduce the analysis outside the interface or to provide it as supplementary material for a publication.
 
   #screenshot("assets/clmm-tool-model-summary.png", placement: top)[
@@ -355,18 +376,33 @@
     Fixed Effects page showing differences in predicted probabilities for "pared", comparing level 1 to the reference level 0.
   ] <fig:clmm-tool-fixed-effects>
 
-  == AI Chatbot
+  == LLM Features
+
+  === Variable Profiler
+
+  The local profiler reads the CSV file, computes column summaries and missingness, and suggests variable types and ordinal category order.
+  Optional LLM profiling receives column names, data types, missingness, unique-value counts, numeric summaries, and up to 20 category labels per column.
+  We do not send raw dataset rows to the LLM.
+  The suggested variable types and category orders are applied as defaults and can be overridden during model specification.
+
+  === Summary Generator
+
+  The summary generator receives structured model results, including the model family and link, variables, coefficients, confidence intervals, p-values, and relevant fit diagnostics, together with a draft summary.
+  Inputs for effect summaries also include the reference category.
+
+  === Chatbot
 
   An optional AI chatbot is located in the bottom right of the interface and is open by default, as shown in @fig:clmm-tool-outcome-selection.
   It uses GPT 5.4 mini to provide explanations about the model and results.
 
-  The chatbot receives context about the dataset's filename and dimensions, as well as the selected outcome, predictors, interactions, and random effects.
+  The chatbot receives the current question, explanations of the application and current workflow step, and summaries of the dataset and its columns.
+  Its context includes the dataset's filename and dimensions, as well as the selected outcome, predictors, interactions, and random effects.
   This context also includes the ordering of ordinal categories confirmed by the user and the inferred regression family.
-  After fitting, this context also includes the information displayed in the model summary, such as coefficients, p-values, and AIC, as well as the model's health details.
-  No raw observations or dataset rows are sent to the LLM provider, OpenAI.
+  Run diagnostics and available final results are also supplied, including coefficients, p-values, and AIC.
+  The supplied application context excludes raw dataset rows.
 
-  The chatbot can only provide explanations and cannot change the model, fit new models, or modify the data.
-  The current implementation is stateless, meaning that it does not retain previous messages.
+  The chatbot can only provide explanations and cannot change the specification, fit models, select the final model, or modify the data.
+  Previous messages are currently excluded from the LLM prompt, so each response uses the current question and supplied application context.
 
   #place.flush()
 
@@ -401,9 +437,10 @@
   We refer to these as the CLM(M) tool and RStudio output conditions.
   Providing fitted models focused the task on interpretation without requiring participants to generate or run model-fitting code.
 
-  In the CLM(M) tool condition, participants used a study results page based on the actual tool and enhanced with prepared interpretations in a Wizard of Oz approach.
-  These interpretations were generated by an LLM supplied with information about the study context.
-  They were hard-coded and identical for all participants viewing the same scenario and output condition.
+  In the CLM(M) tool condition, participants used a hard-coded prototype of the tool's results page.
+  The prototype simulated the intended plotting and interpretation features using prepared results.
+  Its interpretations were generated in advance by an LLM supplied with information about the study context.
+  The plots and interpretations were fixed and identical for all participants viewing the same scenario in this condition.
   The tool's live chatbot was not evaluated as part of this study.
   Internet research and external LLM use were permitted in both conditions during familiarization with the results.
   The instructions for the RStudio output condition explicitly allowed participants to use LLMs such as ChatGPT and to write new code to support interpretation.
@@ -538,11 +575,11 @@
   = Limitations
 
   The main study focused on interpreting pre-fitted models and did not evaluate the full workflow of specifying, fitting, and interpreting models with the tool or with LLM assistance.
-  The participants were students with basic regression training and may differ from the intended audience of researchers conducting analyses of their own data.
+  The participants were students with basic regression training and may differ from the tool's intended audience of HCI researchers.
   The two scenarios cover a limited range of analysis tasks.
   Differences in subject matter and questions also limit conclusions about the role of model complexity.
 
-  In the Wizard of Oz setup, participants evaluated a study results page augmented with prepared, context-informed interpretations.
+  Participants evaluated a hard-coded prototype with prepared plots and context-informed interpretations.
   The tool's live chatbot was not evaluated as part of this study.
   The findings may not transfer directly to the implemented tool and do not establish the quality or consistency of its live LLM responses.
 

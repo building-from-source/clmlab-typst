@@ -90,3 +90,8 @@ The author recalled that students managed to fit the intended model using the to
 They appeared to struggle more with interpreting the revised analysis and overlooked some changes compared with the original results, including predictors becoming statistically significant.
 These observations motivated the main study's focus on interpretation.
 This recollection does not establish the pilot's participant count or duration.
+
+## Main-study interface clarification
+
+On 2026-09-26, the author clarified that the main study used a hard-coded results page to simulate a tool with the intended plotting features.
+The report therefore describes this interface as a prototype with prepared results and replaces the earlier "Wizard of Oz" terminology.
