@@ -1,0 +1,435 @@
+% $Id: template.tex 11 2007-04-03 22:25:53Z jpeltier $
+% \RequirePackage[2020-02-02]{latexrelease}
+\documentclass{vgtc}                          % final (conference style)
+% \documentclass[review]{vgtc}                 % review
+%\documentclass[widereview]{vgtc}             % wide-spaced review
+%\documentclass[preprint]{vgtc}               % preprint
+%\documentclass[electronic]{vgtc}             % electronic version
+
+%% Uncomment one of the lines above depending on where your paper is
+%% in the conference process. ``review'' and ``widereview'' are for review
+%% submission, ``preprint'' is for pre-publication, and the final version
+%% doesn't use a specific qualifier. Further, ``electronic'' includes
+%% hyperreferences for more convenient online viewing.
+
+%% Please use one of the ``review'' options in combination with the
+%% assigned online id (see below) ONLY if your paper uses a double blind
+%% review process. Some conferences, like IEEE Vis and InfoVis, have NOT
+%% in the past.
+
+%% Figures should be in CMYK or Grey scale format, otherwise, colour 
+%% shifting may occur during the printing process.
+
+%% it is recomended to use ``\cref{sec:bla}'' instead of ``Fig.~\ref{sec:bla}''
+\graphicspath{{figures/}{pictures/}{images/}{./}} % where to search for the images
+
+\usepackage{times}                     % we use Times as the main font
+\renewcommand*\ttdefault{txtt}         % a nicer typewriter font
+
+%% Only used in the template examples. You can remove these lines.
+\usepackage{tabu}                      % only used for the table example
+\usepackage{booktabs}                  % only used for the table example
+\usepackage{lipsum}                    % used to generate placeholder text
+\usepackage{mwe}                       % used to generate placeholder figures
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[hang,flushmargin]{footmisc} 
+\usepackage[normalem]{ulem}
+\usepackage[scaled=0.85]{FiraMono}
+
+% % packages used for inline icons and monotype fonts
+\usepackage{tikz}
+\usepackage{fancyvrb}
+\usepackage[T1]{fontenc}
+\usepackage{enumerate}
+% \usepackage[nosfdefault]{sourcesanspro}
+
+% \usepackage[pagebackref,bookmarks]{hyperref}
+\usepackage[pagebackref,bookmarks,hyperfootnotes=false]{hyperref}
+
+%% We encourage the use of mathptmx for consistent usage of times font
+%% throughout the proceedings. However, if you encounter conflicts
+%% with other math-related packages, you may want to disable it.
+\usepackage{mathptmx}                  % use matching math font
+\usepackage[sort,numbers]{natbib}      % needed to automatically sort the references
+\renewcommand{\bibfont}{\footnotesize}
+\setlength{\bibsep}{0pt}
+
+\usepackage[hyphenation]{impnattypo}
+\hyphenpenalty=0
+\exhyphenpenalty=0
+
+\newcommand{\customsubsubsection}[1]{%
+    \smallskip\noindent%
+       \fontfamily{cmss}{\textbf{#1}}%
+       \normalfont
+}
+
+\definecolor{myblue}{HTML}{9588F7}
+
+%% If you are submitting a paper to a conference for review with a double
+%% blind reviewing process, please replace the value ``0'' below with your
+%% OnlineID. Otherwise, you may safely leave it at ``0''.
+\onlineid{0}
+
+%% declare the category of your paper, only shown in review mode
+\vgtccategory{Research}
+
+%% allow for this line if you want the electronic option to work properly
+\vgtcinsertpkg
+
+%% In preprint mode you may define your own headline. If not, the default IEEE copyright message will appear in preprint mode.
+%\preprinttext{To appear in an IEEE VGTC sponsored conference.}
+
+%% This adds a link to the version of the paper on IEEEXplore
+%% Uncomment this line when you produce a preprint version of the article 
+%% after the article receives a DOI for the paper from IEEE
+%\ieeedoi{xx.xxxx/TVCG.201x.xxxxxxx}
+
+%%%%%%%%%%%%%%%%%%%%%% MACROS %%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ccdf}[1]{mCCDF#1}
+
+
+\def\trackchanges{0}
+
+\newcommand{\new}[1]{%
+\if\trackchanges1%
+\textcolor{red}{#1}%
+\else#1\fi}
+\newcommand{\stout}[1]{\if\trackchanges1 \textcolor{red}{\sout{#1}} \fi}
+% \newcommand{\stout}[1]{}
+
+\newcommand{\supplement}{\href{https://osf.io/cdgby/}{\texttt{supplement}}}
+
+%% Paper title.
+
+\title{Adapting CCDF Plots for Visualizing Ordinal Regression Results}
+
+%% This is how authors are specified in the conference style
+
+%% Author and Affiliation (single author).
+%%\author{Roy G. Biv\thanks{e-mail: roy.g.biv@aol.com}}
+%%\affiliation{\scriptsize Allied Widgets Research}
+
+%% Author and Affiliation (multiple authors with single affiliations).
+%%\author{Roy G. Biv\thanks{e-mail: roy.g.biv@aol.com} %
+%%\and Ed Grimley\thanks{e-mail:ed.grimley@aol.com} %
+%%\and Martha Stewart\thanks{e-mail:martha.stewart@marthastewart.com}}
+%%\affiliation{\scriptsize Martha Stewart Enterprises \\ Microsoft Research}
+
+%% Author and Affiliation (multiple authors with multiple affiliations)
+\author{Abhraneel Sarma\thanks{e-mail: asarma@tugraz.at}\\ %
+        \scriptsize Graz University of Technology}
+
+% %% A teaser figure can be included as follows
+% \teaser{
+%   \centering
+%   \includegraphics[width=\linewidth]{CypressView}
+%   \caption{In the Clouds: Vancouver from Cypress Mountain.}
+%   \label{fig:teaser}
+% }
+
+%% Abstract section.
+\abstract{
+    Cumulative-link ordinal regression models are an alternative approach for analysing ordinal data such as Likert items, which are widely used in Visualization (and other related fields like \textsc{hci}, psychology etc.). There are many researchers who are strong proponents of this approach, as it makes less stringent assumptions about the data, compared to the more commonly used linear model or \textsc{anova}. Yet, ordinal regression models have seen limited adoption. I posit that \new{one possible reason for this might be} due to the difficulty in visually representing the results from such models, and in communicating the key takeaways in an intuitive manner. I propose the use of (modified) Complementary Cumulative Distribution Function (\ccdf) plots to visualize the results of ordinal regression models, and demonstrate how the same takeaways that researchers present from analyses which treat ordinal data as metric can be easily communicated using \ccdf{s}.
+} % end of abstract
+
+%% Keywords that describe your work. Will show as 'Index Terms' in journal
+%% please capitalize first letter and insert punctuation after last keyword.
+\keywords{Complementary Cumulative Distribution Functions, Likert scale, Ordinal Regression Model}
+
+%% Copyright space is enabled by default as required by guidelines.
+%% It is disabled by the 'review' option or via the following command:
+% \nocopyrightspace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% START OF THE PAPER %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%% The ``\maketitle'' command must be the first command after the
+%% ``\begin{document}'' command. It prepares and prints the title block.
+
+%% the only exception to this rule is the \firstsection command
+\firstsection{Introduction}
+
+\maketitle
+
+An ordinal variable refers to variables where the categories have a natural order, but are not metric~\cite{stevens_theory_1946} (i.e., the differences between successive levels may not be treated as equal intervals). The use of ordinal measures (e.g., surveys which elicit participants' responses on a Likert scale) are commonly used by researchers in visualization, as well as in other fields such as \textsc{hci} or psychology. These measures provide a valuable way of measuring metrics such as trust in a visualization, confidence in using a new interface, preference or attitudes etc., which we wouldn't be able to capture otherwise. 
+
+
+Despite their widespread use, researchers tend to use a wide variety of statistical approaches for analysing Likert data, some of which makes strong and arguably unfounded assumptions about the data. For instance, the \textsc{anova} test, frequently used for analysing Likert responses, assumes that the data is metric~\cite{liddell_analyzing_2018}. Others use non-parametric approaches which, while not making assumptions on the data distribution, reduces the data to relative ordered ranks~\cite{victorsyiem_better_2026} which may also be problematic. Instead, Syiem and Velloso~\cite{victorsyiem_better_2026}, echoing prior calls from other fields~\cite{liddell_analyzing_2018}, have argued for the adoption of ordinal regression models instead, as these models make less stringent assumptions regarding the data, and more directly model the data generating process. 
+
+Like Syiem and Velloso~\cite{victorsyiem_better_2026}, I also believe that ordinal cumulative-link models are the more appropriate approach for analysing Likert data---ordinal models make much more reasonable assumptions regarding the data-generating process and generally tends to fit the data better.%
+\footnote{However, how often ordinal models lead to different conclusions in practice is unclear, and I elaborate more on this in Section~\ref{sec:is-ordinal-better}}
+However, I posit that the a key reason for the lack of adoption of ordinal models is 
+{\stout{perhaps \textit{not} due to researchers not knowing how to implement such models, as there have been numerous blogposts~\cite[e.g.,][]{medina_ordinal_2021, kurz_ordinal_2026, kurz_causal_2023}, books~\cite[e.g.,][]{mcelreath_statistical_2020} and scientific articles~\cite[e.g.,][]{burkner_ordinal_2019, gambarota_ordinal_2024, agresti_tutorial_1989, victorsyiem_better_2026} describing both frequentist and Bayesian approaches; instead,}}
+\new{
+the fact that \textbf{we currently do not have good approaches for visualising the results of ordinal models} which are effective at communicating the takeaways that analysts wish to communicate regarding their analysis.} As prior work has used various approaches for communicating the results of Likert scale responses, I first conduct a preliminary review of reporting strategies used for ordinal data, based on a snowball sample of prior work; I summarise the key message that researchers are trying to communicate and identify key differences between when the data is treated as metric or ordinal.%
+\footnote{I do not look at non-parametric responses because I think that approach represents the worst of both worlds---i.e., makes different unfounded assumptions (i.e., by converting the data into ranks, it flattens the difference between a ordered dataset of \{5, 2, 3\} and \{7, 2, 3\} as both get ranked as \{3, 1, 2\}~\cite{victorsyiem_better_2026}, and remains confusing to interpret.}
+
+I find that an important benefit of a metric-based analysis of ordinal responses is the ability to report results and describe differences between conditions on the response scale (e.g., participants in condition [$X$], on average, reported 2 points higher trust on a 7-point Likert scale, compared to participants in condition [$Y$]); these differences can also be very intuitively visualized (see \autoref{sec:reporting-strategies}). Analogous statements are very difficult (although not impossible) to make if the data were analyzed using an ordinal model instead. Based on these findings, I propose the use of modified Complementary Cumulative Distribution Function (\ccdf) plots to visualize the results of ordinal regression models. Even though \ccdf{s} are less straightforward for interpreting the results (compared to the interval plots that researchers use when treating the results as metric), they do not violate the ordinal assumption by treating the data as metric. More importantly, I demonstrate how \ccdf{s} allow an analyst to communicate the analogous information using ordinal models that metric-based analyses of ordinal data affords, which can be further reinforced through annotations (\autoref{sec:ccdf}).
+% In addition, there are some other benefits to using \ccdf{} plots which can reveal whether the experiment was adequately powered to detect differences between conditions.
+
+% \vspace{-2pt}
+\section{Preliminaries}
+To make the discussion throughout this paper more concrete, I implement and use the results of an ordinal regression model. I introduce the dataset and the the model below (see also \autoref{appendix:model-details})
+
+\vspace{-2pt}
+\subsection{The Dataset}
+To demonstrate the \ccdf{} visualization, we first need an ordinal model. I use a dataset on moral intuition~\cite{cushman_role_2006, mcelreath_statistical_2020} which contains the results of an experiment where participants are presented with different scenarios involving the \textit{trolley problem}. The scenarios manipulate three principles---\textit{action}, \textit{intention} and \textit{contact}.
+% \textit{action} (harm caused by performing action is morally worse than equivalent harm cause by inaction), \textit{intention} (harm intended as the means to a goal is morally worse than equivalent harm caused as a side effect of a goal), and \textit{contact} (using physical contact to cause harm to a victim is morally worse than causing equivalent harm to a victim without using physical contact). 
+In this experiment, participants are presented with a number of scenarios where one or more of these principles apply; thus whether a principle applies in a particular scenario is the experimental variable. Participants' responses are recorded on a 7-point scale where higher values indicate greater moral permissibility. For a more detailed discussion on the experiment, I would point readers to~\cite{mcelreath_statistical_2020, cushman_role_2006}.
+
+\begin{figure*}[t!]
+    % \centering
+    \includegraphics[width=\textwidth]{figures/01-ordinal-regression-process.pdf}
+    \vspace{-20pt}
+    \caption{Illustration of how a cumulative probit-link model estimates thresholds of a latent variable (B), which can then be used to estimate (posterior) probabilities for the prevalance of each rating (C).%
+    % Most studies implementing ordinal regression report visualizations similar to (C)~\cite{sarma_evaluating_2023, saske_multidimensional_2026, helske_can_2021} or the corresponding cumulative probabilities~\cite{rogha_impact_2024}.
+    }
+    \label{fig:ordinal-regression-process}
+    \vspace{-10pt}
+\end{figure*}
+
+\vspace{-2pt}
+\subsection{The Ordinal Regression Model}
+I fit a Bayesian%
+% \footnote{A quirk of my statistical education is that I'm far more familiar with Bayesian models then frequentist models. As such, the steps outlined here have only been implemented for Bayesian models. While there is no reason to believe that the analogous steps are not possible to implement for frequentist models, I do not know how to do so, and thus leave it as an exercise for those who insist on employing such methods.} 
+\footnote{\new{The complete analysis can be found in \supplement{} $\blacktriangleright$ RScript $\blacktriangleright$ \texttt{01-bayesian.Rmd}. I also show how to create the corresponding visualizations for a frequentist analysis in \supplement{} $\blacktriangleright$ RScript $\blacktriangleright$ \texttt{02-frequentist.Rmd}}}
+cumulative-link model using the probit link function on the \textit{moral intuition} dataset using \texttt{action}, \texttt{intention} and \texttt{contact} as predictors. The cumulative model assumes that an observed ordinal variable, $Y$, originates from a categorization of a latent continuous variable, $\tilde{Y}$~\cite{burkner_ordinal_2019, victorsyiem_better_2026}, which follows the unit normal distribution (\autoref{fig:ordinal-regression-process}A). To achieve this categorization, the model then assumes that there are $k$ thresholds $\tau_k$ which categorize the latent variable $\tilde{Y}$ into $k + 1$ \textit{ordered} categories (\autoref{fig:ordinal-regression-process}B). The thresholds $\tau_k$, are on the scale of the latent variable, and are estimated from the data:
+
+\vspace{-6pt}
+\[ \Phi^{-1}(\mathbb{P}(y_i \leq k)) = \tau_k \]
+\vspace{-12pt}
+
+\noindent where $\Phi$ is the probit function%
+\footnote{\new{
+A logit function can also be used as a link function in cumulative-link models. The role of the link function is to provide a one-to-one mapping between a continuous variable in $\mathbb{R}$ to $[0, 1]$. In theory, there are many such functions $f: \mathbb{R} \rightarrow [0, 1]$ that can be used as link functions. The choice of which link function to use is essentially arbitrary~\cite{yang_subjective_2023}, and typically chosen based on convention and ease of interpretability. Here, I use the probit function due to mathematical convenience.
+}}
+corresponding to the unit normal distribution. We can estimate the probability of $Y$ being equal to a category $k$ as $\mathbb{P}(Y = k) = \Phi^{-1}(\tau_k) - \Phi^{-1}(\tau_{k-1})$. This is extended to a regression model by assuming that the different conditions will have different underlying latent distributions $\tilde{Y_j}$ (see \autoref{fig:ordinal-regression-process}).
+% depicts the steps involved in estimating the parameters of the regression model. 
+% The complete analysis can be found in the supplement. 
+
+
+\section{Visualizing Ordinal Data}
+\label{sec:reporting-strategies}
+
+To get a better understanding of what researchers want to communicate from their analysis of ordinal data, I conducted an informal survey of prior work in visualization.
+% , \textsc{acm chi} and Eurovis. 
+I began with a few initial publications that I was familiar with which contained analyses of ordinal data~\cite[e.g.,][]{sarma_evaluating_2023, yang_dice_2024, yang_swaying_2024, nadib_guardrail_2026, lisnic_visualization_2025} and \new{conducted a search in the \textsc{ieee} digital library using either the keyword \textit{likert} or \textit{ordinal regression} for papers published between the years 2025--2026 at \textsc{ieee vis}, \new{the premier publication venue in the field of visualization} (similar to the methodology used by South et al~\cite{south_effective_2022}). This search returned 60 results. However, as this yielded only two examples of studies which used ordinal regression models, I expanded the years to 2020--2026 only for the keyword \textit{ordinal regression}. This resulted in a sample of 72 papers, of which 55 used a visualization to communicate the results of a Likert data analysis. I supplement the findings from my survey with the results of South et al.'s~\cite{south_effective_2022} systematic review of the use of Likert scale in Visualization papers. The qualitative analysis can be found in \supplement{} $\blacktriangleright$ survey.}
+\stout{However, this returned only one example of a study which used ordinal regression models, suggesting that treating ordinal data as metric is likely the much more common approach; thus, I conducted a subsequent search using the keyword \textit{ordinal regression} for papers published at \textsc{ieee vis} between the years 2020 -- 2026.}%
+I chose this informal approach, as the objective of this survey was to get a sense of the diversity in analysis and reporting strategies that researchers have used \new{and how researchers communicate the key takeaways from their Likert data}, and not to quantify how frequently each modelling approach has been adopted. 
+% I provide canonical examples of the different reporting strategies in \autoref{fig:reporting-ordinal-data}.
+
+\begin{figure*}[t]
+    % \centering
+    \includegraphics[width=\textwidth]{figures/02-reporting-ordinal-data.pdf}
+    \vspace{-22pt}
+    \caption{
+    Prototypical examples of visualizations of ordinal data analyses from the survey. (A) shows mean and error bars representing standard errors (but other visualizations show 95\% confidence or credible intervals) of individual items~\cite{wang_you_2026}. Similar visualizations were used to represent estimates aggregated across multiple items~\cite[e.g.,][]{cabouat_previs_2025, yang_dice_2024, yang_swaying_2024}.
+    (B) shows the complete data distribution with annotations of the mean and shape of the distribution~\cite{lisnic_visualization_2025}.
+    (C) shows the posterior probability of a condition receiving a particular rating on a 4-point scale~\cite{helske_can_2021}.
+    (D) Empirical cumulative distribution function of ratings (on a 7-point scale) for three treatment conditions~\cite{rogha_impact_2024}. Instead of using empirical frequencies, a similar visualization could also be created using posterior draws from an ordinal regression model.
+    }
+    \label{fig:reporting-ordinal-data}
+    \vspace{-12pt}
+\end{figure*}
+
+
+\subsection{When the Data is Modeled as Metric}
+Several of the papers in my survey (25/55) reported means and an uncertainty estimate (most commonly 95\% confidence or credible intervals, but also in some cases standard deviations; see~\autoref{fig:reporting-ordinal-data}A) for each item~\cite[e.g.,][]{song_visualizing_2026, nadib_guardrail_2026, wang_you_2026}. Some researchers report the means and 95\% intervals aggregated across multiple items~\cite[e.g.,][]{cabouat_previs_2025, yang_dice_2024}, by taking the average for each participant, which is how Likert scales were original intended to be used~\cite{likert_technique_1932, carifio_ten_2007}. Other approaches that I observed were reporting the data distribution directly (\autoref{fig:reporting-ordinal-data}B) and comparing the means and the shapes of distribution.~\cite[e.g.,][]{lisnic_visualization_2025}, or using boxplots and densities~\cite[e.g.,][]{nakano_avatars_2025}. \new{In South et al's review~\cite{south_effective_2022}, 30/65 papers with a visualization communicate some form of mean and uncertainty estimate}.
+
+Researchers primarily used ordinal data to make comparisons between conditions%
+\stout{i.e., which condition is rated higher.}
+by communicating mean point estimates and differences in means on the response scale. Even though a (hypothetical) statement such as ``\textit{participants rated visualization [$X$] to be more trustworthy (M = 4.1, SD = 1.05) compared to visualization [$Y$] (M = 3.6, SD = 1.4)}'' may be technically flawed\footnote{Researchers also use statistical significance from \textsc{anova}s to support their claims about which conditions are more highly rated, which is arguably more problematic---statistical significance tests should be conducted in conjunction with a power analysis, lest a researcher risks running overpowered studies, and many of the studies do. However, it is unclear whether the assumptions of power analyses for commonly used statistical tests hold for such skewed data distributions which are of concern here (e.g., \textsc{anova} assumes that the data is normally distributed). Additionally, the ritualistic use of statistical significance tests as rituals~\cite{gigerenzer_mindless_2004, gigerenzer_statistical_2018} is a broader issue which is out of scope of this current work.}
+when applied to data which is not on an interval scale as it entails arithmetic operations~\cite{victorsyiem_better_2026}, it provides a sense of the data distribution and the average response in a particular condition are (at least approximately), and crucially how large the differences between conditions are \textit{on the response scale}. For instance, Nadib et al.~\cite{nadib_guardrail_2026} reporting higher trust in one of their conditions contextualize this by adding ``the effect, albeit statistically significant, is not large: trust increases by roughly half of a Likert point [...].''
+
+\subsection{When the Data is Modeled as Ordinal}
+I observed four distinct approaches for communicating the results of an ordinal model: (i) visualizing the probability of each ordinal category for each condition~\cite{sarma_evaluating_2023, saske_multidimensional_2026, helske_can_2021}; (ii) visualizing the empirical cumulative distribution function (\textsc{cdf}) plots~\cite{rogha_impact_2024}; (iii) showing the data distribution and calculating the odds ratio between conditions~\cite{bradley_magnitude_2025}; and (iv) estimating mean and 95\% credible intervals from posterior draws (for a single item or averaged across multiple items)~\cite{yang_swaying_2024, dragicevic_increasing_2019}. The difference in how difficult it is to comprehend the results of ordinal models compared to metric models is stark---the first two approaches (\autoref{fig:reporting-ordinal-data}C-D), while more appropriate for the analysis, can make it significantly more difficult for a viewer%
+\stout{to quickly and intuitively make sense of what is going on} 
+\new{to determine how much higher/better one condition is rated on average, compared to other conditions, in terms of points on the Likert scale (a straightforward task using the mean and interval plots).}
+
+This might be perhaps why Yang et al.~\cite{yang_swaying_2024} and Dragicevic et al.~\cite{dragicevic_increasing_2019} adopted the approach of first modelling the data as ordinal, and then treating it as metric by estimating the mean of posterior predicted probability\footnote{In Dragicevic et al.~\cite{dragicevic_increasing_2019}, the posterior probability for each rating is multiplied by the ``magnitude'' of the rating, $\sum_k \mathbb{P}(y_i = k) \cdot k$, to obtain the posterior mean and credible interval} across the ratings---it allowed them to communicate results on the response scale. While the approach by Rogha et al.~\cite{rogha_impact_2024} (see \autoref{fig:reporting-ordinal-data}D) visualizes the empirical cumulative distribution function (i.e., the probability that a participant rated at least [$k$] on the 7-point Likert scale) for each condition on the response scale, it remains challenging and counter-intuitive to interpret\new{---to determine which condition is rated higher, the viewer has to identify the curve which is \textit{visually lower}, which runs counter to the typical convention in visualization  of encoding higher as better}. 
+% Moreover, this graph does not communicate any uncertainty.\footnote{Although this is easily remedied by plotting \textsc{cdf}s of posterior draws from their Bayesian model} 
+This unintuitiveness of the ordinal model has also led to an arguably idiosyncratic decision for reporting results in my own prior work~\cite{sarma_evaluating_2023}---I reported the probability of participants rating \textit{3 or higher} on a 5-point Likert scale to compare across conditions, with the choice of 3 or higher being arbitrary (although hopefully justifiable). More conventionally, Bradley et al.'s~\cite{bradley_magnitude_2025} decision to report the odds ratio is similar to recommendations made by Syiem and Velloso~\cite{victorsyiem_better_2026}; they even augment this by converting the odd's ratio to a Cohen's d value. However, despite all this, the odds ratio between two variables on a latent (inverse probit) scale is significantly less intuitive than information communicated on the response scale.
+
+\new{Researchers also often communicated their key takeaways based on the proportion of responses that fell into, or above, a specific category, without modelling the data as either metric or ordinal, and using visualizations of the distribution of Likert responses such as histograms, stacked bar charts or heatmaps (26/55 papers in my survey and 27/65 papers in~\cite{south_effective_2022}). This takeaway, which is analogous to estimating $Pr(y_i \geq k)$, can be easily obtained using an ordinal model; however, this value can be quite difficult to estimate using either of the visualizations used in prior work (\autoref{fig:reporting-ordinal-data}C-D).}
+
+
+\section{Towards a Better Visualization of Ordinal Regression Models}
+\label{sec:ccdf}
+
+\subsection{Design Properties}
+Based on the discussion above, I outline a set of design properties for visualizing the results of ordinal regression models which will make it intuitive for a viewer to easily extract the key pieces of information they care about:
+
+\customsubsubsection{[D1]} The visualization should communicate the central tendency on the response scale (e.g., what is the model estimated response for the median participant?
+
+\customsubsubsection{[D2]} The visualization should communicate uncertainty in the central tendency on the response scale (e.g., what is the uncertainty in the median estimate?
+
+\customsubsubsection{[D3]} The visualization should easily allow the reader to identify which condition is rated ``better.'' Consistent with most convention, I argue that the visual representation should encode conditions which are ``better'' higher (unlike the \textsc{cdf} plot in \autoref{fig:reporting-ordinal-data}D).
+
+\customsubsubsection{[D4]} The visualization should allow comparison between conditions on the response scale (e.g., how many points higher does the median participant in one condition rate than the median participant in another condition?).
+
+% \vspace{-4pt}
+% \begin{enumerate}[D1.]
+%     \itemsep-1pt
+%     \item The visualization should communicate the central tendency on the response scale (e.g., what is the model estimated response for the median participant?)
+%     \item The visualization should communicate uncertainty in the central tendency on the response scale (e.g., what is the uncertainty in the median estimate?)
+%     \item The visualization should easily allow the reader to identify which condition is rated ``better.'' Consistent with most conventional visualizations, I argue that the visual representation should encode conditions which are ``better'' higher (unlike the \textsc{cdf} plot in \autoref{fig:reporting-ordinal-data}D).
+%     \item The visualization should allow comparison between conditions on the response scale (e.g., how many points higher does the median participant in one condition rate than the median participant in another condition?).
+% \end{enumerate}
+% \vspace{-4pt}
+
+\noindent \new{I propose the use of a \textit{modified} Complementary Cumulative Distribution Function, which fulfils these design properties, as a better visualization of the results of ordinal models}
+
+
+\begin{figure}[b!]
+    \vspace{-12pt}
+    \includegraphics[width=\columnwidth]{figures/03-ccdf-calc.pdf}
+    \vspace{-16pt}
+    \caption{Calculation of a \ccdf{} plot from the latent variable and estimated thresholds.}
+    \label{fig:ccdf-calc}
+\end{figure}
+
+\subsection{The modified Complementary Cumulative Distribution Function (mCCDF) Plot}
+
+The Complementary Cumulative Distribution Function (CCDF) can be calculated from a cumulative probit-link regression model using a linear transformation: $\mathrm{CCDF} = \Phi^{-1}(y_i > k) = 1 - \Phi^{-1}(y_i \leq k)$. \new{Thus, the \textsc{ccdf} tells us the probability of an item being rated greater than category $k$. However, for Likert data, we care about the probability of an item being rated at category $k$ or higher, which can be obtained using the following modified CCDF}:
+
+\vspace{-6pt}
+\[ \mathrm{mCCDF} = \Phi^{-1}(y_i {\color{myblue}{\geq}} k) = 1 - \Phi^{-1}(y_i < k) \]
+\vspace{-12pt}
+
+\noindent While seemingly trivial to estimate, the \ccdf{} has properties which make it more suitable to communicate the results of ordinal regression models, especially for single items. The rating corresponding to the intersection of the \ccdf{} draws with $y = 0.5$ represents the median rating for a particular condition. In~\autoref{fig:ccdf-calc}, the median rating is likely going to be a 5 or 6, even after taking uncertainty into account (D1, D2). The uncertainty in the model estimates is relatively low for this model and dataset due to the large number of responses collected.
+
+In addition, the \ccdf{} more directly encodes one of the most relevant pieces of information for ordinal data---the probability that participants rated $k$ or higher ($\mathbb{P}(y_i \geq k)$), unlike the conventional \textsc{cdf} plot which encodes $\mathbb{P}(y_i \leq k)$. This makes it more intuitive to perform two types of comparisons: (i) how much more likely are participants in one condition to rate $k$ or higher relative to another \new{(D3), as shown in \autoref{fig:ccdf-conditions}B2} (e.g., the probability of the \textit{action, intention, no contact} condition being rated 6 or higher is 0.3 less than the baseline condition); and (ii) how much better one condition is relative to another \new{(D4)}, based on the median participant (e.g., in \autoref{fig:ccdf-conditions}B(3), the median participant in the \textit{action, intention, no contact} condition is going to rate at least a four, and the median participant in the baseline condition is going to rate at least a 5). Note that while these comparisons can be performed by a viewer using \textsc{cdf} plots as well, they are far less intuitive (for an approximation of the challenge, compare the magnitude and direction of the difference between conditions in \autoref{fig:ccdf-conditions}A).
+
+An alternative approach for representing \ccdf{s} is visualizing them as step functions (a piecewise constant function). Representing \ccdf{s} as step functions has some trade-offs---reading the mean probabilities for each rating (and the associated uncertainty) for a particular condition becomes easier; however, determining the median rating for a condition, and thus comparing the median rating between conditions becomes more difficult. As such, the designer should choose which communication goal they wish to prioritise.
+\footnote{I personally tend to prefer the line plot over the step function plot.}
+
+\subsection{Scales with Multiple Correlated Items}
+
+In some of the studies in the survey~\cite{cabouat_previs_2025, yang_swaying_2024, yang_dice_2024} responses from multiple, potentially correlated, items were aggregated and reported using a single point estimate and uncertainty interval.%
+\stout{
+The analogous approach which treats the data as ordinal would be to take the average, across the multiple scales, of the (posterior) probabilities for each rating
+}
+\new{
+An analyst could instead fit a single hierarchical model to the data, with the correlated items modelled as random effects with different latent means and variances (referred to as \textit{difficulty} and \textit{discrimination} parameters in item-response theory). As scales with potentially correlated items are often measuring the same underlying construct, partial pooling of information in a hierarchical model allows parameters to be more efficiently estimated. We can then create mCCDF plots for each item individually, an ``average'' item (i.e., when the latent mean is zero), or marginalized over all of the items. I demonstrate how such an analysis can be implemented, and how the corresponding mCCDF plots can be created for each item in \supplement{} $\blacktriangleright$ RScript $\blacktriangleright$ \texttt{03-unequal-variance-ccdf.Rmd}.
+}
+
+\new{
+An additional benefit of adopting such models is that they can be useful for evaluating the items themselves, by assessing the degree of similarity in responses to the different items. Analogous approaches are used in item-response theory to evaluate questions, based on the coefficients for the difficulty and discrimination parameters and using item characteristic curves (ICC), to create validated set of test questions (see Section 5-7 and Figure 11 in~\cite{ge_calvi_2023}). For ordinal models, mCCDFs can complement the information presented using ICCs (which show the modeled probability of responding at or above each category as a function of the latent trait) by visualizing how similar participants' actual responses to each item actually are, in the response scale.
+}
+
+% \subsection{Continuous Predictors in Ordinal Models}
+% In the example used here, the data originates from an experiment where the independent variables (experimental conditions) are discrete. However, it is possible to have continuous predictors in an ordinal regression model. While I do not demonstrate it here, it is possible to extend the CCDF representation by sampling equally spaced points from the continuous predictor and then calculating the CCDF from the posterior draws at those points.
+
+\begin{figure}[t!]
+    % \centering
+    \vspace{3pt}
+    \includegraphics[width=\columnwidth]{figures/04-ccdf-conditions.pdf}
+    \vspace{-18pt}
+    \caption{Calculation of a \ccdf{} plot for an experiment with multiple conditions (i.e., ordinal models with multiple predictors).}
+    \label{fig:ccdf-conditions}
+    \vspace{-13pt}
+\end{figure}
+
+% \subsection{Other Considerations}
+% In the example used here, the data originates from an experiment where the independent variables (experimental conditions) are discrete. However, it is possible to have continuous predictors in an ordinal regression model. While I do not demonstrate it here, it is possible to extend the \ccdf{} representation by sampling equally spaced points from the continuous predictor and then calculating the \ccdf{} from the posterior draws at those points.
+
+\subsection{Should We All Be Using Ordinal Models?}
+\label{sec:is-ordinal-better}
+While I personally prefer to use ordinal models for Likert data, I do not hold strong beliefs that this is objectively the best way of analysing ordinal data, as I am yet to find compelling evidence to suggest that the conclusions would be different regardless of the choice of models. Liddell and Kruschke~\cite{liddell_analyzing_2018} try to demonstrate that ordinal regression is better, and that treating ordinal data as metric can lead to inflated false positive and false negatives, using simulated data. However, for their simulation, they generate ordinal data by discretizing a latent variable; thus, what they actually demonstrated was that the model which is consistent with their assumed data-generating process was better than a model which made obviously incorrect assumptions in the \textit{small world} of their simulation.\footnote{The true data generating process is almost always unknown, and the models that we use to analyze data are \textit{all} small world approximations~\cite{savage_foundations_1972}, and thus rely on assumptions. The uncertainty regarding which model is correct has been described as ontological uncertainty~\cite{spiegelhalter_risk_2017, sarma_milliways_2024, sarma_more_2025}.} In contrast, Dragicevic et al.~\cite{dragicevic_increasing_2019} compare nine different data analysis approaches for the same dataset and found little difference in terms of takeaways between ordinal regression and metric-based approaches. 
+\stout{
+Thus, the objective of this work is not necessarily to urge researchers to adopt ordinal regression models, but rather demonstrate approaches for visualizing results of ordinal regression \textit{if} researchers choose to adopt such models.
+}
+\new{My preference for using ordinal models is one based on statistical philosophy---I consider approaches which model the data directly, with as few assumptions as possible, to be better. The value of an ordinal model lies in the fact that it makes fewer assumptions regarding the data generating processes of Likert responses compared to metric-based approaches, which is why I would still recommend the use of ordinal regression model. However, the primary goal of this paper is not necessarily to urge researchers to adopt ordinal regression models but rather to demonstrate approaches for visualizing results of ordinal regression \textit{if} researchers choose to adopt such models.}
+
+\section{Conclusion}
+When analysing ordinal data, researchers appear to prefer to treat the data as metric and communicate the results---using point estimates, uncertainty, and differences between conditions---on the response scale. Complementary Cumulative Distribution Function (\ccdf) plots offer an approach for communicating the results of cumulative-link ordinal regression models on the response scale, allowing the reader to extract analogous pieces of information.
+
+
+% \subsection{Other Benefits of Using Ordinal Regression}
+% While this is tangential to the primary intended contribution of this paper, in my exploration of different approaches for visualising the results of ordinal models, I stumbled upon another potential use case of ordinal models and visualizing the thresholds and latent variables---retrospective power analysis. In the example so far, there is very little uncertainty in the estimated thresholds, owing to the large number of responses collected in the \textit{moral intuition} dataset. However, this need not always be the case. If the number of responses are much lower, the thresholds will be much less precisely estimated, and the 95\% credible intervals of successive thresholds might even overlap with each other (\autoref{fig:thresholds-power-analysis}). If this happens, it likely suggests that the study was underpowered, and no strong conclusions should be made based on the ordinal data.
+
+% To illustrate this, I use the dataset compiled by Fitton et al.~\cite{fitton}, which was used by Syiem and Velloso~\cite{victorsyiem_better_2026} to demonstrate how to implement ordinal regressions. \autoref{fig:thresholds-power-analysis} visualizes the thresholds for this dataset. The 95\% credible intervals for the thresholds $\tau_1$ and $\tau_2$, $\tau_2$ and $\tau_3$ overlap substantially with each other. This means that the uncertainty in the model's estimated probability of a rating is going to be substantially large, especially since the 
+
+
+%% if specified like this the section will be committed in review mode
+\acknowledgments{
+I would like to thank Matthew Kay for detailed feedback on the visualization and the paper draft.
+}
+
+%\bibliographystyle{abbrv}
+\bibliographystyle{abbrv-doi}
+%\bibliographystyle{abbrv-doi-narrow}
+%\bibliographystyle{abbrv-doi-hyperref}
+%\bibliographystyle{abbrv-doi-hyperref-narrow}
+
+\bibliography{template}
+
+\appendix
+
+\section{Supplementary Materials}
+\label{appendix:supp}
+All supplemental materials are available on OSF at \url{https://osf.io/cdgby/}, released under a CC BY 4.0 license. In particular, they include (1) Excel files containing the data for the literature survey, (2) full R scripts for recreating the analysis and figures in the paper, (3) figure images, and (4) a full version of this paper with all appendices.
+
+\section{Details on Dataset and Ordinal Model Used}
+\label{appendix:model-details}
+
+\subsection{Dataset}
+The dataset used in the analysis described in this paper was collected by Cushman et al.~\cite{cushman_role_2006} in a series of experiments to collect empirical evidence on how people judge the ``moral goodness or badness'' of actions~\cite{mcelreath_statistical_2020}. The experiments present participants with a scenario---variations of the trolley problem---and asks participants to rate the action (or inaction) on a scale from 1 to 7. The following is the traditional version of the trolley problem~\cite{mcelreath_statistical_2020}:
+
+\begin{quote}
+``Standing by the railroad tracks, Dennis sees an empty, out-of-control trolley about to hit five people. Next to Dennis is a lever that can be pulled, sending the trolley down a side track and away from the five people. But pulling the lever will also lower the railing on a footbridge spanning the side track, causing one person to fall off the footbridge and onto the side track, where he will be hit by the trolley. If Dennis pulls the lever the trolley will switch tracks and not hit the five people, and the one person to fall and be hit by the trolley. If Dennis does not pull the lever the trolley will continue down the tracks and hit five people, and the one person will remain safe above the side track.''
+\end{quote}
+
+The experiments by Cushman et al.~\cite{cushman_role_2006} investigate the role of three principles from moral psychology and philosophy on moral judgements. The principles are:
+
+\vspace{-4pt}
+\begin{enumerate}
+    \itemsep0pt
+    \item \textbf{The action principle}: Harm caused by action is morally worse than equivalent harm caused by omission.
+    \item \textbf{The contact principle}: Using physical contact to cause harm to a victim is morally worse than causing equivalent harm to a victim without using physical contact.
+    \item \textbf{The intention principle}: Harm intended as the means to a goal is morally worse than equivalent harm foreseen as the side effect of a goal.
+\end{enumerate}
+\vspace{-4pt}
+
+The above scenario applies the \textit{action} principle as the actor has to perform an action to create the outcome (as opposed to being passive and letting events unfold). However, the other two principles do not apply as there is no contact (i.e., no \textit{contact}), and the harm caused to the person on the footbridge is accidental and not intentional (i.e., no \textit{intention}). The three principles can be varied to create different scenarios. In the study by Cushman et al.~\cite{cushman_role_2006}, participants ``received 32 moral scenarios separated into two blocks of 16. Each block included 15 test scenarios and 1 control scenario.'' The dataset contains responses from 331 participants, and includes details on participants' age, gender, and level of education. For more details on the dataset, please refer to~\cite{mcelreath_statistical_2020, cushman_role_2006}.
+
+\subsection{Analysis}
+The \ccdf{} visualizations described in this paper are based on the results of the analysis outlined by McElreath~\cite{mcelreath_statistical_2020}, which applies a Bayesian ordinal cumulative-logit model. However, I instead use the probit link function (as opposed to the logit link function used by McElreath~\cite{mcelreath_statistical_2020}), due to mathematical convenience. The model can be described using the Wilkinson-Rogers-Pinheiro-Bates syntax \cite{bates_fitting_2015, pinheiro2017package, wilkinson1973symbolic} as:
+
+% % \begin{figure*}[h!]
+\begin{minipage}[h]{\columnwidth}
+{\hspace{-12pt}\includegraphics{figures/05-eq-1.pdf}\vspace{-156.5pt}}
+\begin{align*}
+    & \hskip4em \mathit{y} \sim \text{Categorical}(p_i) \\ 
+    & \hskip4em p_1 = q_1 \\
+    & \hskip4em p_j = q_j - q_{j - 1} \hskip1em \text{for} \hskip0.5em 1 < j < K \\
+    & \hskip4em p_K = 1 - q_{K - 1} \\
+    & \hskip4em \mathrm{probit}(q_j) = \tau_j - \phi_i
+    \\
+    & \hskip4em \phi_{i} \hskip0.5em = \hskip0.5em \beta_{\textsc{a}[i]} + \beta_{\textsc{c}[i]} + \beta_{\textsc{i}[i]} + \\
+    & \hskip7em \beta_{\textsc{a}[i]} \cdot \beta_{\textsc{i}[i]} + \beta_{\textsc{c}[i]} \cdot \beta_{\textsc{i}[i]} \\
+    & \hskip4em \beta \hskip0.5em \sim \hskip0.5em \text{Normal}(0, 1) \\
+    & \hskip4em \tau_j \hskip0.5em \sim \hskip0.5em \text{Normal}(0, 1) \\
+    & \hskip4em i \in \{1...N\} \hskip4em (N \; participants) \\
+    & \hskip4em k \in \{1...K\} \hskip3.8em (K \; \text{number of ordered categories}) \\[-8pt]
+\end{align*}
+\end{minipage}
+
+\customsubsubsection{Line 1:} The rating the participants assigned is modeled as a Ordered categorical distribution. 
+
+\customsubsubsection{Line 2-4:} The categorical distribution takes a vector of probabilities $p = {p_1, p_2, p_3, p_4, p_5, p_6}$ of probabilities of each response value below the maximum response ($p_7$). 
+
+\customsubsubsection{Line 5:} Each response value k in this vector is defined by its link, using the probit function to an intercept parameter, $\tau_k$ and the linear model $\phi_i$.
+
+\customsubsubsection{Line 6:} For each response, we assume that participants' ratings depend on the condition that the principle (or the combination of principles) the scenario is based on.
+
+\customsubsubsection{Priors:} We use weakly-regularizing priors centered on zero (no effect) while permitting the possibility of significant distortion: $\beta, \tau_j \sim \mathrm{Normal}(0, 1)$.
+
+\customsubsubsection{Implementation:} We implemented these models in \texttt{R 4.4.0}~\cite{RLang_2024} and \texttt{CmdStanR 0.8.0}~\cite{cmdstanr}. The model ran for four chains with 5,000 warmup samples and 5,000 post-warmup samples each, thinned by 4 for a final total sample size of 5,000. We assessed convergence using the Gelman-Rubin diagnostic ($\hat{R}$ = 1.00 for all population-level parameters, correlations and standard deviations) and the (bulk and tail) effective sample sizes ($\text{ESS}_{min} \approx 2,000$).
+
+\end{document}
