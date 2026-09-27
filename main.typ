@@ -74,8 +74,7 @@
   matrikelno: "3421717",
   first-examiner: "Dr. Christian Tiefenau",
   // first-examiner-affiliation: [University of Bonn], // This is optional, defaults to localized "University of Bonn" for both examiners
-  second-examiner: "/",
-  second-examiner-affiliation: [],
+  second-examiner: "Prof. Dr. Matthew Smith",
   supervisor: "Florin Martius",
   thesis-kind: "lab",
   // abstract: abstract, // This is optional
@@ -616,7 +615,7 @@ These findings motivate further evaluation of the complete workflow and the live
 #pagebreak()
 #bibliography(
   path("bibliography.bib"),
-  style: path("typst-article-template/assets/din-1505-2-alphanumeric.csl"),
+  style: "ieee",
 )
 
 #pagebreak()
