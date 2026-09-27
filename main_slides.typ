@@ -151,38 +151,6 @@
   ],
 )
 
-=== User Study
-
-#set par(justify: false)
-
-- Evaluated support for interpreting pre-fitted ordinal regression results
-- *Participants*
-  - Bachelor's students in computer science or cyber security
-  - received basic regression training
-  - 95 included in the analysis after one screening exclusion
-- *Measures*
-  - Task accuracy: proportion of correctly answered questions
-  - Self-rated understanding
-  - Comparative ratings of perceived support during interpretation, perceived user-friendliness, and preference for future regression interpretation
-
-=== Study Conditions & Scenarios
-
-#set par(justify: false)
-
-- *Conditions*
-  - CLM(M)-tool: prepared plots and LLM-generated interpretations; no live chatbot
-  - RStudio: pre-fitted model output
-  - Internet research and external LLMs allowed during familiarization in both conditions
-- *Scenarios*
-  - Simple CLM: `apply ~ pared + public + gpa`
-  - Complex CLMM: interaction and two random intercepts
-    #linebreak()
-    #text(size: 18pt)[
-      `rating ~ service * studage_group + (1 | student_id) + (1 | instructor_id)`
-    ]
-- Each participant completed both scenarios, one per condition
-  - Scenario order and condition assignment were counterbalanced
-
 === Results: Task Accuracy
 
 #report-plot(performance-chart)[
@@ -201,22 +169,7 @@
   Mean comparative ratings: 0 favors RStudio output, 10 favors the CLM(M) tool; 5 is neutral
 ]
 
-=== Discussion
-
-#set par(justify: false)
-
-- *Perceived support and task accuracy*
-  - Higher self-rated understanding and favorable comparative ratings
-  - Accuracy advantage observed only in the complex scenario
-- *Possible explanation*
-  - Plots and prepared interpretations may help make relevant information accessible
-  - Their individual contributions were not isolated
-- *Implication*
-  - Promising descriptive findings; further evaluation across tasks and the complete workflow is needed
-
-=== Limitations & Future Work
-
-#set par(justify: false)
+=== Limitations// & Future Work
 
 - *Study scope*
   - Prepared results page; full workflow and live LLM responses were not evaluated
@@ -225,17 +178,15 @@
   - Scenarios differed in subject matter and questions, not just model complexity
 - *Task accuracy*
   - Predefined answers may provide cues; scores do not directly assess interpretation in participants' own words
-- *Next steps*
-  - Evaluate the complete workflow and LLM-generated interpretations
-  - Compare alternative visualizations for interpretation tasks
+// - *Next steps*
+//   - Evaluate the complete workflow and LLM-generated interpretations
+//   - Compare alternative visualizations for interpretation tasks
 
 === Conclusion
 
-#set par(justify: false)
-
 - CLM(M)-tool guides model specification and supports interpretation through explanations and plots
 - The prepared study interface received higher self-rated understanding and favorable comparative ratings; task accuracy varied by scenario
-- Further evaluation should examine the complete workflow and live chatbot
+- Further evaluation should examine alternative visualizations and the complete workflow, including live LLM responses
 
 = Live Demo
 
@@ -245,3 +196,57 @@
 #set par(justify: false)
 
 #bibliography("bibliography.bib", title: none, style: "ieee")
+
+#let backup-slide(title, body) = slide(
+  config: utils.merge-dicts(
+    config-common(freeze-slide-counter: true),
+    config-page(
+      header: self => slide-header(self, custom-heading: title),
+      footer: none,
+    ),
+  ),
+  body,
+)
+
+#backup-slide[User Study][
+
+  - Evaluated support for interpreting pre-fitted ordinal regression results
+  - *Participants*
+    - Bachelor's students in computer science or cyber security
+    - received basic regression training
+    - 95 included in the analysis after one screening exclusion
+  - *Measures*
+    - Task accuracy: proportion of correctly answered questions
+    - Self-rated understanding
+    - Comparative ratings of perceived support during interpretation, perceived user-friendliness, and preference for future regression interpretation
+]
+
+#backup-slide[Study Conditions & Scenarios][
+
+  - *Conditions*
+    - CLM(M)-tool: prepared plots and LLM-generated interpretations; no live chatbot
+    - RStudio: pre-fitted model output
+    - Internet research and external LLMs allowed during familiarization in both conditions
+  - *Scenarios*
+    - Simple CLM: `apply ~ pared + public + gpa`
+    - Complex CLMM: interaction and two random intercepts
+      #linebreak()
+      #text(size: 18pt)[
+        `rating ~ service * studage_group + (1 | student_id) + (1 | instructor_id)`
+      ]
+  - Each participant completed both scenarios, one per condition
+    - Scenario order and condition assignment were counterbalanced
+]
+
+#backup-slide[Discussion][
+  #set par(justify: false)
+
+  - *Perceived support and task accuracy*
+    - Higher self-rated understanding and favorable comparative ratings
+    - Accuracy advantage observed only in the complex scenario
+  - *Possible explanation*
+    - Plots and prepared interpretations may help make relevant information accessible
+    - Their individual contributions were not isolated
+  - *Implication*
+    - Promising descriptive findings; further evaluation across tasks and the complete workflow is needed
+]
