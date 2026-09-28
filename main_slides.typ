@@ -5,9 +5,9 @@
 
 #let report-plot(body, caption, zoom: 126%) = align(center)[
   #set par(justify: false)
-  #scale(x: zoom, y: zoom, reflow: true, body)
-  #v(6pt)
   #text(size: 17pt, caption)
+  #v(6pt)
+  #scale(x: zoom, y: zoom, reflow: true, body)
 ]
 
 #let source-note(body) = [
@@ -51,7 +51,7 @@
   ),
   config-lecture(
     handout: handout-mode,
-    show-notes-on-second-screen: right,
+    // show-notes-on-second-screen: right,
     justify: true,
     font: "Calibri",
   ),
@@ -60,6 +60,41 @@
 
 #title-slide()
 
+=== Background: CLMs & CLMMs
+
+- CLMs/CLMMs describe how predictors relate to ordinal outcomes
+  - e.g. how temperature affect judges' ratings of wine quality
+
+- Cumulative Link Models (CLMs)
+  - account for ordered outcome categories without assuming equal spacing
+  - "How does temperature affect wine quality ratings?"
+// - `clm(rating ~ contact + temp, data=wine)`
+- Cumulative Link Mixed Models (CLMMs)
+  - extend CLMs with random effects for grouped or repeated observations
+  - "How does temperature affect wine quality ratings, accounting for differences between judges?"
+// - `clmm(rating ~ contact + temp + (1|judge), data=wine)`
+
+#pause
+
+#context {
+  place(
+    center + top,
+    float: false,
+    dy: (page.height - 9cm) / 2 - page.margin.top,
+    image("assets/clmm-mixed-model-output.png", height: 9cm),
+  )
+}
+
+#pause
+
+#context {
+  place(
+    center + top,
+    float: false,
+    dy: (page.height - 9cm) / 2 - page.margin.top,
+    image("assets/clmm-tool-intro-meme.png", height: 9cm),
+  )
+}
 
 === Ordinal Measures & HCI
 - Ordinal responses are common in HCI
@@ -80,16 +115,11 @@
   #source-ref(<Victor_Syiem_2026>)
 ]
 
-=== CLMs & CLMMs
+#speaker-note[
+  One reason for low adoption might be that results can be tricky to interpret or explain
+]
 
-- Cumulative Link Models (CLMs)
-  - account for ordered outcome categories without assuming equal spacing
-  - `clm(rating ~ contact + temp, data=wine)`
-- Cumulative Link Mixed Models (CLMMs)
-  - extend CLMs with random effects for grouped or repeated observations
-  - `clmm(rating ~ contact + temp + (1|judge), data=wine)`
-
-=== JASP/Jamovi
+=== Existing tools: JASP/Jamovi
 
 #grid(
   columns: (1fr, 0.45fr),
@@ -126,7 +156,7 @@
 // - Goal: support model specification and interpretation without requiring R or Python.
 // - Contribution: a web-based tool and a study of interpretation support.
 
-=== CLM(M)-tool
+=== Our Tool: CLM(M)-tool
 
 #grid(
   columns: (1fr, 0.85fr),
@@ -151,19 +181,84 @@
   ],
 )
 
-=== Results: Task Accuracy
+=== CLM(M)-tool: Specification Support
+
+#image("assets/clmm-tool-outcome-variable-selection.png")
+
+#image("assets/clmm-tool-ordinal-outcome-settings.png")
+
+=== CLM(M)-tool: Terminology Support
+
+#image("assets/clmm-tool-outcome-variable-selection.png")
+
+
+=== CLM(M)-tool: Interpretation Support
+
+#image("assets/clmm-tool-model-summary-results.png")
+
+#image("assets/clmm-tool-predicted-probabilities.png")
+
+=== User Study
+
+#set par(justify: false)
+
+- 95 of 96 students passed the first screening question and were included
+- Two scenarios: one simple CLM and one complex CLMM
+- Interpreted pre-fitted results: one scenario with the tool, one with RStudio output
+- Google and ChatGPT allowed in both conditions during familiarization
+
+#v(0.4em)
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1em,
+  align: top,
+  [
+    #align(center)[#text(size: 17pt, weight: "bold")[CLM(M)-tool results page]]
+    #v(0.3em)
+    #image("assets/user-study-tool-simple-model-summary.png", width: 100%, height: 155pt, fit: "contain")
+  ],
+  [
+    #align(center)[#text(size: 17pt, weight: "bold")[RStudio (Code + Output)]]
+    #v(0.3em)
+    #set text(size: 8.5pt, fill: black)
+    #set par(leading: 0.3em)
+    #raw(
+      "library(ordinal)\n# ... data preparation\n"
+        + "fit <- "
+        + read("Studie/fit_simple_model_recreation.R").split("fit <-").last().trim(),
+      lang: "r",
+      block: true,
+    )
+    #raw(
+      "...\nCoefficients:"
+        + read("Studie/simple_fit_model_output.txt").split("Coefficients:").last().split("---").first().trim(at: end)
+        + "\n...",
+      block: true,
+    )
+  ],
+)
+
+#speaker-note[
+  - Students had basic regression training. One participant failed the first screening question.
+  - Scenario order and condition assignment were counterbalanced.
+  - Tool condition: prepared plots and LLM-generated interpretations; no live chatbot.
+  - Internet research and external LLMs were allowed during familiarization in both conditions.
+  - Images illustrate the simple scenario; the R excerpt is taken from the saved model output.
+]
+
+=== Task Accuracy
 
 #report-plot(performance-chart)[
   Mean task accuracy: 3 questions in the simple scenario and 5 in the complex scenario
 ]
 
-=== Results: Self-Rated Understanding
+=== Self-Rated Understanding
 
 #report-plot(understanding-chart)[
   Mean self-rated understanding after each scenario, on a scale from 0 to 10
 ]
 
-=== Results: Comparative Ratings
+=== Comparative Ratings
 
 #report-plot(preference-chart, zoom: 139%)[
   Mean comparative ratings: 0 favors RStudio output, 10 favors the CLM(M) tool; 5 is neutral
@@ -186,7 +281,7 @@
 
 - CLM(M)-tool guides model specification and supports interpretation through explanations and plots
 - The prepared study interface received higher self-rated understanding and favorable comparative ratings; task accuracy varied by scenario
-- Further evaluation should examine:
+- *Future Work*:
   - Alternative visualizations, such as Sarma's modified CCDF plots @sarma2026adapting
   - The complete workflow, including live LLM responses
 
@@ -194,7 +289,7 @@
   #source-ref(<sarma2026adapting>)
 ]
 
-= Live Demo
+// = Live Demo
 
 === References
 
@@ -213,6 +308,8 @@
   ),
   body,
 )
+
+#backup-slide[][#align(center, [#image("assets/backup-slides-yugioh-meme.png")])]
 
 #backup-slide[Alternative Visualization: Modified CCDF][
   #speaker-note[
