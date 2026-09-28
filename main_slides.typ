@@ -34,6 +34,25 @@
   ]
 }
 
+#let screenshot-highlight(file, region, width: 530pt) = {
+  let unit = width / 3248
+  box(width: width, height: 2122 * unit, clip: true)[
+    #image(file, width: 100%, height: 100%)
+    #place(
+      top + left,
+      dx: region.x * unit,
+      dy: region.y * unit,
+      float: false,
+      rect(
+        width: region.width * unit,
+        height: region.height * unit,
+        fill: none,
+        stroke: 2.5pt + red,
+      ),
+    )
+  ]
+}
+
 #show: ubo-theme.with(
   aspect-ratio: "16-9",
   config-info(
@@ -51,7 +70,7 @@
   ),
   config-lecture(
     handout: handout-mode,
-    // show-notes-on-second-screen: right,
+    show-notes-on-second-screen: right,
     justify: true,
     font: "Calibri",
   ),
@@ -80,8 +99,8 @@
   place(
     center + top,
     float: false,
-    dy: (page.height - 9cm) / 2 - page.margin.top,
-    image("assets/clmm-mixed-model-output.png", height: 9cm),
+    dy: (page.height - 10cm) / 2 - page.margin.top,
+    image("assets/clmm-mixed-model-output.png", height: 12cm),
   )
 }
 
@@ -91,13 +110,13 @@
   place(
     center + top,
     float: false,
-    dy: (page.height - 9cm) / 2 - page.margin.top,
-    image("assets/clmm-tool-intro-meme.png", height: 9cm),
+    dy: (page.height - 10.1cm) / 2 - page.margin.top,
+    image("assets/clmm-tool-intro-meme.png", height: 12.5cm),
   )
 }
 
 === Ordinal Measures & HCI
-- Ordinal responses are common in HCI
+- Ordinal responses are common in HCI research
   - e.g. Likert items
 - Some commonly used analyses treat ordinal responses as equally spaced
   - this can suggest an effect where none exists, miss a real effect, or reverse its direction @liddell2018analyzing.
@@ -183,20 +202,35 @@
 
 === CLM(M)-tool: Specification Support
 
-#image("assets/clmm-tool-outcome-variable-selection.png")
+#align(center)[
+  #screenshot-highlight(
+    "assets/clmm-tool-outcome-variable-selection.png",
+    (x: 150, y: 355, width: 1440, height: 121),
+  )
+]
 
-#image("assets/clmm-tool-ordinal-outcome-settings.png")
+#align(center)[#image("assets/clmm-tool-ordinal-outcome-settings.png")]
 
 === CLM(M)-tool: Terminology Support
 
-#image("assets/clmm-tool-outcome-variable-selection.png")
+#align(center)[
+  #screenshot-highlight(
+    "assets/clmm-tool-outcome-variable-selection.png",
+    (x: 145, y: 560, width: 1455, height: 258),
+  )
+]
 
 
 === CLM(M)-tool: Interpretation Support
 
-#image("assets/clmm-tool-model-summary-results.png")
+#align(center)[
+  #screenshot-highlight(
+    "assets/clmm-tool-model-summary-results.png",
+    (x: 1945, y: 437, width: 852, height: 1011),
+  )
+]
 
-#image("assets/clmm-tool-predicted-probabilities.png")
+#align(center)[#image("assets/clmm-tool-predicted-probabilities.png")]
 
 === User Study
 
