@@ -6,7 +6,7 @@
 #let report-plot(body, caption, zoom: 126%) = align(center)[
   #set par(justify: false)
   #text(size: 17pt, caption)
-  #v(6pt)
+  #v(0pt)
   #scale(x: zoom, y: zoom, reflow: true, body)
 ]
 
@@ -19,7 +19,9 @@
 ]
 
 #let source-ref(key) = [
-  #cite(key) #h(0.2em) #cite(key, form: "author") (#cite(key, form: "year"))
+  #cite(key) #h(0.2em) #cite(key, form: "author") (#cite(key, form: "year")):
+  #h(0.3em)
+  #cite(key, style: "assets/title-only.csl")
 ]
 
 // Enlarge a detail of the original screenshot without changing its image file.
@@ -77,12 +79,12 @@
   config-page(),
 )
 
-#title-slide()
+#title-slide(note: [aptly named CLMM-tool])
 
 === Background: CLMs & CLMMs
 
-- CLMs/CLMMs describe how predictors relate to ordinal outcomes
-  - e.g. how temperature affect judges' ratings of wine quality
+- CLMs/CLMMs model how predictors relate to an ordinal outcome
+// - e.g. how temperature affect judges' ratings of wine quality
 
 - Cumulative Link Models (CLMs)
   - account for ordered outcome categories without assuming equal spacing
@@ -237,22 +239,20 @@
 #set par(justify: false)
 
 - 95 of 96 students passed the first screening question and were included
-- Two scenarios: one simple CLM and one complex CLMM
-- Interpreted pre-fitted results: one scenario with the tool, one with RStudio output
-- Google and ChatGPT allowed in both conditions during familiarization
+- Interpreted pre-fitted results: simple CLM and complex CLMM, one per condition
 
-#v(0.4em)
+#v(0.15em)
 #grid(
   columns: (1fr, 1fr),
   gutter: 1em,
   align: top,
   [
-    #align(center)[#text(size: 17pt, weight: "bold")[CLM(M)-tool results page]]
+    #align(center)[#text(size: 17pt, weight: "bold")[CLM(M)-tool results page#linebreak() (+ Google + ChatGPT)]]
     #v(0.3em)
     #image("assets/user-study-tool-simple-model-summary.png", width: 100%, height: 155pt, fit: "contain")
   ],
   [
-    #align(center)[#text(size: 17pt, weight: "bold")[RStudio (Code + Output)]]
+    #align(center)[#text(size: 17pt, weight: "bold")[RStudio (Code + Output)#linebreak() (+ Google + ChatGPT)]]
     #v(0.3em)
     #set text(size: 8.5pt, fill: black)
     #set par(leading: 0.3em)
@@ -283,7 +283,7 @@
 === Task Accuracy
 
 #report-plot(performance-chart)[
-  Mean task accuracy: 3 questions in the simple scenario and 5 in the complex scenario
+  Mean task accuracy //: 3 questions in the simple scenario and 5 in the complex scenario
 ]
 
 === Self-Rated Understanding
@@ -304,7 +304,7 @@
   - Prepared results page; full workflow and live LLM responses were not evaluated
 - *Generalization*
   - Student participants and only two scenarios
-  - Scenarios differed in subject matter and questions, not just model complexity
+// - Scenarios differed in subject matter and questions, not just model complexity
 - *Task accuracy*
   - Predefined answers may provide cues; scores do not directly assess interpretation in participants' own words
 // - *Next steps*
